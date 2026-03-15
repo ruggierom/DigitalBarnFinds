@@ -1,0 +1,36 @@
+name: Live Import Cars
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/live-import.yml"
+  workflow_dispatch:
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: live-import-main
+      cancel-in-progress: true
+    steps:
+      - name: Health check production API
+        run: curl -f --max-time 20 https://digitalbarnfinds-api.azurewebsites.net/healthz
+
+      - name: Import 5 cars with images
+        env:
+          API_ADMIN_TOKEN: ${{ secrets.API_ADMIN_TOKEN }}
+        run: |
+          curl -f --max-time 180 \
+            -X POST \
+            -H "x-admin-token: ${API_ADMIN_TOKEN}" \
+            "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/fetch?limit=5&ignore_without_images=true"
+
+      - name: Recompute darkness scores
+        env:
+          API_ADMIN_TOKEN: ${{ secrets.API_ADMIN_TOKEN }}
+        run: |
+          curl -f --max-time 180 \
+            -X POST \
+            -H "x-admin-token: ${API_ADMIN_TOKEN}" \
+            "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/score"
