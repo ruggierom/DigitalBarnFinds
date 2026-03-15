@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 import { TopNav } from "@/components/top-nav";
 import { authDisabled, authOptions } from "@/lib/auth";
@@ -27,7 +28,9 @@ export default async function AuthenticatedLayout({
   return (
     <main className="shell">
       <div className="shell__inner">
-        <TopNav />
+        <Suspense fallback={null}>
+          <TopNav />
+        </Suspense>
         {children}
       </div>
     </main>
