@@ -11,6 +11,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-api-main
+      cancel-in-progress: true
     permissions:
       id-token: write
       contents: read
@@ -31,4 +34,3 @@ jobs:
         with:
           app-name: ${{ secrets.AZURE_API_APP_NAME }}
           package: ./apps/api
-
