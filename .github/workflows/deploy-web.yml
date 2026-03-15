@@ -39,3 +39,16 @@ jobs:
         with:
           app-name: ${{ secrets.AZURE_WEB_APP_NAME }}
           package: ./apps/web
+      - name: Smoke test web UI
+        run: |
+          WEB_URL="https://${{ secrets.AZURE_WEB_APP_NAME }}.azurewebsites.net/cars"
+          for attempt in 1 2 3 4 5 6; do
+            echo "Checking ${WEB_URL} (attempt ${attempt})"
+            page="$(curl -fLsS --max-time 20 "${WEB_URL}" || true)"
+            if printf '%s' "${page}" | grep -q "Data view"; then
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "Web smoke test failed: Data view marker not found."
+          exit 1
