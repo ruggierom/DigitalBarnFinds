@@ -1,13 +1,16 @@
 from __future__ import annotations
 
+import csv
 from datetime import date, datetime
+from io import BytesIO, StringIO
 from pathlib import Path
 from urllib.parse import quote, unquote, urljoin, urlparse
 
 import httpx
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
+from openpyxl import Workbook
 from sqlalchemy import Float, String, case, cast, func, literal, or_
 from sqlalchemy.orm import Session
 
@@ -51,6 +54,32 @@ settings = get_settings()
 app = FastAPI(title="Digital Barn Finds API", version="0.1.0")
 FIXTURE_ROOT = Path(__file__).resolve().parents[2] / "fixtures"
 RENDERABLE_EXTENSIONS = ("jpg", "jpeg", "png", "webp", "gif", "avif", "bmp", "jfif")
+EXPORT_COLUMNS = [
+    ("serial_number", "Serial Number"),
+    ("make", "Make"),
+    ("model", "Model"),
+    ("variant", "Variant"),
+    ("year_built", "Year Built"),
+    ("build_date_label", "Build Date"),
+    ("build_date_precision", "Build Date Precision"),
+    ("body_style", "Body Style"),
+    ("drive_side", "Drive Side"),
+    ("original_color", "Original Color"),
+    ("darkness_score", "Darkness Score"),
+    ("last_known_year", "Last Known Year"),
+    ("gap_years", "Longest Gap Years"),
+    ("years_since_last_seen", "Years Since Last Seen"),
+    ("is_currently_dark", "Currently Dark"),
+    ("qualifies_primary", "Primary Candidate"),
+    ("qualifies_secondary", "Secondary Candidate"),
+    ("watchlist_status", "Watchlist Status"),
+    ("source_count", "Source Count"),
+    ("source_names", "Source Names"),
+    ("source_urls", "Source URLs"),
+    ("image_count", "Image Count"),
+    ("lead_image_url", "Lead Image URL"),
+    ("notes", "Notes"),
+]
 
 app.add_middleware(
     CORSMiddleware,
@@ -133,6 +162,143 @@ def list_cars(
     page_size: int = Query(default=24, ge=1, le=100),
     db: Session = Depends(get_db),
 ) -> list[CarListItem]:
+    cars = _run_car_query(
+        db=db,
+        q=q,
+        query=query,
+        candidates_only=candidates_only,
+        make=make,
+        model=model,
+        drive_side=drive_side,
+        original_color=original_color,
+        source=source,
+        serial_number=serial_number,
+        build_date=build_date,
+        year_from=year_from,
+        year_to=year_to,
+        last_seen_before=last_seen_before,
+        score_min=score_min,
+        score_max=score_max,
+        dark_now=dark_now,
+        has_images=has_images,
+        sort=sort,
+        page=page,
+        page_size=page_size,
+    )
+    return [_serialize_car(car) for car in cars]
+
+
+@app.get("/cars/export", dependencies=[Depends(require_admin_token)])
+def export_cars(
+    format: str = Query(default="csv", pattern="^(csv|xlsx)$"),
+    q: str | None = Query(default=None),
+    query: str | None = Query(default=None),
+    candidates_only: bool | None = Query(default=None),
+    make: str | None = Query(default=None),
+    model: str | None = Query(default=None),
+    drive_side: str | None = Query(default=None),
+    original_color: str | None = Query(default=None),
+    source: str | None = Query(default=None),
+    serial_number: str | None = Query(default=None),
+    build_date: date | None = Query(default=None),
+    year_from: int | None = Query(default=None, ge=1800, le=2100),
+    year_to: int | None = Query(default=None, ge=1800, le=2100),
+    last_seen_before: int | None = Query(default=None, ge=1800, le=2100),
+    score_min: float | None = Query(default=None, ge=0, le=100),
+    score_max: float | None = Query(default=None, ge=0, le=100),
+    dark_now: bool | None = Query(default=None),
+    has_images: bool | None = Query(default=None),
+    sort: str = Query(default="relevance"),
+    db: Session = Depends(get_db),
+) -> StreamingResponse:
+    cars = _run_car_query(
+        db=db,
+        q=q,
+        query=query,
+        candidates_only=candidates_only,
+        make=make,
+        model=model,
+        drive_side=drive_side,
+        original_color=original_color,
+        source=source,
+        serial_number=serial_number,
+        build_date=build_date,
+        year_from=year_from,
+        year_to=year_to,
+        last_seen_before=last_seen_before,
+        score_min=score_min,
+        score_max=score_max,
+        dark_now=dark_now,
+        has_images=has_images,
+        sort=sort,
+        page=1,
+        page_size=5000,
+    )
+    rows = [_export_row(_serialize_car(car)) for car in cars]
+    timestamp = datetime.utcnow().strftime("%Y%m%d-%H%M%S")
+
+    if format == "xlsx":
+        workbook = Workbook()
+        worksheet = workbook.active
+        worksheet.title = "Cars"
+        worksheet.append([label for _, label in EXPORT_COLUMNS])
+        for row in rows:
+            worksheet.append([row[key] for key, _ in EXPORT_COLUMNS])
+        content = BytesIO()
+        workbook.save(content)
+        content.seek(0)
+        return StreamingResponse(
+            content,
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": f'attachment; filename="digital-barn-finds-{timestamp}.xlsx"'},
+        )
+
+    buffer = StringIO()
+    writer = csv.DictWriter(buffer, fieldnames=[key for key, _ in EXPORT_COLUMNS])
+    writer.writeheader()
+    writer.writerows(rows)
+    return StreamingResponse(
+        iter([buffer.getvalue()]),
+        media_type="text/csv; charset=utf-8",
+        headers={"Content-Disposition": f'attachment; filename="digital-barn-finds-{timestamp}.csv"'},
+    )
+def _is_renderable_media_item(media_type: str | None, url: str | None) -> bool:
+    normalized_type = (media_type or "").lower()
+    normalized_url = (url or "").lower()
+
+    if normalized_type.startswith("image/"):
+        return True
+
+    return any(
+        normalized_url.endswith(f".{extension}") or f".{extension}?" in normalized_url
+        for extension in RENDERABLE_EXTENSIONS
+    )
+
+
+def _run_car_query(
+    *,
+    db: Session,
+    q: str | None,
+    query: str | None,
+    candidates_only: bool | None,
+    make: str | None,
+    model: str | None,
+    drive_side: str | None,
+    original_color: str | None,
+    source: str | None,
+    serial_number: str | None,
+    build_date: date | None,
+    year_from: int | None,
+    year_to: int | None,
+    last_seen_before: int | None,
+    score_min: float | None,
+    score_max: float | None,
+    dark_now: bool | None,
+    has_images: bool | None,
+    sort: str,
+    page: int,
+    page_size: int,
+) -> list[Car]:
     dialect_name = db.bind.dialect.name if db.bind is not None else ""
     search_text = _normalize_search_text(q or query)
     car_query = db.query(Car).outerjoin(DarknessScore)
@@ -295,124 +461,140 @@ def list_cars(
         ],
     }
     ordering = order_map.get(sort, order_map["relevance"])
-
-    cars = (
+    return (
         car_query.order_by(*ordering)
         .offset((page - 1) * page_size)
         .limit(page_size)
         .all()
     )
-    items: list[CarListItem] = []
-    for car in cars:
-        timeline = sorted(
-            [
-                CarTimelineItem(
-                    kind="custody",
-                    event_date=(
-                        datetime.combine(event.event_date, datetime.min.time())
-                        if event.event_date is not None
-                        else None
-                    ),
-                    event_date_label=_format_date_label(event.event_date, event.event_date_precision, event.event_year),
-                    event_date_precision=event.event_date_precision,
-                    event_year=event.event_year,
-                    title=event.owner_name or "Ownership entry",
-                    subtitle=event.location,
-                    detail=event.transaction_notes,
-                    source_reference=event.source_reference,
-                )
-                for event in car.custody_events
-            ]
-            + [
-                CarTimelineItem(
-                    kind="event",
-                    event_date=(
-                        datetime.combine(event.event_date, datetime.min.time())
-                        if event.event_date is not None
-                        else None
-                    ),
-                    event_date_label=_format_date_label(event.event_date, event.event_date_precision, event.event_year),
-                    event_date_precision=event.event_date_precision,
-                    event_year=event.event_year,
-                    title=event.event_name or "Car event",
-                    subtitle=event.driver,
-                    detail=" | ".join(
-                        part
-                        for part in [event.result, event.location, event.car_number]
-                        if part
-                    )
-                    or None,
-                    source_reference=event.source_reference,
-                )
-                for event in car.car_events
-            ],
-            key=lambda item: (item.event_year or 0, item.event_date.isoformat() if item.event_date else ""),
-            reverse=True,
-        )
-        items.append(
-            CarListItem(
-                id=car.id,
-                serial_number=car.display_serial_number,
-                make=car.make,
-                model=car.model,
-                variant=car.variant,
-                year_built=car.year_built,
-                build_date=car.build_date,
-                build_date_precision=car.build_date_precision,
-                build_date_label=_format_structured_date(car.build_date, car.build_date_precision),
-                body_style=car.body_style,
-                drive_side=car.drive_side,
-                original_color=car.original_color,
-                notes=car.notes,
-                source_count=car.source_count,
-                darkness_score=car.darkness_score.score if car.darkness_score else None,
-                last_known_year=car.darkness_score.last_known_year if car.darkness_score else None,
-                gap_years=car.darkness_score.gap_years if car.darkness_score else None,
-                years_since_last_seen=(
-                    car.darkness_score.years_since_last_seen if car.darkness_score else None
+
+
+def _serialize_car(car: Car) -> CarListItem:
+    timeline = sorted(
+        [
+            CarTimelineItem(
+                kind="custody",
+                event_date=(
+                    datetime.combine(event.event_date, datetime.min.time())
+                    if event.event_date is not None
+                    else None
                 ),
-                is_currently_dark=car.darkness_score.is_currently_dark if car.darkness_score else False,
-                qualifies_primary=car.darkness_score.qualifies_primary if car.darkness_score else False,
-                qualifies_secondary=car.darkness_score.qualifies_secondary if car.darkness_score else False,
-                watchlist_status=car.watchlist_entry.status if car.watchlist_entry else None,
-                sources=[
-                    CarSourceItem(
-                        source_name=source.source.name,
-                        source_url=source.source_url,
-                        source_serial_number=source.source_serial_number,
-                        scraped_at=source.scraped_at,
-                    )
-                    for source in sorted(car.sources, key=lambda item: item.scraped_at, reverse=True)
-                ],
-                media=[
-                    CarMediaItem(
-                        media_type=media.media_type,
-                        url=_resolve_media_url(media.url),
-                        caption=media.caption,
-                    )
-                    for media in sorted(
-                        car.media_items,
-                        key=lambda item: (
-                            not _is_renderable_media_item(item.media_type, item.url),
-                            -int(item.scraped_at.timestamp()),
-                        ),
-                    )
-                ],
-                timeline=timeline,
+                event_date_label=_format_date_label(event.event_date, event.event_date_precision, event.event_year),
+                event_date_precision=event.event_date_precision,
+                event_year=event.event_year,
+                title=event.owner_name or "Ownership entry",
+                subtitle=event.location,
+                detail=event.transaction_notes,
+                source_reference=event.source_reference,
             )
-        )
-    return items
-def _is_renderable_media_item(media_type: str | None, url: str | None) -> bool:
-    normalized_type = (media_type or "").lower()
-    normalized_url = (url or "").lower()
-
-    if normalized_type.startswith("image/"):
-        return True
-
-    return any(
-        normalized_url.endswith(f".{extension}") or f".{extension}?" in normalized_url
-        for extension in RENDERABLE_EXTENSIONS
+            for event in car.custody_events
+        ]
+        + [
+            CarTimelineItem(
+                kind="event",
+                event_date=(
+                    datetime.combine(event.event_date, datetime.min.time())
+                    if event.event_date is not None
+                    else None
+                ),
+                event_date_label=_format_date_label(event.event_date, event.event_date_precision, event.event_year),
+                event_date_precision=event.event_date_precision,
+                event_year=event.event_year,
+                title=event.event_name or "Car event",
+                subtitle=event.driver,
+                detail=" | ".join(
+                    part
+                    for part in [event.result, event.location, event.car_number]
+                    if part
+                )
+                or None,
+                source_reference=event.source_reference,
+            )
+            for event in car.car_events
+        ],
+        key=lambda item: (item.event_year or 0, item.event_date.isoformat() if item.event_date else ""),
+        reverse=True,
     )
+    return CarListItem(
+        id=car.id,
+        serial_number=car.display_serial_number,
+        make=car.make,
+        model=car.model,
+        variant=car.variant,
+        year_built=car.year_built,
+        build_date=car.build_date,
+        build_date_precision=car.build_date_precision,
+        build_date_label=_format_structured_date(car.build_date, car.build_date_precision),
+        body_style=car.body_style,
+        drive_side=car.drive_side,
+        original_color=car.original_color,
+        notes=car.notes,
+        source_count=car.source_count,
+        darkness_score=car.darkness_score.score if car.darkness_score else None,
+        last_known_year=car.darkness_score.last_known_year if car.darkness_score else None,
+        gap_years=car.darkness_score.gap_years if car.darkness_score else None,
+        years_since_last_seen=car.darkness_score.years_since_last_seen if car.darkness_score else None,
+        is_currently_dark=car.darkness_score.is_currently_dark if car.darkness_score else False,
+        qualifies_primary=car.darkness_score.qualifies_primary if car.darkness_score else False,
+        qualifies_secondary=car.darkness_score.qualifies_secondary if car.darkness_score else False,
+        watchlist_status=car.watchlist_entry.status if car.watchlist_entry else None,
+        sources=[
+            CarSourceItem(
+                source_name=source.source.name,
+                source_url=source.source_url,
+                source_serial_number=source.source_serial_number,
+                scraped_at=source.scraped_at,
+            )
+            for source in sorted(car.sources, key=lambda item: item.scraped_at, reverse=True)
+        ],
+        media=[
+            CarMediaItem(
+                media_type=media.media_type,
+                url=_resolve_media_url(media.url),
+                caption=media.caption,
+            )
+            for media in sorted(
+                car.media_items,
+                key=lambda item: (
+                    not _is_renderable_media_item(item.media_type, item.url),
+                    -int(item.scraped_at.timestamp()),
+                ),
+            )
+        ],
+        timeline=timeline,
+    )
+
+
+def _export_row(item: CarListItem) -> dict[str, str | int | float | bool]:
+    lead_image = next((media.url for media in item.media if _is_renderable_media_item(media.media_type, media.url)), "")
+    source_urls = "\n".join(source.source_url for source in item.sources)
+    source_names = "\n".join(sorted({source.source_name for source in item.sources}))
+    return {
+        "serial_number": item.serial_number,
+        "make": item.make,
+        "model": item.model,
+        "variant": item.variant or "",
+        "year_built": item.year_built or "",
+        "build_date_label": item.build_date_label or "",
+        "build_date_precision": item.build_date_precision or "",
+        "body_style": item.body_style or "",
+        "drive_side": item.drive_side or "",
+        "original_color": item.original_color or "",
+        "darkness_score": float(item.darkness_score) if item.darkness_score is not None else "",
+        "last_known_year": item.last_known_year or "",
+        "gap_years": item.gap_years or "",
+        "years_since_last_seen": item.years_since_last_seen or "",
+        "is_currently_dark": item.is_currently_dark,
+        "qualifies_primary": item.qualifies_primary,
+        "qualifies_secondary": item.qualifies_secondary,
+        "watchlist_status": item.watchlist_status or "",
+        "source_count": item.source_count,
+        "source_names": source_names,
+        "source_urls": source_urls,
+        "image_count": len(item.media),
+        "lead_image_url": lead_image,
+        "notes": item.notes or "",
+    }
 
 
 def _format_structured_date(value: date | None, precision: str | None) -> str | None:

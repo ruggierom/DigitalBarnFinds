@@ -388,6 +388,21 @@ th {
   margin-bottom: 16px;
 }
 
+.car-search__toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.car-search__exports {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .car-search__meta {
   color: var(--muted);
   font-family: var(--font-display);
@@ -558,6 +573,125 @@ th {
   display: flex;
   justify-content: center;
   margin: 18px 0 8px;
+}
+
+.data-table-shell {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(21, 21, 21, 0.08);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: var(--shadow);
+}
+
+.data-table-shell__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(21, 21, 21, 0.08);
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.data-table-shell__reset {
+  padding: 8px 12px;
+  font-size: 0.82rem;
+}
+
+.data-table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.data-table th,
+.data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(21, 21, 21, 0.08);
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.data-table th {
+  position: sticky;
+  top: 0;
+  background: #f7f3ea;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  z-index: 1;
+}
+
+.data-table__filters th {
+  top: 40px;
+  background: #fbf8f1;
+}
+
+.data-table__sort {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+.data-table__sort--active {
+  color: var(--text);
+}
+
+.data-table__filter {
+  width: 100%;
+  min-width: 84px;
+  padding: 7px 9px;
+  border-radius: 10px;
+  border: 1px solid rgba(21, 21, 21, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  font-size: 0.78rem;
+}
+
+.data-table tr:hover td {
+  background: rgba(198, 155, 60, 0.04);
+}
+
+.data-table__link {
+  color: #8b1e1e;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  font-weight: 600;
+}
+
+.data-table__link:hover {
+  color: #5f1313;
+}
+
+.data-table__mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.data-table__numeric {
+  text-align: right;
+}
+
+.data-table__notes {
+  min-width: 320px;
+  white-space: pre-wrap;
 }
 
 .diagnostics-card {
@@ -1031,6 +1165,11 @@ th {
     align-items: flex-start;
   }
 
+  .car-search__toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .car-search__query,
   .car-search__sort {
     grid-column: span 6;
@@ -1099,6 +1238,11 @@ th {
   .car-search__presets {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .car-search__exports {
+    width: 100%;
+    justify-content: flex-start;
   }
 
   .car-search__query,

@@ -1,7 +1,8 @@
 import Link from "next/link";
 
+import { CarsDataTable } from "@/components/cars-data-table";
 import { CarsDossierGrid } from "@/components/cars-dossier-grid";
-import { getCars } from "@/lib/api";
+import { getCars, toSearchParams } from "@/lib/api";
 import type { CarSearchParams } from "@/lib/api";
 
 export default async function CarsPage({
@@ -10,7 +11,9 @@ export default async function CarsPage({
   searchParams?: Record<string, string | string[] | undefined>;
 }) {
   const page = Math.max(1, numberParam(searchParams?.page) ?? 1);
-  const pageSize = 24;
+  const view = normalizeView(firstParam(searchParams?.view));
+  const pageSize = view === "data" ? 100 : 24;
+  const fetchPageSize = view === "data" ? pageSize : pageSize + 1;
   const searchIntent = booleanParam(searchParams?.search);
   const params: CarSearchParams = {
     q: firstParam(searchParams?.q ?? searchParams?.query),
@@ -21,14 +24,14 @@ export default async function CarsPage({
     original_color: firstParam(searchParams?.original_color),
     source: firstParam(searchParams?.source),
     serial_number: firstParam(searchParams?.serial_number),
-    build_date: firstParam(searchParams?.build_date),
+    build_date: normalizeBuildDate(firstParam(searchParams?.build_date)),
     last_seen_before: numberParam(searchParams?.last_seen_before),
     score_min: numberParam(searchParams?.score_min),
     dark_now: booleanParam(searchParams?.dark_now),
     has_images: booleanParam(searchParams?.has_images),
     sort: normalizeSort(firstParam(searchParams?.sort)),
     page,
-    page_size: pageSize + 1
+    page_size: fetchPageSize
   };
 
   const rows = await getCars(params);
@@ -57,6 +60,9 @@ export default async function CarsPage({
   ].filter(Boolean) as string[];
 
   const presetKey = getPresetKey(params);
+  const exportQuery = toSearchParams({ ...params, page: undefined, page_size: undefined }).toString();
+  const exportCsvHref = `/cars/export?format=csv${exportQuery ? `&${exportQuery}` : ""}`;
+  const exportXlsxHref = `/cars/export?format=xlsx${exportQuery ? `&${exportQuery}` : ""}`;
 
   return (
     <>
@@ -78,6 +84,30 @@ export default async function CarsPage({
           </div>
           <div className="car-search__meta">
             Page {page} · {visibleRows.length} result{visibleRows.length === 1 ? "" : "s"}
+          </div>
+        </div>
+        <div className="car-search__toolbar">
+          <div className="car-search__presets">
+            <Link
+              className={`filter-pill${view === "cards" ? " filter-pill--active" : ""}`}
+              href={buildCarsHref({ ...params, view: undefined, page: 1, page_size: undefined }) as any}
+            >
+              Registry view
+            </Link>
+            <Link
+              className={`filter-pill${view === "data" ? " filter-pill--active" : ""}`}
+              href={buildCarsHref({ ...params, view: "data", page: 1, page_size: undefined }) as any}
+            >
+              Data view
+            </Link>
+          </div>
+          <div className="car-search__exports">
+            <a className="button button--secondary" href={exportCsvHref}>
+              Export CSV
+            </a>
+            <a className="button button--secondary" href={exportXlsxHref}>
+              Export Excel
+            </a>
           </div>
         </div>
         <div className="car-search__presets">
@@ -222,7 +252,7 @@ export default async function CarsPage({
           ) : null}
         </div>
       </div>
-      <CarsDossierGrid rows={visibleRows} />
+      {view === "data" ? <CarsDataTable rows={visibleRows} /> : <CarsDossierGrid rows={visibleRows} />}
       {hasNextPage ? (
         <div className="results-loadmore">
           <Link className="button" href={buildCarsHref({ ...params, search: searchIntent || undefined, page: page + 1, page_size: undefined }) as any}>
@@ -263,6 +293,17 @@ function normalizeSort(value?: string) {
   return "relevance";
 }
 
+function normalizeView(value?: string) {
+  return value === "data" ? "data" : "cards";
+}
+
+function normalizeBuildDate(value?: string) {
+  if (!value) {
+    return undefined;
+  }
+  return /^\d{4}-\d{2}-\d{2}$/.test(value) ? value : undefined;
+}
+
 function getPresetKey(params: CarSearchParams) {
   if (params.dark_now) {
     return "dark";
@@ -276,7 +317,7 @@ function getPresetKey(params: CarSearchParams) {
   return "all";
 }
 
-function buildCarsHref(params: Partial<CarSearchParams> & { search?: boolean }) {
+function buildCarsHref(params: Partial<CarSearchParams> & { search?: boolean; view?: string }) {
   const search = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {
     if (value === undefined || value === null || value === "" || value === false) {

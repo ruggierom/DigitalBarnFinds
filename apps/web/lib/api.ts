@@ -25,6 +25,19 @@ export type CarSearchParams = {
   page_size?: number;
 };
 
+export function toSearchParams(params: CarSearchParams = {}) {
+  const search = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value === undefined || value === null || value === "") {
+      return;
+    }
+    search.set(key, String(value));
+  });
+
+  return search;
+}
+
 export type CarRow = {
   id: string;
   serial_number: string;
@@ -111,15 +124,7 @@ export async function getDashboardSnapshot() {
 }
 
 export async function getCars(params: CarSearchParams = {}) {
-  const search = new URLSearchParams();
-
-  Object.entries(params).forEach(([key, value]) => {
-    if (value === undefined || value === null || value === "") {
-      return;
-    }
-    search.set(key, String(value));
-  });
-
+  const search = toSearchParams(params);
   const suffix = search.size > 0 ? `?${search.toString()}` : "";
   return request<Array<CarRow>>(`/cars${suffix}`);
 }
