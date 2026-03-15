@@ -140,6 +140,7 @@ def get_dashboard(db: Session = Depends(get_db)) -> DashboardSnapshot:
 
 @app.get("/cars", response_model=list[CarListItem], dependencies=[Depends(require_admin_token)])
 def list_cars(
+    request: Request,
     q: str | None = Query(default=None),
     query: str | None = Query(default=None),
     candidates_only: bool | None = Query(default=None),
@@ -185,11 +186,12 @@ def list_cars(
         page=page,
         page_size=page_size,
     )
-    return [_serialize_car(car) for car in cars]
+    return [_serialize_car(car, request) for car in cars]
 
 
 @app.get("/cars/export", dependencies=[Depends(require_admin_token)])
 def export_cars(
+    request: Request,
     format: str = Query(default="csv", pattern="^(csv|xlsx)$"),
     q: str | None = Query(default=None),
     query: str | None = Query(default=None),
@@ -234,7 +236,7 @@ def export_cars(
         page=1,
         page_size=5000,
     )
-    rows = [_export_row(_serialize_car(car)) for car in cars]
+    rows = [_export_row(_serialize_car(car, request)) for car in cars]
     timestamp = datetime.utcnow().strftime("%Y%m%d-%H%M%S")
 
     if format == "xlsx":
@@ -469,7 +471,7 @@ def _run_car_query(
     )
 
 
-def _serialize_car(car: Car) -> CarListItem:
+def _serialize_car(car: Car, request: Request | None = None) -> CarListItem:
     timeline = sorted(
         [
             CarTimelineItem(
@@ -550,7 +552,7 @@ def _serialize_car(car: Car) -> CarListItem:
         media=[
             CarMediaItem(
                 media_type=media.media_type,
-                url=_resolve_media_url(media.url),
+                url=_resolve_media_url(media.url, request),
                 caption=media.caption,
             )
             for media in sorted(
@@ -903,9 +905,11 @@ def _format_date_label(event_date, precision: str, event_year: int | None) -> st
     return "Unknown"
 
 
-def _resolve_media_url(url: str) -> str:
+def _resolve_media_url(url: str, request: Request | None = None) -> str:
     if url.startswith("file://"):
         path = unquote(url.removeprefix("file://"))
+        if request is not None:
+            return str(request.url_for("get_local_media")) + f"?path={quote(path)}"
         return f"http://localhost:8000/media/local?path={quote(path)}"
     return url
 
