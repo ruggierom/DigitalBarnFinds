@@ -77,6 +77,8 @@ class WatchlistItem(BaseModel):
     status: str
     score: Decimal | None
     interest_reason: str | None
+    agent_instructions: str | None
+    notes: str | None
     updated_at: datetime
 
 
@@ -101,6 +103,7 @@ class WatchlistUpdate(BaseModel):
     priority: int
     status: str
     interest_reason: str | None = None
+    agent_instructions: str | None = None
     notes: str | None = None
 
 

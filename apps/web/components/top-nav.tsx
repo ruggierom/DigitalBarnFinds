@@ -25,7 +25,7 @@ export function TopNav() {
     <nav className="topnav">
       <Link className={`topnav__brand${brandActive ? " topnav__brand--active" : ""}`} href="/dashboard">
         <span className="topnav__brandcopy">
-          <span className="topnav__brandtext">Digital Barn Finds</span>
+          <span className="topnav__brandtext">DigitalBarnFinds</span>
           <span className="topnav__brandsub">Registry</span>
         </span>
       </Link>

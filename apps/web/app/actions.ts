@@ -44,6 +44,7 @@ export async function upsertWatchlistAction(formData: FormData) {
   const priority = Number(formData.get("priority") ?? 3);
   const status = String(formData.get("status") ?? "candidate");
   const interestReason = String(formData.get("interest_reason") ?? "");
+  const agentInstructions = String(formData.get("agent_instructions") ?? "");
   const notes = String(formData.get("notes") ?? "");
 
   await apiFetch(`/watchlist/${carId}`, {
@@ -52,6 +53,7 @@ export async function upsertWatchlistAction(formData: FormData) {
       priority,
       status,
       interest_reason: interestReason || null,
+      agent_instructions: agentInstructions || null,
       notes: notes || null
     })
   });

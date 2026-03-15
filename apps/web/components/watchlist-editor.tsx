@@ -9,6 +9,8 @@ type WatchlistRow = {
   status: string;
   score: number | null;
   interest_reason: string | null;
+  agent_instructions: string | null;
+  notes: string | null;
   updated_at: string;
 };
 
@@ -44,7 +46,7 @@ export function WatchlistEditor({ rows }: WatchlistEditorProps) {
                   <td>
                     <form action={upsertWatchlistAction}>
                       <input name="car_id" type="hidden" value={row.car_id} />
-                      <div className="form-row">
+                      <div className="form-row form-row--stacked">
                         <select className="field" defaultValue={String(row.priority)} name="priority">
                           <option value="1">1</option>
                           <option value="2">2</option>
@@ -59,14 +61,23 @@ export function WatchlistEditor({ rows }: WatchlistEditorProps) {
                             </option>
                           ))}
                         </select>
-                        <input
-                          className="field"
+                        <textarea
+                          className="field field--expanding"
                           defaultValue={row.interest_reason ?? ""}
                           name="interest_reason"
-                          type="text"
+                          placeholder="Why this car matters"
+                          rows={2}
                         />
                         <textarea
-                          className="field"
+                          className="field field--expanding"
+                          defaultValue={row.agent_instructions ?? ""}
+                          name="agent_instructions"
+                          placeholder="Agent instructions: what should the agent go try to figure out?"
+                          rows={3}
+                        />
+                        <textarea
+                          className="field field--expanding"
+                          defaultValue={row.notes ?? ""}
                           name="notes"
                           placeholder="Research notes"
                           rows={3}
@@ -86,4 +97,3 @@ export function WatchlistEditor({ rows }: WatchlistEditorProps) {
     </section>
   );
 }
-

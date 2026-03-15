@@ -11,11 +11,11 @@ export default async function DashboardPage() {
   return (
     <>
       <section className="hero">
-        <div className="hero__eyebrow">Authenticated research dashboard</div>
+        <div className="hero__eyebrow">Research Dashboard</div>
         <h1 className="hero__title">Surface the cars that went dark.</h1>
         <p className="hero__copy">
-          Prioritize long-gap chassis, inspect source-by-source provenance, and
-          keep an editable watchlist for the leads worth pursuing.
+          Surface the most interesting gaps, review provenance quickly, and
+          keep your active leads in one working watchlist.
         </p>
       </section>
       <DashboardMetrics
@@ -34,7 +34,7 @@ export default async function DashboardPage() {
           }
         ]}
       />
-      <DataTable title="Watchlist snapshot" rows={watchlist} />
+      <DataTable title="Watchlist" rows={watchlist} />
     </>
   );
 }

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "digital-barn-finds-api"
 version = "0.1.0"
-description = "API and ingestion service for Digital Barn Finds."
+description = "API and ingestion service for DigitalBarnFinds."
 requires-python = ">=3.12"
 dependencies = [
   "alembic==1.14.0",

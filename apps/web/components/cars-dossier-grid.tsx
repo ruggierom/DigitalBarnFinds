@@ -130,6 +130,18 @@ export function CarsDossierGrid({ rows }: CarsDossierGridProps) {
                   placeholder="Why this car matters"
                   type="text"
                 />
+                <textarea
+                  className="field field--expanding"
+                  name="agent_instructions"
+                  placeholder="Agent instructions: what should the agent go try to figure out?"
+                  rows={3}
+                />
+                <textarea
+                  className="field field--expanding"
+                  name="notes"
+                  placeholder="Research notes"
+                  rows={3}
+                />
                 <button className="button" type="submit">
                   Save watchlist state
                 </button>

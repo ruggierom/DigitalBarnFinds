@@ -1,6 +1,6 @@
-# Digital Barn Finds
+# DigitalBarnFinds
 
-Digital Barn Finds is an authenticated research platform for finding and tracking "digital barn finds": historically significant cars that disappear from public records for long stretches of time and may be worth renewed investigation.
+DigitalBarnFinds is an authenticated research platform for finding and tracking "digital barn finds": historically significant cars that disappear from public records for long stretches of time and may be worth renewed investigation.
 
 ## Architecture
 

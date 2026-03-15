@@ -51,7 +51,7 @@ from digital_barn_finds.services.fetch_more import fetch_random_cars
 from digital_barn_finds.seed import seed_sources
 
 settings = get_settings()
-app = FastAPI(title="Digital Barn Finds API", version="0.1.0")
+app = FastAPI(title="DigitalBarnFinds API", version="0.1.0")
 FIXTURE_ROOT = Path(__file__).resolve().parents[2] / "fixtures"
 RENDERABLE_EXTENSIONS = ("jpg", "jpeg", "png", "webp", "gif", "avif", "bmp", "jfif")
 EXPORT_COLUMNS = [
@@ -622,6 +622,8 @@ def get_watchlist(db: Session = Depends(get_db)) -> list[WatchlistItem]:
             status=entry.status,
             score=entry.car.darkness_score.score if entry.car.darkness_score else None,
             interest_reason=entry.interest_reason,
+            agent_instructions=entry.agent_instructions,
+            notes=entry.notes,
             updated_at=entry.updated_at,
         )
         for entry in entries
@@ -647,6 +649,7 @@ def upsert_watchlist_item(
     entry.priority = payload.priority
     entry.status = payload.status
     entry.interest_reason = payload.interest_reason
+    entry.agent_instructions = payload.agent_instructions
     entry.notes = payload.notes
     db.commit()
     db.refresh(entry)
@@ -659,6 +662,8 @@ def upsert_watchlist_item(
         status=entry.status,
         score=car.darkness_score.score if car.darkness_score else None,
         interest_reason=entry.interest_reason,
+        agent_instructions=entry.agent_instructions,
+        notes=entry.notes,
         updated_at=entry.updated_at,
     )
 

@@ -185,6 +185,7 @@ class WatchlistEntry(TimestampMixin, Base):
     priority: Mapped[int] = mapped_column(SmallInteger, nullable=False)
     status: Mapped[str] = mapped_column(String(50), nullable=False)
     interest_reason: Mapped[str | None] = mapped_column(Text)
+    agent_instructions: Mapped[str | None] = mapped_column(Text)
     notes: Mapped[str | None] = mapped_column(Text)
 
     car: Mapped["Car"] = relationship(back_populates="watchlist_entry")

@@ -140,6 +140,8 @@ export async function getWatchlist() {
       status: string;
       score: number | null;
       interest_reason: string | null;
+      agent_instructions: string | null;
+      notes: string | null;
       updated_at: string;
     }>
   >("/watchlist");
