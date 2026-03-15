@@ -6,7 +6,8 @@ import os
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-ENV_FILE = ".env" if os.getenv("DBF_APP_ENV", "development") == "development" else None
+RUNNING_ON_AZURE = bool(os.getenv("WEBSITE_SITE_NAME"))
+ENV_FILE = ".env" if os.getenv("DBF_APP_ENV", "development") == "development" and not RUNNING_ON_AZURE else None
 
 
 class Settings(BaseSettings):
