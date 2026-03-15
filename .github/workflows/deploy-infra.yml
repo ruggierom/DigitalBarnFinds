@@ -25,8 +25,5 @@ jobs:
           template: ./infra/main.bicep
           parameters: >
             adminToken=${{ secrets.API_ADMIN_TOKEN }}
-            nextAuthSecret=${{ secrets.NEXTAUTH_SECRET }}
-            googleClientId=${{ secrets.GOOGLE_CLIENT_ID }}
-            googleClientSecret=${{ secrets.GOOGLE_CLIENT_SECRET }}
             postgresAdminPassword=${{ secrets.POSTGRES_ADMIN_PASSWORD }}
-
+            authDisabled=true
