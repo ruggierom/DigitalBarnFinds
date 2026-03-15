@@ -1,0 +1,66 @@
+Type.registerNamespace('SLApp');
+SLApp.DownloadHandler=function() {
+SLApp.DownloadHandler.initializeBase(this);
+this._timeout = 0;
+this._userContext = null;
+this._succeeded = null;
+this._failed = null;
+}
+SLApp.DownloadHandler.prototype={
+_get_path:function() {
+ var p = this.get_path();
+ if (p) return p;
+ else return SLApp.DownloadHandler._staticInstance.get_path();},
+HelloWorld:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'HelloWorld',false,{},succeededCallback,failedCallback,userContext); },
+PrepareSingleFileDownload:function(id,Params,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'PrepareSingleFileDownload',false,{id:id,Params:Params},succeededCallback,failedCallback,userContext); },
+PrepareFileDownload:function(Params,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'PrepareFileDownload',false,{Params:Params},succeededCallback,failedCallback,userContext); },
+PrepareFileDownloadAll:function(Params,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'PrepareFileDownloadAll',false,{Params:Params},succeededCallback,failedCallback,userContext); },
+PrepareFileDownloadSearch:function(search,Params,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'PrepareFileDownloadSearch',false,{search:search,Params:Params},succeededCallback,failedCallback,userContext); },
+CheckDownload:function(uid,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'CheckDownload',false,{uid:uid},succeededCallback,failedCallback,userContext); },
+ExistsDownload:function(lDirID,uid,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'ExistsDownload',false,{lDirID:lDirID,uid:uid},succeededCallback,failedCallback,userContext); },
+EraseDowload:function(uid,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'EraseDowload',false,{uid:uid},succeededCallback,failedCallback,userContext); },
+GetDowloads:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetDowloads',false,{},succeededCallback,failedCallback,userContext); },
+GetNativeDirDowlownLoadCount:function(lDirID,bRecursive,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetNativeDirDowlownLoadCount',false,{lDirID:lDirID,bRecursive:bRecursive},succeededCallback,failedCallback,userContext); },
+GetDirDowlownLoadCount:function(lDirID,search,bRecursive,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetDirDowlownLoadCount',false,{lDirID:lDirID,search:search,bRecursive:bRecursive},succeededCallback,failedCallback,userContext); },
+GetDirDownloadLoadCount:function(lDirID,search,bRecursive,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetDirDownloadLoadCount',false,{lDirID:lDirID,search:search,bRecursive:bRecursive},succeededCallback,failedCallback,userContext); }}
+SLApp.DownloadHandler.registerClass('SLApp.DownloadHandler',Sys.Net.WebServiceProxy);
+SLApp.DownloadHandler._staticInstance = new SLApp.DownloadHandler();
+SLApp.DownloadHandler.set_path = function(value) { SLApp.DownloadHandler._staticInstance.set_path(value); }
+SLApp.DownloadHandler.get_path = function() { return SLApp.DownloadHandler._staticInstance.get_path(); }
+SLApp.DownloadHandler.set_timeout = function(value) { SLApp.DownloadHandler._staticInstance.set_timeout(value); }
+SLApp.DownloadHandler.get_timeout = function() { return SLApp.DownloadHandler._staticInstance.get_timeout(); }
+SLApp.DownloadHandler.set_defaultUserContext = function(value) { SLApp.DownloadHandler._staticInstance.set_defaultUserContext(value); }
+SLApp.DownloadHandler.get_defaultUserContext = function() { return SLApp.DownloadHandler._staticInstance.get_defaultUserContext(); }
+SLApp.DownloadHandler.set_defaultSucceededCallback = function(value) { SLApp.DownloadHandler._staticInstance.set_defaultSucceededCallback(value); }
+SLApp.DownloadHandler.get_defaultSucceededCallback = function() { return SLApp.DownloadHandler._staticInstance.get_defaultSucceededCallback(); }
+SLApp.DownloadHandler.set_defaultFailedCallback = function(value) { SLApp.DownloadHandler._staticInstance.set_defaultFailedCallback(value); }
+SLApp.DownloadHandler.get_defaultFailedCallback = function() { return SLApp.DownloadHandler._staticInstance.get_defaultFailedCallback(); }
+SLApp.DownloadHandler.set_enableJsonp = function(value) { SLApp.DownloadHandler._staticInstance.set_enableJsonp(value); }
+SLApp.DownloadHandler.get_enableJsonp = function() { return SLApp.DownloadHandler._staticInstance.get_enableJsonp(); }
+SLApp.DownloadHandler.set_jsonpCallbackParameter = function(value) { SLApp.DownloadHandler._staticInstance.set_jsonpCallbackParameter(value); }
+SLApp.DownloadHandler.get_jsonpCallbackParameter = function() { return SLApp.DownloadHandler._staticInstance.get_jsonpCallbackParameter(); }
+SLApp.DownloadHandler.set_path("/DownloadHandler.asmx");
+SLApp.DownloadHandler.HelloWorld= function(onSuccess,onFailed,userContext) {SLApp.DownloadHandler._staticInstance.HelloWorld(onSuccess,onFailed,userContext); }
+SLApp.DownloadHandler.PrepareSingleFileDownload= function(id,Params,onSuccess,onFailed,userContext) {SLApp.DownloadHandler._staticInstance.PrepareSingleFileDownload(id,Params,onSuccess,onFailed,userContext); }
+SLApp.DownloadHandler.PrepareFileDownload= function(Params,onSuccess,onFailed,userContext) {SLApp.DownloadHandler._staticInstance.PrepareFileDownload(Params,onSuccess,onFailed,userContext); }
+SLApp.DownloadHandler.PrepareFileDownloadAll= function(Params,onSuccess,onFailed,userContext) {SLApp.DownloadHandler._staticInstance.PrepareFileDownloadAll(Params,onSuccess,onFailed,userContext); }
+SLApp.DownloadHandler.PrepareFileDownloadSearch= function(search,Params,onSuccess,onFailed,userContext) {SLApp.DownloadHandler._staticInstance.PrepareFileDownloadSearch(search,Params,onSuccess,onFailed,userContext); }
+SLApp.DownloadHandler.CheckDownload= function(uid,onSuccess,onFailed,userContext) {SLApp.DownloadHandler._staticInstance.CheckDownload(uid,onSuccess,onFailed,userContext); }
+SLApp.DownloadHandler.ExistsDownload= function(lDirID,uid,onSuccess,onFailed,userContext) {SLApp.DownloadHandler._staticInstance.ExistsDownload(lDirID,uid,onSuccess,onFailed,userContext); }
+SLApp.DownloadHandler.EraseDowload= function(uid,onSuccess,onFailed,userContext) {SLApp.DownloadHandler._staticInstance.EraseDowload(uid,onSuccess,onFailed,userContext); }
+SLApp.DownloadHandler.GetDowloads= function(onSuccess,onFailed,userContext) {SLApp.DownloadHandler._staticInstance.GetDowloads(onSuccess,onFailed,userContext); }
+SLApp.DownloadHandler.GetNativeDirDowlownLoadCount= function(lDirID,bRecursive,onSuccess,onFailed,userContext) {SLApp.DownloadHandler._staticInstance.GetNativeDirDowlownLoadCount(lDirID,bRecursive,onSuccess,onFailed,userContext); }
+SLApp.DownloadHandler.GetDirDowlownLoadCount= function(lDirID,search,bRecursive,onSuccess,onFailed,userContext) {SLApp.DownloadHandler._staticInstance.GetDirDowlownLoadCount(lDirID,search,bRecursive,onSuccess,onFailed,userContext); }
+SLApp.DownloadHandler.GetDirDownloadLoadCount= function(lDirID,search,bRecursive,onSuccess,onFailed,userContext) {SLApp.DownloadHandler._staticInstance.GetDirDownloadLoadCount(lDirID,search,bRecursive,onSuccess,onFailed,userContext); }

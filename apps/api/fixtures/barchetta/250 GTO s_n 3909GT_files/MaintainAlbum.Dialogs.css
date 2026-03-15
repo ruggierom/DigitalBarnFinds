@@ -1,0 +1,1057 @@
+.MaintainerDialogBack {
+    visibility: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    font-size: 14px;
+    text-align: left;
+    background-color: rgba(54, 54, 54, 0.8);
+    /*background-color: #484848;*/
+    color: #f0f0f0;
+}
+
+.MaintainerDialogClose,
+.MaintainerDialogCloseInner {
+    position: absolute;
+    top: 17px;
+    right: 17px;
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+    cursor: pointer;
+    background: url('/images/Maintainer/dialog-schliessen.png');
+}
+    .MaintainerDialogClose:hover,
+    .MaintainerDialogCloseInner:hover {
+        background-color: #e3000f;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        border-radius: 0px;
+    }
+
+.MaintainerDialog {
+    position: absolute;
+    padding: 25px 60px;
+    max-width: 450px;
+    font-size: 14px;
+    background-color: #484848;
+    border: 1px solid #929292; /* This border moves the close button (X) into the dialog */
+    /*overflow-y: auto;*/
+}
+.MaintainerDialogWizard {
+    top: 60px;
+    overflow-y: scroll;
+}
+
+.MaintainerDialogContent {
+    margin-bottom: 10px;
+    line-height: 19px;
+}
+
+.MaintainerDialogContent a {
+    text-decoration: none;
+}
+
+.MaintainerDialogPages {
+    /*position: relative;*/
+    margin: 0;
+    padding: 0;
+}
+
+.MaintainerDialogPage {
+    display: none;
+    width: 100%;
+    /*position: absolute;
+    top: 0;
+    left: 0;*/
+}
+
+        .MaintainerDialogContent a:active,
+        .MaintainerDialogContent a:focus,
+        .MaintainerDialogContent a:hover {
+            text-decoration: none;
+        }
+
+    .MaintainerDialogContent h1 {
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        font-size: 20px;
+        line-height: 24px;
+        border-bottom: 1px solid #000000;
+    }
+
+    .MaintainerDialogContent h2 {
+        margin: 0 0 10px 0;
+        padding: 10px 0 0 0;
+        font-size: 18px;
+        line-height: 24px;
+        border-top: 1px solid #606060;
+    }
+
+    .MaintainerDialogPage h3 {
+        margin: 0 0 10px 0;
+        padding: 0;
+        font-size: 16px;
+        line-height: 21px;
+    }
+
+    .MaintainerDialogContent h6 {
+        margin: 0 0 10px 0;
+        padding: 0;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .MaintainerDialogContent table {
+        font-size: 14px;
+        line-height: 19px;
+    }
+
+.error {
+    margin: 0 0 10px 0;
+    padding: 0;
+    font-size: 14px;
+    font-style: italic;
+    line-height: 24px;
+}
+
+.MaintainerDialogContent p {
+    margin: 0 0 10px 0;
+}
+
+.MaintainerDialogContent hr {
+    margin: 0 0 10px 0;
+    padding: 0;
+    height: 1px;
+    background: #171717;
+    border: none;
+    border-bottom: 1px solid #6d6d6d;
+}
+
+.MaintainerDialogContent label {
+    display: inline-block;
+    margin: 2px 0;
+}
+
+
+
+    .MaintainerDialogContent input:disabled {
+        color: #484848;
+        background-color: #707070;
+    }
+
+select[disabled='disabled']::-ms-value {
+    color: #484848 !important;
+}
+
+select[disabled] {
+    color: #484848 !important;
+}
+
+input[disabled='disabled']::-ms-value {
+    color: #484848 !important;
+}
+
+.disabledSelect {
+    color: #707070 !important;
+    background-image: url('');
+}
+
+.disabledSelectbk {
+    background-color: #808080 !important;
+}
+
+.disabledSelect select :disabled {
+    color: blue !important;
+}
+
+.MaintainerDialogContent input[type=checkbox],
+.MaintainerDialogContent input[type=radio] {
+    margin: 0 5px 0 0;
+    padding: 0;
+    width: auto;
+    font-size: 14px;
+    vertical-align: middle;
+    background-color: transparent;
+}
+
+    .MaintainerDialogContent input[type=checkbox][disabled],
+    .MaintainerDialogContent input[type=radio][disabled] {
+        opacity: .25;
+        filter: alpha(opacity=25); /* IE<9 */
+        cursor: default;
+    }
+
+.MaintainerDialogDisabledInput {
+    display: inline-block;
+    margin: 0;
+    padding: 2px;
+    width: 100%;
+    font-size: 14px;
+    line-height: 20px;
+    color: #484848;
+    background-color: #707070;
+    border: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.MaintainerDialogSmall {
+    font-size: 11px;
+    line-height: 14px;
+}
+
+.MaintainerDialogError {
+    margin: 10px 0;
+    padding: 5px 10px;
+    font-size: 14px;
+    line-height: 19px;
+    color: #ffffff;
+    background: #e3000f;
+    border: 1px solid #ffffff;
+    text-align: center;
+}
+
+.MaintainerDialogButtons {
+    margin: 30px 0 0 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+}
+
+    .MaintainerDialogButtons li,
+    .MaintainerDialogButton {
+        display: inline-block;
+        margin: 0 8px;
+        padding: 5px 40px;
+        background: #707070;
+        color: #f0f0f0 !important;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+
+    .MaintainerDialogButtons li {
+        margin: 0 8px 12px 8px;
+    }
+
+.MaintainerDialogButton:active,
+.MaintainerDialogButton:focus,
+.MaintainerDialogButton:hover {
+    text-decoration: none;
+}
+
+.MaintainerDialogButtonLight {
+    padding: 4px 39px;
+    border: 1px solid #707070;
+}
+
+.MaintainerDialogButton :disabled {
+    background: #707070;
+    color: #f0f0f0 !important;
+}
+
+.MaintainerDialogButtons .MaintainerDialogButtonsDisabled,
+.MaintainerDialogButton .MaintainerDialogButtonDisabled {
+    color: #929292 !important;
+    background: #565656;
+    cursor: default;
+}
+
+.MaintainerDialogAutocomplete {
+    background: #bfbfbf !important;
+    border-color: #bfbfbf !important;
+    list-style: none;
+    max-width: 250px;
+    overflow-x: visible;
+}
+
+.MaintainerDialogAutocompleteItem {
+    border: 0px !important;
+    margin: 0px !important;
+    padding: 1px !important;
+    background: #bfbfbf !important;
+    font-size: 14px !important;
+    vertical-align: middle;
+    color: #000000 !important;
+    cursor: pointer;
+}
+
+    .MaintainerDialogAutocompleteItem:hover,
+    .MaintainerDialogAutocompleteItem:focus {
+        background: #e0e0e0 !important;
+        color: #000000;
+    }
+
+.MaintainerDialogAutocompleteRemove {
+    margin-top: 1px;
+    width: 16px;
+    height: 16px;
+    float: right;
+    cursor: pointer;
+}
+
+PrevNextBtn {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+
+
+.embed_dosearch {
+    display: none;
+}
+.embed_asc_desc,
+.embed_search_asc_desc {
+    margin-top: 10px !important;
+}
+
+#embed_template {
+    display: table;
+    width: 100%;
+    margin-bottom: 10px;
+}
+#embed_template_text {
+    display: table-cell;
+    vertical-align: middle;
+}
+#embed_template_buttons {
+    display: table-cell;
+    width: 1px;
+    white-space: nowrap;
+}
+
+#mce_send_lang {
+    margin: 8px 0 0 10px;
+    padding: 0;
+    list-style: none;
+    float: right;
+}
+
+    #mce_send_lang li {
+        display: inline-block;
+        margin: 0 0 0 10px;
+        padding: 0;
+    }
+
+.one-sendagain-addmail {
+    margin: 0 0 3px 8px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+    .one-sendagain-addmail:hover path {
+        fill: #0063b2;
+    }
+
+.one-sendagain-recipients-remove {
+    display: inline-block;
+    visibility: hidden;
+    margin-right: 4px;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    background: url('/images/one/mail-remove.png') no-repeat center center;
+}
+
+    .one-sendagain-recipients-remove:hover {
+        background-image: url('/images/one/mail-remove-hover.png');
+    }
+
+#mce_send_progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /*background: rgba(41,41,41, 0.7) url('/images/Community/working.gif') center center no-repeat;*/
+    background: rgba(41,41,41, 0.7) url('/images/Maintainer/loading.gif') center center no-repeat;
+}
+
+#mce_send_expiry {
+    white-space: nowrap;
+}
+
+#share-image-url {
+    background-color: #484848;
+    border: 1px solid #ffffff;
+}
+
+#share_image_clipboard {
+    cursor: pointer;
+}
+
+.Working {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    background: rgba(41,41,41, 0.7) url('/images/Maintainer/loading.gif') center center;
+    background-repeat: no-repeat;
+}
+
+.extBottomMargin {
+    margin-bottom: 10px !important;
+}
+
+.autoExpand {
+    display: block;
+    box-sizing: padding-box;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.autoExpandMaxRow {
+    overflow-y: scroll;
+}
+
+
+#folder_settings_accordion {
+    font-size: 14px;
+    line-height: 19px;
+}
+
+    #folder_settings_accordion h2 {
+        margin: 0 0 10px 0;
+        padding: 10px 0 0 0;
+        padding-bottom: 6px;
+        padding-top: 0px;
+        padding-left: 1px;
+        padding-right: 5px;
+        font-size: 18px;
+        background: none;
+        border-top: 1px solid #353535;
+        border-bottom: none;
+        border-left: none;
+        border-right: none;
+        background-color: #404040;
+    }
+    #folder_settings_accordion .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+        color:#f0f0f0;
+    }
+
+    #folder_settings_accordion .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+        color: #ffffff;
+        background-color: #565656;
+    }
+
+    #folder_settings_accordion div {
+        padding: 0;
+        background: none;
+    }
+
+.MaintainerDialogAccordionOpen {
+    margin-top: -5px !important;
+    left: auto !important;
+    right: 5px;
+    background-image: url('../images/MaintainerNew/nachoben.png') !important;
+    width: 16px;
+    background-size: 16px 9px;
+}
+
+.MaintainerDialogAccordionClose {
+    margin-top: -10px !important;
+    left: auto !important;
+    right: 5px;
+    background-image: url('../images/MaintainerNew/nachoben.png') !important;
+    transform: rotate(180deg);
+    width: 16px;
+    background-size: 16px 9px;
+}
+
+
+.MaintainerDialogInfo {
+    margin-top: 10px !important;
+    color: orange;
+}
+
+
+.EyeClass {
+    width: 23px;
+    height: 23px;
+}
+
+.EyeClassHintergrund {
+    fill: #d0d0d0;
+}
+
+
+#dlgSpin {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.5);
+}
+
+#dlgSpinWheel {
+    height: 120px;
+    width: 120px;
+    position: relative;
+    left: calc(50% - 60px);
+    top: calc(50% - 60px);
+}
+
+#sharemail_url {
+    font-size: 13px;
+    background-color: #404040;
+}
+
+.album_url_readonly {
+    color: #ffffff !important;
+    background-color: #404040 !important;
+}
+
+#album_subdom {
+    padding-right: 6px;
+}
+
+#profile_cancelsub_name {
+}
+
+#send_pm_to {
+    font-style: italic;
+    white-space: nowrap;
+}
+
+#contact_import_progress {
+    display: none;
+    margin-top: 20px;
+    padding: 2px 5px 2px 22px;
+    background: #555 url('/images/Community/working.gif') no-repeat left 5px center;
+}
+
+/****** CALENDAR ******/
+#calBorder {
+    border: 1px solid #202020 !important;
+}
+
+.calTD {
+    padding: 9px;
+    color: #ffffff;
+}
+
+.calDlgBtn {
+    display: inline-block;
+    margin: 20px 5px 5px 5px;
+    padding: 6px 30px !important;
+    background: #404040;
+    color: #ffffff;
+    font-size: 12px;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+/*
+.calArrowBtn,
+.calArrowBtn:hover {
+    padding: 2px;
+    vertical-align: middle;
+    background: white !important;
+}
+*/
+
+.mce_hotspot_pn {
+    position: absolute;
+    width: 29px;
+    height: 40px;
+    top: calc(50% - 30px);
+    background-color: rgba(128, 128, 128, 0.73);
+    font-size: 40px;
+    padding-top: 15px;
+    padding-left: 4px;
+    cursor: pointer;
+    z-index: 100;
+}
+
+    .mce_hotspot_pn :hover {
+        background-color: rgba(128, 128, 128, 0.93);
+    }
+
+
+
+.MaintainerDialog .jqte_toolbar {
+    display: block;
+}
+
+.MaintainerDialog .jqte_editor {
+    max-width: 100%;
+    height: 200px;
+    padding: 0 2px;
+    user-select: element;
+    -moz-user-select: elements;
+    -webkit-user-select: text;
+    -ms-user-select: element;
+    word-wrap: break-word;
+    -ms-word-wrap: break-word;
+    word-break: break-all;
+}
+
+    .MaintainerDialog .jqte_editor a,
+    .MaintainerDialog .jqte_editor a:hover,
+    .MaintainerDialog .jqte_editor a:focus,
+    .MaintainerDialog .jqte_editor a:active {
+        color: #000000 !important;
+        text-decoration: underline !important;
+    }
+
+.folder_desc_container .jqte_editor {
+    height: 80px;
+}
+
+/******  External Link Warning  ******/
+#external-link {
+    display: table;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #ffffff;
+    z-index: 3;
+}
+
+#external-link-container {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 15px;
+    line-height: 1.3em;
+}
+
+    #external-link-container h1 {
+        margin: 0 0 25px 0;
+        font-size: 20px;
+        line-height: 1.3em;
+    }
+
+    #external-link-container p {
+        margin: 0 0 10px 0;
+    }
+
+.external-link-btn {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 9px 27px;
+    text-align: center;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#external-link-open {
+    background-color: #0069d9;
+    border: 2px solid #0069d9;
+    color: #ffffff;
+}
+
+    #external-link-open:hover {
+        background-color: #0063b2;
+        border-color: #0063b2;
+    }
+
+#external-link-close {
+    border: 2px solid #dde6e9;
+    color: black;
+}
+
+    #external-link-close:hover {
+        background-color: #dde6e9;
+    }
+
+
+.MaintainerDialogContent input,
+.MaintainerDialogContent textarea,
+.MaintainerDialogContent select {
+    margin: 0;
+    padding: 2px;
+    width: 100%;
+    font-size: 14px;
+    line-height: 20px;
+    color: #000000;
+    background-color: #ffffff;
+    border: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+    .MaintainerDialogContent textarea {
+        resize: none;
+    }
+
+#ImageDlg input, textarea {
+    font: 14px "Segoe ui", Arial, sans-serif;
+    width: 8;
+}
+
+textarea#theText {}
+
+
+
+
+.jqte_editor, .jqte_source {
+    min-height: 23px;
+}
+
+    .jqte_editor * {
+        user-select: element;
+        -ms-user-select: element;
+        -webkit-user-select: text;
+        -moz-user-select: element;
+    }
+
+.jqte_tool, .jqte_tool_icon, .jqte_tool_label {
+    border: 1px solid transparent;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+
+    .jqte_tool:hover {
+        background-color: rgba(0,0,0,0.2);
+        border-color: rgba(0,0,0,0.2);
+    }
+
+
+.jqte_toolbar {
+    overflow: auto;
+    padding: 3px 4px;
+    background: #484848;
+    border-bottom: #BBB 1px solid;
+    display: none;
+}
+
+.jqte {
+    margin: 0px 0;
+    border: 1px solid #484848;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    box-shadow: 0px 0px 0px #999;
+    -webkit-box-shadow: 0 0 0px #999;
+    -moz-box-shadow: 0 0 0px #999;
+    overflow: hidden;
+    transition: box-shadow 0.4s, border 0.4s;
+    -webkit-transition: -webkit-box-shadow 0.4s, border 0.4s;
+    -moz-transition: -moz-box-shadow 0.4s, border 0.4s;
+    -o-transition: -o-box-shadow 0.4s, border 0.4s;
+}
+
+.jqte_editor, .jqte_source {
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background: #fff;
+    color: black;
+    min-height: 25px;
+    max-height: 900px;
+    overflow: auto;
+    outline: none;
+    word-wrap: break-word;
+    -ms-word-wrap: break-word;
+    resize: vertical;
+}
+
+.jqte_linktypes a {
+    color: #000000 !important;
+}
+
+
+
+@media screen and (max-width:700px) {
+
+    .MaintainerDialog,
+    .MaintainerDialogWizard {
+        width: 100%;
+        height: 100%;
+        border: none;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+}
+
+
+/******* SELECT FOLDER ********/
+
+
+#select-folder-tree {
+    position: relative;
+    margin: 0 -10px 0 0;
+    height: 220px;
+    text-align: left;
+}
+
+#select-folder-root {
+    margin-right: 10px !important;
+}
+
+#select-folder-tree ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+    #select-folder-tree ul ul {
+        margin: 0 0 0 20px;
+    }
+
+#select-folder-tree li {
+    margin: 0;
+    padding: 0;
+}
+
+.select-folder-item {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    padding: 2px 5px 2px 44px;
+    width: 100%;
+    cursor: pointer;
+    white-space: nowrap;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    font-size: 15px;
+    line-height: 19px;
+    background: 20px center no-repeat url('/images/Community/Views/new/SVGs/Maintainer/SVG/ordner-pub.svg');
+    background-size: 20px 20px;
+    vertical-align: middle;
+}
+.select-folder-item-protected {
+    background-image: url('/images/Community/Views/new/SVGs/Maintainer/SVG/ordner-prot.svg');
+}
+.select-folder-item-disabled {
+    background-color: none;
+    color: #c0c0c0;
+}
+
+.select-folder-item-children {
+    padding-left: 5px;
+}
+
+.select-folder-item:hover {
+    background-color: #c8c8c8;
+    color: #0069d9;
+}
+.select-folder-item-disabled:hover {
+    background-color: none;
+    color: #909090;
+    cursor: default;
+}
+
+.select-folder-item-selected {
+    background-color: #d2d2d2;
+}
+    .select-folder-item-selected:hover {
+        color: #0063b2;
+    }
+
+.select-folder-expand {
+    margin: 0 31px 2px 0;
+}
+
+.select-folder-album-public {
+    background-image: url('/images/Community/Views/new/SVGs/Maintainer/SVG/album-pub.svg');
+}
+.select-folder-album-protected {
+    background-image: url('/images/Community/Views/new/SVGs/Maintainer/SVG/album-prot.svg');
+}
+
+.select-folder-item-root span {
+    font-weight: bold;
+}
+
+.select-folder-menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100%;
+    list-style: none;
+}
+
+    .select-folder-menu li {
+        display: inline-block;
+        margin: 0 !important;
+        padding: 0 2px !important;
+        width: 20px;
+        height: 100%;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-color: #c8c8c8;
+    }
+
+.select-folder-menu-btn {
+    visibility: hidden;
+}
+
+.select-folder-item:hover .select-folder-menu-btn {
+    visibility: visible;
+}
+
+.select-folder-menu-btn-create {
+    background-image: url('/images/MaintainerNew/Dark/tab_hover_unterordner_1.png') !important;
+}
+
+    .select-folder-menu-btn-create:hover {
+        background-image: url('/images/MaintainerNew/DarkHov/tab_hover_unterordner_1.png') !important;
+    }
+
+
+/**********************  Select2 class  **********************/
+
+
+.select2-dropdown.dialog-dropdown {
+    z-index: 90000;
+}
+
+.MaintainerDialog .select2-results__option {
+    padding: 6px;
+    user-select: none;
+    -webkit-user-select: none;
+    color: #404040;
+}
+
+.MaintainerDialog .select2-container--default .select2-selection--single {
+    border: 1px solid #656565 !important;
+}
+
+.MaintainerDialog .select2-container .select2-selection--single .select2-selection__rendered {
+    font-size: 13px !important;
+}
+
+.MaintainerDialog .select2-selection__placeholder {
+    color: #404040 !important;
+}
+
+.MaintainerDialog .select2-container--disabled .select2-selection__placeholder {
+    color: #999999 !important;
+}
+
+.MaintainerDialog .select2-container--default.select2-container--disabled .select2-selection--single {
+    background-color: #707070 !important;
+}
+
+.select2-results__option {
+    color: #484848;
+}
+
+.select2-results__option--highlighted {
+    color: #ffffff;
+}
+
+/**********************  jQuery ui-dialog class  **********************/
+.ui-widget {
+    font-family: "Sergoe UI", Arial, sans-serif !important;
+}
+
+.ui-widget-header {
+    background-image: none !important;
+    border: none;
+}
+/*
+.ui-widget-content {
+    border: 1px solid #A9A9A9;
+    background: #ffffff;
+    color: #656565;
+}
+*/
+    .ui-widget-header .ui-icon {
+        background-image: url('/CSS/custom-dark-theme/images/ui-icons_ffffff_256x240.png') !important;
+    }
+
+.ui-front {
+    z-index: 15000;
+}
+
+.ui-dialog {
+    background: #484848;
+    border: 1px solid #929292;
+    color: #f0f0f0;
+    font-size: 14px;
+    line-height: 1.3em;
+}
+
+    .ui-dialog .ui-dialog-titlebar {
+        background-color: transparent;
+        border-bottom: 1px solid #929292;
+        color: #f0f0f0;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .ui-dialog .ui-dialog-titlebar-close {
+        background: #707070;
+        color: transparent;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+
+    .ui-dialog .ui-dialog-content {
+        padding: 1em;
+    }
+
+        .ui-dialog .ui-dialog-content > p {
+            margin-bottom: 1em;
+            padding-left: 44px;
+            min-height: 40px;
+            background-position: left .2em;
+            background-repeat: no-repeat;
+            background-size: 30px 30px;
+        }
+        .ui-dialog .ui-dialog-content > p ~ p {
+            min-height: 0;
+        }
+
+    .ui-dialog .ui-dialog-buttonpane {
+        border-top: 1px solid #929292;
+        padding: .4em .1em .4em .8em;
+    }
+
+        .ui-dialog .ui-dialog-buttonpane button {
+            margin: .5em .2em;
+            padding: .4em 1.2em;
+            width: auto;
+            background: #707070;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+    .ui-dialog table {
+        border-spacing: 10px;
+    }
+
+    .ui-dialog th {
+        font-weight: 400;
+        text-align: left;
+    }
+
+.ui-dialog-icon-empty {
+    padding-left: 0 !important;
+}
+.ui-dialog-icon-info {
+    background-image: url('/images/hint-info-c1c1c1.svg');
+}
+.ui-dialog-icon-alert {
+    background-image: url('/images/hint-warning-ffa500.svg');
+}
+

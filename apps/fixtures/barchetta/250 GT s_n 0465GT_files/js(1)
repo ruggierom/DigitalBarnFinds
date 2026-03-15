@@ -1,0 +1,186 @@
+Type.registerNamespace('SLApp');
+SLApp.CommunityService=function() {
+SLApp.CommunityService.initializeBase(this);
+this._timeout = 0;
+this._userContext = null;
+this._succeeded = null;
+this._failed = null;
+}
+SLApp.CommunityService.prototype={
+_get_path:function() {
+ var p = this.get_path();
+ if (p) return p;
+ else return SLApp.CommunityService._staticInstance.get_path();},
+IsPrintingAllowed:function(imageID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'IsPrintingAllowed',false,{imageID:imageID},succeededCallback,failedCallback,userContext); },
+GetWeekDates:function(UserID,lDirID,field,sWeek,Date,types,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetWeekDates',false,{UserID:UserID,lDirID:lDirID,field:field,sWeek:sWeek,Date:Date,types:types},succeededCallback,failedCallback,userContext); },
+GetMonthWeeks:function(UserID,lDirID,field,sMonth,Date,types,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetMonthWeeks',false,{UserID:UserID,lDirID:lDirID,field:field,sMonth:sMonth,Date:Date,types:types},succeededCallback,failedCallback,userContext); },
+GetYearMonths:function(UserID,lDirID,field,sYear,Date,types,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetYearMonths',false,{UserID:UserID,lDirID:lDirID,field:field,sYear:sYear,Date:Date,types:types},succeededCallback,failedCallback,userContext); },
+GetCurrentDates:function(UserID,lDirID,field,types,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetCurrentDates',false,{UserID:UserID,lDirID:lDirID,field:field,types:types},succeededCallback,failedCallback,userContext); },
+GetSliderStop:function(lDirID,TopUrl,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetSliderStop',false,{lDirID:lDirID,TopUrl:TopUrl},succeededCallback,failedCallback,userContext); },
+GetHTMLSnipp:function(Snipped,Version,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetHTMLSnipp',false,{Snipped:Snipped,Version:Version},succeededCallback,failedCallback,userContext); },
+GetCurrentUserAuth:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetCurrentUserAuth',false,{},succeededCallback,failedCallback,userContext); },
+GetImageView:function(MaVas,ImgID,index,imgCount,DisplLang,bAllowEdit,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetImageView',false,{MaVas:MaVas,ImgID:ImgID,index:index,imgCount:imgCount,DisplLang:DisplLang,bAllowEdit:bAllowEdit},succeededCallback,failedCallback,userContext); },
+VideoUrl:function(ImgID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'VideoUrl',false,{ImgID:ImgID},succeededCallback,failedCallback,userContext); },
+GetUserAndAlbumInfo:function(DirID,Langauge,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetUserAndAlbumInfo',false,{DirID:DirID,Langauge:Langauge},succeededCallback,failedCallback,userContext); },
+QueryMoreImages:function(sQueryString,lDirID,lOffset,nCount,lRootDirID,lFlatDirID,bDisplayDirs,queryFT,nFileTypes,strSearchOptions,nMaxThumbWidth,nMaxThumbHeight,nMaxHoverWidth,nMaxHoverHeight,bFullInfo,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'QueryMoreImages',false,{sQueryString:sQueryString,lDirID:lDirID,lOffset:lOffset,nCount:nCount,lRootDirID:lRootDirID,lFlatDirID:lFlatDirID,bDisplayDirs:bDisplayDirs,queryFT:queryFT,nFileTypes:nFileTypes,strSearchOptions:strSearchOptions,nMaxThumbWidth:nMaxThumbWidth,nMaxThumbHeight:nMaxThumbHeight,nMaxHoverWidth:nMaxHoverWidth,nMaxHoverHeight:nMaxHoverHeight,bFullInfo:bFullInfo},succeededCallback,failedCallback,userContext); },
+QueryMoreImagesFiltered:function(sQueryString,lDirID,lOffset,nCount,lRootDirID,lFlatDirID,bDisplayDirs,queryFT,nFileTypes,strSearchOptions,Filter,FilterAny,FilterExact,nMaxThumbWidth,nMaxThumbHeight,nMaxHoverWidth,nMaxHoverHeight,bFullInfo,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'QueryMoreImagesFiltered',false,{sQueryString:sQueryString,lDirID:lDirID,lOffset:lOffset,nCount:nCount,lRootDirID:lRootDirID,lFlatDirID:lFlatDirID,bDisplayDirs:bDisplayDirs,queryFT:queryFT,nFileTypes:nFileTypes,strSearchOptions:strSearchOptions,Filter:Filter,FilterAny:FilterAny,FilterExact:FilterExact,nMaxThumbWidth:nMaxThumbWidth,nMaxThumbHeight:nMaxThumbHeight,nMaxHoverWidth:nMaxHoverWidth,nMaxHoverHeight:nMaxHoverHeight,bFullInfo:bFullInfo},succeededCallback,failedCallback,userContext); },
+GetObjectsNC:function(DirID,Flat,queryFT,nFileTypes,strSearchOptions,strFilter,strFilterAny,strFilterExact,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetObjectsNC',false,{DirID:DirID,Flat:Flat,queryFT:queryFT,nFileTypes:nFileTypes,strSearchOptions:strSearchOptions,strFilter:strFilter,strFilterAny:strFilterAny,strFilterExact:strFilterExact},succeededCallback,failedCallback,userContext); },
+GetObjectCounts:function(DirID,Flat,queryFT,nFileTypes,strSearchOptions,strFilter,strFilterAny,strFilterExact,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetObjectCounts',false,{DirID:DirID,Flat:Flat,queryFT:queryFT,nFileTypes:nFileTypes,strSearchOptions:strSearchOptions,strFilter:strFilter,strFilterAny:strFilterAny,strFilterExact:strFilterExact},succeededCallback,failedCallback,userContext); },
+GetObjectCountsJson:function(DirID,Flat,queryFT,nFileTypes,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetObjectCountsJson',false,{DirID:DirID,Flat:Flat,queryFT:queryFT,nFileTypes:nFileTypes},succeededCallback,failedCallback,userContext); },
+GetUnselectedFolderItemCounts:function(sDirList,Flat,queryFT,nFileTypes,strSearchOptions,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetUnselectedFolderItemCounts',false,{sDirList:sDirList,Flat:Flat,queryFT:queryFT,nFileTypes:nFileTypes,strSearchOptions:strSearchOptions},succeededCallback,failedCallback,userContext); },
+SelectFolder:function(lDirID,bSelect,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'SelectFolder',false,{lDirID:lDirID,bSelect:bSelect},succeededCallback,failedCallback,userContext); },
+ClearSelection:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'ClearSelection',false,{},succeededCallback,failedCallback,userContext); },
+SelectImage:function(lImageID,bSelect,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'SelectImage',false,{lImageID:lImageID,bSelect:bSelect},succeededCallback,failedCallback,userContext); },
+SelectImages:function(sImageIDs,bSelect,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'SelectImages',false,{sImageIDs:sImageIDs,bSelect:bSelect},succeededCallback,failedCallback,userContext); },
+SelectAllImages:function(bSelect,lDirID,lFlatDirID,queryFT,nFileTypes,strSearchOptions,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'SelectAllImages',false,{bSelect:bSelect,lDirID:lDirID,lFlatDirID:lFlatDirID,queryFT:queryFT,nFileTypes:nFileTypes,strSearchOptions:strSearchOptions},succeededCallback,failedCallback,userContext); },
+AllImagesInDirsSelected:function(DirID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'AllImagesInDirsSelected',false,{DirID:DirID},succeededCallback,failedCallback,userContext); },
+CheckSelectionForMenu:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'CheckSelectionForMenu',false,{},succeededCallback,failedCallback,userContext); },
+GetDownloadCnt:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetDownloadCnt',false,{},succeededCallback,failedCallback,userContext); },
+CountSelectedItems:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'CountSelectedItems',false,{},succeededCallback,failedCallback,userContext); },
+UnselectAll:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'UnselectAll',false,{},succeededCallback,failedCallback,userContext); },
+GetShortUrl:function(sURL,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetShortUrl',false,{sURL:sURL},succeededCallback,failedCallback,userContext); },
+QueryShareAndContact:function(lMainDirID,sDir,lImageID,lImageIdx,sAdditionalParms,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'QueryShareAndContact',false,{lMainDirID:lMainDirID,sDir:sDir,lImageID:lImageID,lImageIdx:lImageIdx,sAdditionalParms:sAdditionalParms},succeededCallback,failedCallback,userContext); },
+QueryContactInfo:function(lUserID,lRootDirID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'QueryContactInfo',false,{lUserID:lUserID,lRootDirID:lRootDirID},succeededCallback,failedCallback,userContext); },
+QueryImageStrip:function(lMainDirID,sType,nOffset,nCount,QueryString,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'QueryImageStrip',false,{lMainDirID:lMainDirID,sType:sType,nOffset:nOffset,nCount:nCount,QueryString:QueryString},succeededCallback,failedCallback,userContext); },
+FirstImagesInfolderTmbListAndInfo:function(lDirID,Literal,MaxCount,nMaxHeight,nMaxWidth,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'FirstImagesInfolderTmbListAndInfo',false,{lDirID:lDirID,Literal:Literal,MaxCount:MaxCount,nMaxHeight:nMaxHeight,nMaxWidth:nMaxWidth},succeededCallback,failedCallback,userContext); },
+DisplayViewButtons:function(Mastervars,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'DisplayViewButtons',false,{Mastervars:Mastervars},succeededCallback,failedCallback,userContext); },
+GetImageRotator:function(Mastervars,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetImageRotator',false,{Mastervars:Mastervars},succeededCallback,failedCallback,userContext); },
+GetNavigationBar:function(Mastervars,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetNavigationBar',false,{Mastervars:Mastervars},succeededCallback,failedCallback,userContext); },
+GetNextUrl:function(Mastervars,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetNextUrl',false,{Mastervars:Mastervars},succeededCallback,failedCallback,userContext); },
+GetPrevUrl:function(Mastervars,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetPrevUrl',false,{Mastervars:Mastervars},succeededCallback,failedCallback,userContext); },
+GetLeftRightFolder:function(lDirId,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetLeftRightFolder',false,{lDirId:lDirId},succeededCallback,failedCallback,userContext); },
+IsFolderProtected:function(lDirID,lImgID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'IsFolderProtected',false,{lDirID:lDirID,lImgID:lImgID},succeededCallback,failedCallback,userContext); },
+GetFolderPath:function(lImageID,lImgDir,lRootDir,bFlat,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetFolderPath',false,{lImageID:lImageID,lImgDir:lImgDir,lRootDir:lRootDir,bFlat:bFlat},succeededCallback,failedCallback,userContext); },
+GetNextUrlHRef:function(Mastervars,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetNextUrlHRef',false,{Mastervars:Mastervars},succeededCallback,failedCallback,userContext); },
+GetPrevUrlHRef:function(Mastervars,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetPrevUrlHRef',false,{Mastervars:Mastervars},succeededCallback,failedCallback,userContext); },
+TranslateDateTimeItem:function(Field,Date,DateTo,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'TranslateDateTimeItem',false,{Field:Field,Date:Date,DateTo:DateTo},succeededCallback,failedCallback,userContext); },
+QueryShareInfo:function(sURL,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'QueryShareInfo',false,{sURL:sURL},succeededCallback,failedCallback,userContext); },
+ShareLinkWithMail:function(sFromName,sFromMail,sToMail,sLanguage,sURL,sMessage,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'ShareLinkWithMail',false,{sFromName:sFromName,sFromMail:sFromMail,sToMail:sToMail,sLanguage:sLanguage,sURL:sURL,sMessage:sMessage},succeededCallback,failedCallback,userContext); },
+SendPrivateMessage:function(Name,MailAddress,Message,ImgID,DirID,CopyToSender,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'SendPrivateMessage',false,{Name:Name,MailAddress:MailAddress,Message:Message,ImgID:ImgID,DirID:DirID,CopyToSender:CopyToSender},succeededCallback,failedCallback,userContext); },
+ReportImage:function(Name,MailAddress,Message,ImgID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'ReportImage',false,{Name:Name,MailAddress:MailAddress,Message:Message,ImgID:ImgID},succeededCallback,failedCallback,userContext); },
+IsProtectedAlbum:function(DirID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'IsProtectedAlbum',false,{DirID:DirID},succeededCallback,failedCallback,userContext); },
+GetMetaTagInfo:function(sType,idUser,idDir,idImage,sURL,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetMetaTagInfo',false,{sType:sType,idUser:idUser,idDir:idDir,idImage:idImage,sURL:sURL},succeededCallback,failedCallback,userContext); },
+GetGlobalSID:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetGlobalSID',false,{},succeededCallback,failedCallback,userContext); }}
+SLApp.CommunityService.registerClass('SLApp.CommunityService',Sys.Net.WebServiceProxy);
+SLApp.CommunityService._staticInstance = new SLApp.CommunityService();
+SLApp.CommunityService.set_path = function(value) { SLApp.CommunityService._staticInstance.set_path(value); }
+SLApp.CommunityService.get_path = function() { return SLApp.CommunityService._staticInstance.get_path(); }
+SLApp.CommunityService.set_timeout = function(value) { SLApp.CommunityService._staticInstance.set_timeout(value); }
+SLApp.CommunityService.get_timeout = function() { return SLApp.CommunityService._staticInstance.get_timeout(); }
+SLApp.CommunityService.set_defaultUserContext = function(value) { SLApp.CommunityService._staticInstance.set_defaultUserContext(value); }
+SLApp.CommunityService.get_defaultUserContext = function() { return SLApp.CommunityService._staticInstance.get_defaultUserContext(); }
+SLApp.CommunityService.set_defaultSucceededCallback = function(value) { SLApp.CommunityService._staticInstance.set_defaultSucceededCallback(value); }
+SLApp.CommunityService.get_defaultSucceededCallback = function() { return SLApp.CommunityService._staticInstance.get_defaultSucceededCallback(); }
+SLApp.CommunityService.set_defaultFailedCallback = function(value) { SLApp.CommunityService._staticInstance.set_defaultFailedCallback(value); }
+SLApp.CommunityService.get_defaultFailedCallback = function() { return SLApp.CommunityService._staticInstance.get_defaultFailedCallback(); }
+SLApp.CommunityService.set_enableJsonp = function(value) { SLApp.CommunityService._staticInstance.set_enableJsonp(value); }
+SLApp.CommunityService.get_enableJsonp = function() { return SLApp.CommunityService._staticInstance.get_enableJsonp(); }
+SLApp.CommunityService.set_jsonpCallbackParameter = function(value) { SLApp.CommunityService._staticInstance.set_jsonpCallbackParameter(value); }
+SLApp.CommunityService.get_jsonpCallbackParameter = function() { return SLApp.CommunityService._staticInstance.get_jsonpCallbackParameter(); }
+SLApp.CommunityService.set_path("/Community/CommunityService.asmx");
+SLApp.CommunityService.IsPrintingAllowed= function(imageID,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.IsPrintingAllowed(imageID,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetWeekDates= function(UserID,lDirID,field,sWeek,Date,types,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetWeekDates(UserID,lDirID,field,sWeek,Date,types,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetMonthWeeks= function(UserID,lDirID,field,sMonth,Date,types,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetMonthWeeks(UserID,lDirID,field,sMonth,Date,types,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetYearMonths= function(UserID,lDirID,field,sYear,Date,types,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetYearMonths(UserID,lDirID,field,sYear,Date,types,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetCurrentDates= function(UserID,lDirID,field,types,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetCurrentDates(UserID,lDirID,field,types,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetSliderStop= function(lDirID,TopUrl,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetSliderStop(lDirID,TopUrl,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetHTMLSnipp= function(Snipped,Version,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetHTMLSnipp(Snipped,Version,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetCurrentUserAuth= function(onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetCurrentUserAuth(onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetImageView= function(MaVas,ImgID,index,imgCount,DisplLang,bAllowEdit,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetImageView(MaVas,ImgID,index,imgCount,DisplLang,bAllowEdit,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.VideoUrl= function(ImgID,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.VideoUrl(ImgID,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetUserAndAlbumInfo= function(DirID,Langauge,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetUserAndAlbumInfo(DirID,Langauge,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.QueryMoreImages= function(sQueryString,lDirID,lOffset,nCount,lRootDirID,lFlatDirID,bDisplayDirs,queryFT,nFileTypes,strSearchOptions,nMaxThumbWidth,nMaxThumbHeight,nMaxHoverWidth,nMaxHoverHeight,bFullInfo,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.QueryMoreImages(sQueryString,lDirID,lOffset,nCount,lRootDirID,lFlatDirID,bDisplayDirs,queryFT,nFileTypes,strSearchOptions,nMaxThumbWidth,nMaxThumbHeight,nMaxHoverWidth,nMaxHoverHeight,bFullInfo,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.QueryMoreImagesFiltered= function(sQueryString,lDirID,lOffset,nCount,lRootDirID,lFlatDirID,bDisplayDirs,queryFT,nFileTypes,strSearchOptions,Filter,FilterAny,FilterExact,nMaxThumbWidth,nMaxThumbHeight,nMaxHoverWidth,nMaxHoverHeight,bFullInfo,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.QueryMoreImagesFiltered(sQueryString,lDirID,lOffset,nCount,lRootDirID,lFlatDirID,bDisplayDirs,queryFT,nFileTypes,strSearchOptions,Filter,FilterAny,FilterExact,nMaxThumbWidth,nMaxThumbHeight,nMaxHoverWidth,nMaxHoverHeight,bFullInfo,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetObjectsNC= function(DirID,Flat,queryFT,nFileTypes,strSearchOptions,strFilter,strFilterAny,strFilterExact,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetObjectsNC(DirID,Flat,queryFT,nFileTypes,strSearchOptions,strFilter,strFilterAny,strFilterExact,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetObjectCounts= function(DirID,Flat,queryFT,nFileTypes,strSearchOptions,strFilter,strFilterAny,strFilterExact,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetObjectCounts(DirID,Flat,queryFT,nFileTypes,strSearchOptions,strFilter,strFilterAny,strFilterExact,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetObjectCountsJson= function(DirID,Flat,queryFT,nFileTypes,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetObjectCountsJson(DirID,Flat,queryFT,nFileTypes,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetUnselectedFolderItemCounts= function(sDirList,Flat,queryFT,nFileTypes,strSearchOptions,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetUnselectedFolderItemCounts(sDirList,Flat,queryFT,nFileTypes,strSearchOptions,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.SelectFolder= function(lDirID,bSelect,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.SelectFolder(lDirID,bSelect,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.ClearSelection= function(onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.ClearSelection(onSuccess,onFailed,userContext); }
+SLApp.CommunityService.SelectImage= function(lImageID,bSelect,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.SelectImage(lImageID,bSelect,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.SelectImages= function(sImageIDs,bSelect,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.SelectImages(sImageIDs,bSelect,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.SelectAllImages= function(bSelect,lDirID,lFlatDirID,queryFT,nFileTypes,strSearchOptions,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.SelectAllImages(bSelect,lDirID,lFlatDirID,queryFT,nFileTypes,strSearchOptions,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.AllImagesInDirsSelected= function(DirID,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.AllImagesInDirsSelected(DirID,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.CheckSelectionForMenu= function(onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.CheckSelectionForMenu(onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetDownloadCnt= function(onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetDownloadCnt(onSuccess,onFailed,userContext); }
+SLApp.CommunityService.CountSelectedItems= function(onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.CountSelectedItems(onSuccess,onFailed,userContext); }
+SLApp.CommunityService.UnselectAll= function(onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.UnselectAll(onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetShortUrl= function(sURL,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetShortUrl(sURL,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.QueryShareAndContact= function(lMainDirID,sDir,lImageID,lImageIdx,sAdditionalParms,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.QueryShareAndContact(lMainDirID,sDir,lImageID,lImageIdx,sAdditionalParms,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.QueryContactInfo= function(lUserID,lRootDirID,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.QueryContactInfo(lUserID,lRootDirID,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.QueryImageStrip= function(lMainDirID,sType,nOffset,nCount,QueryString,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.QueryImageStrip(lMainDirID,sType,nOffset,nCount,QueryString,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.FirstImagesInfolderTmbListAndInfo= function(lDirID,Literal,MaxCount,nMaxHeight,nMaxWidth,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.FirstImagesInfolderTmbListAndInfo(lDirID,Literal,MaxCount,nMaxHeight,nMaxWidth,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.DisplayViewButtons= function(Mastervars,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.DisplayViewButtons(Mastervars,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetImageRotator= function(Mastervars,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetImageRotator(Mastervars,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetNavigationBar= function(Mastervars,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetNavigationBar(Mastervars,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetNextUrl= function(Mastervars,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetNextUrl(Mastervars,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetPrevUrl= function(Mastervars,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetPrevUrl(Mastervars,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetLeftRightFolder= function(lDirId,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetLeftRightFolder(lDirId,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.IsFolderProtected= function(lDirID,lImgID,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.IsFolderProtected(lDirID,lImgID,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetFolderPath= function(lImageID,lImgDir,lRootDir,bFlat,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetFolderPath(lImageID,lImgDir,lRootDir,bFlat,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetNextUrlHRef= function(Mastervars,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetNextUrlHRef(Mastervars,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetPrevUrlHRef= function(Mastervars,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetPrevUrlHRef(Mastervars,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.TranslateDateTimeItem= function(Field,Date,DateTo,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.TranslateDateTimeItem(Field,Date,DateTo,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.QueryShareInfo= function(sURL,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.QueryShareInfo(sURL,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.ShareLinkWithMail= function(sFromName,sFromMail,sToMail,sLanguage,sURL,sMessage,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.ShareLinkWithMail(sFromName,sFromMail,sToMail,sLanguage,sURL,sMessage,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.SendPrivateMessage= function(Name,MailAddress,Message,ImgID,DirID,CopyToSender,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.SendPrivateMessage(Name,MailAddress,Message,ImgID,DirID,CopyToSender,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.ReportImage= function(Name,MailAddress,Message,ImgID,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.ReportImage(Name,MailAddress,Message,ImgID,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.IsProtectedAlbum= function(DirID,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.IsProtectedAlbum(DirID,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetMetaTagInfo= function(sType,idUser,idDir,idImage,sURL,onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetMetaTagInfo(sType,idUser,idDir,idImage,sURL,onSuccess,onFailed,userContext); }
+SLApp.CommunityService.GetGlobalSID= function(onSuccess,onFailed,userContext) {SLApp.CommunityService._staticInstance.GetGlobalSID(onSuccess,onFailed,userContext); }
+var gtc = Sys.Net.WebServiceProxy._generateTypedConstructor;
+Type.registerNamespace('MCImageProcessor.Utils');
+if (typeof(MCImageProcessor.Utils.VideoResult) === 'undefined') {
+MCImageProcessor.Utils.VideoResult=gtc("MCImageProcessor.Utils.VideoResult");
+MCImageProcessor.Utils.VideoResult.registerClass('MCImageProcessor.Utils.VideoResult');
+}

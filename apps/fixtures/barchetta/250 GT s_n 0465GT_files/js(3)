@@ -1,0 +1,45 @@
+Type.registerNamespace('SLApp.Controls');
+SLApp.Controls.ImageInfo=function() {
+SLApp.Controls.ImageInfo.initializeBase(this);
+this._timeout = 0;
+this._userContext = null;
+this._succeeded = null;
+this._failed = null;
+}
+SLApp.Controls.ImageInfo.prototype={
+_get_path:function() {
+ var p = this.get_path();
+ if (p) return p;
+ else return SLApp.Controls.ImageInfo._staticInstance.get_path();},
+IncImgViews:function(lImageID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'IncImgViews',false,{lImageID:lImageID},succeededCallback,failedCallback,userContext); },
+GetDetailInfo:function(ImageID,formatSizeXY,formatViewed,languageCode,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetDetailInfo',false,{ImageID:ImageID,formatSizeXY:formatSizeXY,formatViewed:formatViewed,languageCode:languageCode},succeededCallback,failedCallback,userContext); },
+ImageInfoCode:function(lImgID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'ImageInfoCode',false,{lImgID:lImgID},succeededCallback,failedCallback,userContext); },
+ImageInfoCodeFromString:function(lImgID,strCode,Type,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'ImageInfoCodeFromString',false,{lImgID:lImgID,strCode:strCode,Type:Type},succeededCallback,failedCallback,userContext); },
+GetImageJSCode:function(nImageID,nMaxDestWidth,nMaxDestHeight,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetImageJSCode',false,{nImageID:nImageID,nMaxDestWidth:nMaxDestWidth,nMaxDestHeight:nMaxDestHeight},succeededCallback,failedCallback,userContext); }}
+SLApp.Controls.ImageInfo.registerClass('SLApp.Controls.ImageInfo',Sys.Net.WebServiceProxy);
+SLApp.Controls.ImageInfo._staticInstance = new SLApp.Controls.ImageInfo();
+SLApp.Controls.ImageInfo.set_path = function(value) { SLApp.Controls.ImageInfo._staticInstance.set_path(value); }
+SLApp.Controls.ImageInfo.get_path = function() { return SLApp.Controls.ImageInfo._staticInstance.get_path(); }
+SLApp.Controls.ImageInfo.set_timeout = function(value) { SLApp.Controls.ImageInfo._staticInstance.set_timeout(value); }
+SLApp.Controls.ImageInfo.get_timeout = function() { return SLApp.Controls.ImageInfo._staticInstance.get_timeout(); }
+SLApp.Controls.ImageInfo.set_defaultUserContext = function(value) { SLApp.Controls.ImageInfo._staticInstance.set_defaultUserContext(value); }
+SLApp.Controls.ImageInfo.get_defaultUserContext = function() { return SLApp.Controls.ImageInfo._staticInstance.get_defaultUserContext(); }
+SLApp.Controls.ImageInfo.set_defaultSucceededCallback = function(value) { SLApp.Controls.ImageInfo._staticInstance.set_defaultSucceededCallback(value); }
+SLApp.Controls.ImageInfo.get_defaultSucceededCallback = function() { return SLApp.Controls.ImageInfo._staticInstance.get_defaultSucceededCallback(); }
+SLApp.Controls.ImageInfo.set_defaultFailedCallback = function(value) { SLApp.Controls.ImageInfo._staticInstance.set_defaultFailedCallback(value); }
+SLApp.Controls.ImageInfo.get_defaultFailedCallback = function() { return SLApp.Controls.ImageInfo._staticInstance.get_defaultFailedCallback(); }
+SLApp.Controls.ImageInfo.set_enableJsonp = function(value) { SLApp.Controls.ImageInfo._staticInstance.set_enableJsonp(value); }
+SLApp.Controls.ImageInfo.get_enableJsonp = function() { return SLApp.Controls.ImageInfo._staticInstance.get_enableJsonp(); }
+SLApp.Controls.ImageInfo.set_jsonpCallbackParameter = function(value) { SLApp.Controls.ImageInfo._staticInstance.set_jsonpCallbackParameter(value); }
+SLApp.Controls.ImageInfo.get_jsonpCallbackParameter = function() { return SLApp.Controls.ImageInfo._staticInstance.get_jsonpCallbackParameter(); }
+SLApp.Controls.ImageInfo.set_path("/Controls/ImageInfo.asmx");
+SLApp.Controls.ImageInfo.IncImgViews= function(lImageID,onSuccess,onFailed,userContext) {SLApp.Controls.ImageInfo._staticInstance.IncImgViews(lImageID,onSuccess,onFailed,userContext); }
+SLApp.Controls.ImageInfo.GetDetailInfo= function(ImageID,formatSizeXY,formatViewed,languageCode,onSuccess,onFailed,userContext) {SLApp.Controls.ImageInfo._staticInstance.GetDetailInfo(ImageID,formatSizeXY,formatViewed,languageCode,onSuccess,onFailed,userContext); }
+SLApp.Controls.ImageInfo.ImageInfoCode= function(lImgID,onSuccess,onFailed,userContext) {SLApp.Controls.ImageInfo._staticInstance.ImageInfoCode(lImgID,onSuccess,onFailed,userContext); }
+SLApp.Controls.ImageInfo.ImageInfoCodeFromString= function(lImgID,strCode,Type,onSuccess,onFailed,userContext) {SLApp.Controls.ImageInfo._staticInstance.ImageInfoCodeFromString(lImgID,strCode,Type,onSuccess,onFailed,userContext); }
+SLApp.Controls.ImageInfo.GetImageJSCode= function(nImageID,nMaxDestWidth,nMaxDestHeight,onSuccess,onFailed,userContext) {SLApp.Controls.ImageInfo._staticInstance.GetImageJSCode(nImageID,nMaxDestWidth,nMaxDestHeight,onSuccess,onFailed,userContext); }

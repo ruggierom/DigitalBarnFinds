@@ -1,0 +1,142 @@
+﻿.MaintainerDialogBack {
+    background-color: rgba(255, 255, 255, 0.67);
+    color: #484848;
+}
+
+.MaintainerDialogClose,
+.MaintainerDialogCloseInner {
+    background: url('/images/Maintainer/dialog-schliessen-inner.png');
+}
+.MaintainerDialogClose:hover,
+.MaintainerDialogCloseInner:hover {
+    background-color: #b6b6b6;
+}
+
+.MaintainerDialog {
+    background-color: #ffffff;
+    border: 1px solid #929292;
+}
+
+.MaintainerDialogContent hr {
+    background: #d1d1d1;
+    border-bottom: 1px solid #d1d1d1;
+}
+
+.MaintainerDialogContent h1 {
+    border-bottom: 1px solid #929292;
+}
+
+.MaintainerDialogContent h2 {
+    border-top: 1px solid #a0a0a0;
+}
+
+.MaintainerDialogButtons li,
+.MaintainerDialogButton {
+    font-weight: 600;
+    background: #0069d9;
+    color: #ffffff !important;
+}
+    .MaintainerDialogButtons li:hover,
+    .MaintainerDialogButton:hover {
+        background: #0063b2;
+    }
+
+.MaintainerDialogButtonLight {
+    color: #0069d9 !important;
+    border-color: #0069d9;
+    background: #ffffff;
+}
+.MaintainerDialogButtonLight:hover {
+    color: #ffffff !important;
+}
+
+    .MaintainerDialogButtons .MaintainerDialogButtonsDisabled,
+    .MaintainerDialogButton .MaintainerDialogButtonDisabled {
+        color: #efefef !important;
+        background: #b6b6b6 !important;
+        cursor: default;
+    }
+
+.MaintainerDialogContent input,
+.MaintainerDialogContent textarea,
+.MaintainerDialogContent select {
+    border: 1px solid #808080;
+}
+    .MaintainerDialogContent input:disabled {
+        border-color: #b6b6b6;
+        color: #b6b6b6;
+        background-color: #efefef;
+    }
+
+.MaintainerDialogInfo {
+    color: #cc7000;
+}
+
+.disabledSelect {
+    color: #808080 !important;
+}
+
+.disabledSelectbk {
+    background-color: #b6b6b6 !important;
+}
+
+.MaintainerDialogDisabledInput {
+    color: #b6b6b6;
+    background-color: #efefef;
+}
+
+#share-image-url {
+    background-color: #efefef;
+    border: 1px solid #b6b6b6;
+}
+
+#sharemail_url {
+    font-size: 13px;
+    background-color: #efefef;
+}
+
+.album_url_readonly {
+    color: #ffffff !important;
+    background-color: #efefef !important;
+}
+
+
+/**********************  Select2 class  **********************/
+
+
+.MaintainerDialog .select2-container--default.select2-container--disabled .select2-selection--single {
+    background-color: #efefef !important;
+    color: #b6b6b6 !important;
+}
+
+
+/**********************  jQuery ui-dialog class  **********************/
+
+
+.ui-dialog {
+    background: #ffffff;
+    border-color: #b6b6b6;
+    color: #343434;
+}
+
+    .ui-dialog .ui-dialog-titlebar {
+        color: #343434;
+        border-bottom: 1px solid #b6b6b6;
+    }
+
+    .ui-dialog .ui-dialog-titlebar-close {
+        background: #a0a0a0;
+    }
+
+    .ui-dialog .ui-dialog-buttonpane {
+        border-top: 1px solid #b2b2b2;
+    }
+    .ui-dialog .ui-dialog-buttonpane button {
+        background: #0063b2;
+    }
+
+.ui-dialog-icon-alert {
+    background-image: url('/images/hint-warning-dc0811.svg');
+}
+
+

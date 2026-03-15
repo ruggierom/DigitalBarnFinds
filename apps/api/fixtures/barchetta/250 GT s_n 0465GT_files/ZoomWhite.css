@@ -1,0 +1,684 @@
+
+.notVisible {
+    display: none !important;
+}
+
+.mt_button {
+    border: 0px solid #ffffff;
+    /*    background: #ffffff !important;  */
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    padding-left: 3px;
+    padding-right: 3px;
+    right: 2px;
+    top: 0px;
+    cursor: pointer;
+    box-shadow:none;
+    background-image:none;
+    border-radius:0px;
+}
+.mt_button :hover {
+    background-color: #d0d0d0;
+}
+
+.zn_button {
+    border: 0px solid #737373;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    box-shadow: none;
+    background-image: none;
+    padding-left: 3px;
+    padding-right: 3px;
+    top: 0px;
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
+    fill: #D0D0D0 !important;
+    stroke: transparent !important;
+    z-index:2;
+}
+
+.zn_button :hover {
+        fill: #0069d9 !important;
+        background-color:#202020;
+    }
+
+.ImgZoom .ui-icon-arrowthick-2-ne-sw {
+    background-image: url('../images/Community/Views/new/SVGs/fenster-vergroessern.svg');
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: 16px 14px;
+    width: 30px;
+    height: 27px;
+}
+
+.ImgZoom .ui-icon-arrowthick-1-sw {
+    background-image: url('../images/Community/Views/new/SVGs/fenster-verkleinern.svg');
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: 16px 14px;
+    width: 30px;
+    height: 27px;
+}
+
+.ImgZoom .ui-icon-close {
+    background-image: url('../images/Community/Views/new/SVGs/fenster-schliessen-x-12.svg');
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: 16px 14px;
+    width: 30px;
+    height: 27px;
+}
+
+.ImgZoom #PrintBtn {
+    bottom: 3px;
+    top: auto;
+}
+
+
+
+.ImgZoom .ui-icon-print {
+    background-image: url('../images/Community/Views/new/SVGs/maintainer/SVG/vergroesserung-drucken.svg');
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: 15px 14px;
+    width: 30px;
+    height: 27px;
+}
+
+
+.ImgZoom .IV_HotSpot {
+    background-image: url('../images/Community/Views/new/SVGs/maintainer/SVG/HotSpot.svg');
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: 22px 18px;
+    width: 30px;
+    height: 27px;
+}
+
+.ImgZoom .IV_ZoomMaint {
+}
+
+.ImgZoom .IV_Zoom {
+    background-image: url("../images/Community/Views/new/SVGs/maintainer/SVG/vergroesserung-zoom.svg");
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: 30px 24px;
+    width: 30px;
+    height: 27px;
+    border: 1px solid transparent;
+}
+
+.IV_Zoom_disabled {
+    opacity: 0.4;
+}
+.IV_Zoom_selected {
+    border: 1px solid #0069d9 !important;
+    background-color: #abc0d8;
+    border-radius: 2px;
+}
+    .IV_Zoom_selected :hover {
+        border-radius: 2px;
+        background-color: #abc0d8 !important;
+    }
+    .ImgZoom .ZoomRot {
+    }
+
+.ImgZoom .ZoomCrop {
+}
+.ImgZoom .ZoomStatusLineInner {
+    display: flex;
+    justify-content:center;
+}
+
+.ImgZoom {
+    background-color: white;
+    position: absolute;
+    top: 50px;
+    left: 80px;
+    padding-top: 3px;
+    border: 0px solid white;
+    border-radius: 4px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.4);
+    color: #808080;
+}
+
+    .ImgZoom .ui-icon-gripsmall-diagonal-se {
+        background-image: url('/images/Community/Views/new/SVGs/Resize-se.svg');
+        width: 16px;
+        height: 16px;
+        background-color: transparent;
+        background-repeat: no-repeat;
+        background-position-x: center;
+        background-position-y: center;
+        background-size: 14px 14px;
+        margin-right: 2px;
+        margin-bottom: 2px;
+    }
+
+        .ImgZoom .ui-icon-gripsmall-diagonal-se :hover {
+            background-color: #d0d0d0;
+        }
+
+
+
+
+.ZoomStatusLine {
+    background-color: white;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: 20px;
+    border-radius: 0px 0px 3px 3px;
+    background-image: none;
+}
+
+
+
+.ZoomHeaderLine {
+    background-color: white;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    height: 24px;
+    border-radius: 3px 3px 0px 0px;
+    background-image:none;
+}
+
+.ZoomInfo {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    top: 20px;
+    width: 198px;
+    background-color: #e6e6e6;
+    overflow: hidden;
+}
+
+.infoListZoom label {
+    cursor: default !important;
+    color: #2e2e2e;
+}
+
+.infoListZoom {
+    color: black;
+    padding-left: 10px;
+    padding-top: 0px;
+}
+
+
+    .infoListZoom ul {
+        list-style-type: none !important;
+        list-style-position: outside !important;
+        list-style-image: none !important;
+        margin: 0px !important;
+        padding-left: 0px !important;
+        font-size: 11px !important;
+    }
+
+    .infoListZoom li {
+        margin: 0px;
+        margin-bottom: 3px;
+        padding-top: 4px !important;
+        margin-top: 0px !important;
+    }
+
+    .infoListZoom div {
+        cursor: default !important;
+        color: #6e6e6e;
+        word-wrap: break-word;
+    }
+
+.ImgZoom #RotateBtn{
+    margin-right:30px;
+}
+.ImgZoom #RotateBtn2 {
+    margin-left: 30px;
+}
+
+.ImgZoom hiddenClass{
+    display: none;
+}
+
+.ImgZoom #lbl{
+    display:flex;
+}
+
+.ImgZoom .RigthUpDn {
+    background-image: url('../images/Community/Views/new/SVGs/maintainer/SVG/pulldown.svg');
+    background-size: 21px 21px;
+    background-position: center 2px;
+    display: block;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    margin-left: 2px;
+    width: 21px;
+    height: 30px;
+}
+
+
+
+.ImgZoom .StatusBarBtns {
+    cursor: pointer;
+}
+
+.ImgZoom .CropStatus {
+    line-height: 16px;
+}
+.ImgZoom .CropStatusBtn {
+    color: #f0f0f0;
+    margin-left: 20px;
+    padding-top: 3px;
+    padding-right: 15px;
+    padding-left: 15px;
+    border-radius: 3px;
+    padding-bottom: 2px;
+    margin-top: 3px;
+}
+
+
+    .ImgZoom .CropStatusBtn div:hover {
+        color: #75abff;
+    }
+
+#Ratio{
+    
+}
+
+.IVZoomSlider {
+    background-color: #f0f0f0;
+}
+.IVZoomSliderRamge {
+    background-color: #707070;
+}
+#IVSliderHolder {
+    margin: 5px 5px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: calc(100% - 10px);
+    display: flex;
+    align-items: center;
+    align-content: center;
+    background-color: rgba(255,255,255,0.3);
+    opacity:-0.1;
+}
+
+
+
+#IV_ZoomSlider {
+    background-color: #F0F0F0;
+    border: 1px solid black;
+    width: calc(100% - 25px);
+}
+#IVSliderInner {
+    width: 330px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+}
+
+
+#IV-SliderHandle {
+    width: 0.8em;
+    height: 1.6em;
+    top: 50%;
+    margin-top: -0.8em;
+    text-align: center;
+    line-height: 1.6em;
+    border-radius: 4px;
+}
+#IVZoomClose {
+    width: 20px;
+    height: 20px;
+    background-color: #707070;
+    margin-left: 5px;
+    fill: antiquewhite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+}
+    #IVZoomClose:hover{
+        background-color:red;
+    }
+
+#zc{
+    margin-top: 5px;
+    height:19px;
+    width:19px;
+}
+
+#zl {
+    margin-top: 6px;
+    height:17px;
+}
+#zr {
+    margin-top: 6px;
+    height: 17px;
+}
+#zz {
+    margin-top: 2px;
+    height:25px;
+    width:25px;
+}
+
+.lg {
+    margin-top: 2px;
+    width: 26px;
+    height: 26px;
+}
+.lg1 {
+    margin-top: -2px;
+    width: 31px;
+    height: 31px;
+}
+.fillerDiv{
+    width:10px;
+}
+.CropStatusLine{
+    margin-top:3px;
+    color:#d0d0d0;
+}
+
+.SelectedAspect {
+    background-color:#606060;
+    color:#f0f0f0;
+}
+#Crop {
+
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+#CropButtons
+{
+    display:flex;
+}
+.Hide {
+    display: none !important;
+}
+
+@media only screen and (max-width: 530px) {
+    .ImgZoom .CropStatusBtn{
+        margin-left:5px;
+        padding-left:5px;
+        padding-right:5px;
+    }
+    #lbl{
+        margin-left:2px;
+    }
+    .IV_Tmb {
+        zoom: 50%;
+    }
+    #TV_thms{
+
+    }
+    .IV_tumbsBack {
+        height: 62px;
+    }
+}
+
+.IV_tumbsBack {
+    background-color: #202020;
+    width: 100%;
+}
+
+#theImgH h1 {
+    color: #a0a0a0;
+    
+}
+#theImgH h2 {
+    color: #a0a0a0;
+}
+
+
+
+.IV_Tmb {
+    display: inline-block;
+    width: 180px;
+    height: 120px;
+    margin: 0px;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.IV_ThumbsContainer {
+    bottom: 0px;
+    z-index:10;
+}
+
+.IV_imageThumbs {
+}
+
+
+
+.IV_ThumbsContainer_slider {
+    height: 20px;
+    color: #f0f0f0;
+    display: flex;
+    cursor: pointer;
+}
+
+#ID_ThumbsContainer_sliderBtn :hover {
+    background: red;
+}
+
+
+#ID_ThumbsContainer_sliderBtn {
+}
+
+.ID_ThumbsContainer_sBtn {
+    background-color: #202020;
+    min-width: 50px;
+    display: flex;
+    align-content: flex-end;
+    align-items: center;
+    z-index:2;
+}
+
+.IVTmbsLeftRightBtns {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 30px;
+    bottom: 0px;
+    stroke: #d0d0d0;
+}
+
+.IVTmbs_left {
+    position: absolute;
+    left: 0;
+    top: 20px;
+    bottom: 0;
+    width: 25px;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+
+}
+
+#IVTmbs_left :hover {
+    /*stroke: red;*/
+    cursor: pointer;
+}
+
+.IVTmbs_right {
+    position: absolute;
+    right: 0;
+    top: 20px;
+    bottom: 0;
+
+    width: 25px;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+}
+    #IVTmbs_right :hover {
+        /*stroke: red;*/
+        cursor: pointer;
+    }
+
+.IV_ThumbsContainer button {
+    margin: 0;
+    background-color: #404040;
+    stroke: #f0f0f0;
+}
+    .IV_ThumbsContainer button:hover {
+        stroke: #ffffff;
+        cursor: pointer;
+        background-color: #0069d9;
+    }
+    .IV_ThumbsContainer button:disabled {
+        stroke: #ffffff;
+        cursor: pointer;
+        background-color: #404040;
+    }
+.IVLRContainer {
+    height: 30px;
+    width: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+    
+
+.IV_Tmb {
+    overflow: hidden;
+    border-bottom: 3px solid transparent;
+}
+
+.IV_imageThumbs {
+    position: absolute;
+    top: 20px;
+    left: 0px;
+    z-index: 2;
+    min-width:1920px;
+}
+
+#IV_SliderTxt {
+    margin-left: 10px;
+}
+
+#IV_UpDown {
+    width: 20px;
+    height: 20px;
+    fill: #f0f0f0;
+    transform: rotate(-90deg);
+    margin-left: 5px;
+}
+
+.IV_UpDown_Close {
+}
+
+.IV_UpDown_Open {
+    transform: rotate(90deg) !important;
+}
+.tmbBorder {
+    position: relative;
+    border: 2px solid transparent;
+}
+.redBorder {
+    border: 2px solid #dc0d15;
+    box-shadow: 0px 0px 1px 1px #dc0d15;
+    z-index: 100;
+}
+.tmbVideoIcon {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: calc(50% - 15px);
+    left: calc(50% - 15px);
+    right: auto;
+}
+
+@media only screen and (min-width: 10px) {
+    .IV_ThmbsSmall {
+        width:auto !important;
+        right:auto !important;
+    }
+
+    .IV_ThumbsContainer {
+        position: absolute;
+        margin: 0px;
+        top: auto;
+        right: 10px;
+        left: 0px;
+        overflow: hidden;
+        display: none;
+    }
+}
+@media only screen and (min-width: 530px){
+    .IV_tumbsBack {
+        height: 124px;
+    }
+
+}
+
+.ZoomStatusLineIV {
+    position: relative;
+    top: 0;
+    left: 0;
+    box-shadow: none !important;
+    border-radius: 0px;
+    border: 0px solid #D0D0D0;
+    margin-bottom: 3px;
+    background-color: transparent;
+    padding-top: 0px;
+    z-index: 901;
+}
+
+.rotate180 {
+    -ms-transform: rotate(180deg); /* IE 9 */
+    -webkit-transform: rotate(180deg); /* Safari */
+    transform: rotate(180deg);
+}
+
+.TmbImg {
+    pointer-events: none;
+}
+
+.IV_VideoMargins{
+    height:5em !important;
+    padding-left:0px;
+    padding-right:0px;
+}
+
+.IV_HolderLeftRight{
+    display: none !important;
+}
+
+.IV_ZoomBtn {
+    padding-top: 2px;
+}
+.IV_CropBtn{
+
+/* height: 19px; */
+
+padding-top: 5px;
+}
+.IV_RotateBtnCW{
+    padding-top: 6px;
+}
+.IV_RotateBtnCCW {
+    padding-top: 6px;
+}
+.ImgViewClose{
+    padding-top:6px !important;
+}
+.ImgZoomOutCursor{
+    cursor:zoom-out !important;
+}

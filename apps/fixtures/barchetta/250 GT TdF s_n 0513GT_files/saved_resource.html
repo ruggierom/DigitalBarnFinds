@@ -1,0 +1,1431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0175)https://barchetta.stage.mediacenter.plus/?color=Dark&vi=3362760&ft=search.0513GT&so=DateTaken-DispOrder-SortOrder&menu=small&v=a&flat=true&op=ds&dsh=800&dir=1964569&rd=1964532 -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=10,IE=11,IE=9, IE=8, chrome=1"><meta http-equiv="Page-Enter" content="blendTrans(Duration=0.2)"><meta http-equiv="Page-Exit" content="blendTrans(Duration=0.2)"><meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"><link rel="icon" href="https://barchetta.stage.mediacenter.plus/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="https://barchetta.stage.mediacenter.plus/mc-apple-touch.png"><meta name="apple-mobile-web-app-title" content="MediaCenter.PLUS"><meta name="theme-color" content="#dde6e9"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no"><title>Ferrari - Registry / barchetta / MediaCenter.PLUS</title><link rel="canonical" href="https://barchetta.mediacenter.plus/?v=a&amp;dir=1964569">
+<meta name="description" content="The Ferrari Registry ... http://www.barchetta.cc/All.Ferraris/ferrari.by.serial.number.summary/index.html">
+<meta property="og:title" content="Ferrari - Registry">
+<meta property="og:description" content="The Ferrari Registry ... http://www.barchetta.cc/All.Ferraris/ferrari.by.serial.number.summary/index.html">
+<meta property="og:site_name" content="MediaCenter.PLUS">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://barchetta.mediacenter.plus/MCSIMG_1f0ce3bb-c8a5-44c0-ae9d-d17a91550813.jpg">
+<meta name="twitter:image" content="https://barchetta.mediacenter.plus/MCSIMG_1f0ce3bb-c8a5-44c0-ae9d-d17a91550813.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@anamera_top">
+<meta property="og:url" content="https://barchetta.mediacenter.plus/?v=a&amp;dir=1964569">
+<meta name="robots" content="noindex,follow">
+<meta http-equiv="content-language" content="en">
+<link href="./mkplayer-ui.css" rel="stylesheet">
+    <script src="./mkplayer.js"></script>
+
+         <script src="./jquery-3.4.1.min.js" type="text/javascript"></script>
+ <script src="./jquery-ui-1.12.1.js" type="text/javascript" async=""></script>
+ <script src="./Community.js" type="text/javascript"></script>
+ <script src="./CarouselViewer.js" type="text/javascript"></script>
+ <script src="./jquery.smartmenus.js" type="text/javascript"></script>
+ <script src="./VScroller.js" type="text/javascript"></script>
+ <script src="./jquery.focuspoint.js" type="text/javascript"></script>
+ <script src="./DetailView.js" type="text/javascript"></script><style name="undefined"></style>
+<script src="./js"></script>
+<link href="./WebView" rel="stylesheet">
+<link href="./css" rel="stylesheet"> <script src="./CommunityMenus.js" type="text/javascript"></script>
+ <script src="./aes.min.js" type="text/javascript"></script>
+ <link href="./ZoomWhite.css" rel="stylesheet" type="text/css">
+
+
+
+        <script type="text/javascript"> 
+            if (typeof vjs !== 'undefined') {
+                vjs.MediaError.defaultMessages = {
+                    1: 'You aborted the video playback',
+                    2: 'A network error caused the video download to fail part-way.',
+                    3: 'The video playback was aborted due to a corruption problem or because the video used features your browser did not support.',
+                    4: 'The video is still under construction and will be available shortly.',
+                    5: 'The video is encrypted and we do not have the keys to decrypt it.'
+                };
+            }
+        </script>
+     <link href="./jquery-te-1.4.0.css" rel="stylesheet" type="text/css">
+ <link href="./MaintainAlbum.Dialogs.css" rel="stylesheet" type="text/css">
+ <link href="./MaintainAlbum.Dialogs.White.css" rel="stylesheet" type="text/css">
+ <script src="./locDateTime.js.axd" type="text/javascript"></script>
+ <script src="./ThumbHover.js.axd" type="text/javascript"></script>
+ <script src="./Utils.Storage.js" type="text/javascript"></script>
+ <script src="./Community.Data.js" type="text/javascript"></script>
+ <link href="./jquery.contextMenu.css" rel="stylesheet" type="text/css">
+ <link href="./sm-core-css.css" rel="stylesheet" type="text/css">
+ <link href="./sm-hm.css" rel="stylesheet" type="text/css">
+ <link href="./MessageBox.css" rel="stylesheet" type="text/css">
+  
+<!-- SmartMenus jQuery init -->
+<script type="text/javascript">
+	$(function() {
+
+	});
+</script>
+
+
+
+
+<script type="text/javascript">
+
+    function checkUserInfo() {
+        if (!document.hidden && $('#UserDispl').length > 0) {
+            SLApp.UserAndInfoService.UserInfo('CurrentUser', function (XML) {
+                var uid = '';
+                if (XML.getElementsByTagName('uid').length > 0) {
+                    uid = XML.getElementsByTagName('uid')[0].textContent || XML.getElementsByTagName('uid')[0].innerText || XML.getElementsByTagName('uid')[0].text;
+                }
+
+                if (uid != $('#UserDispl').data('uid')) {
+                    if ($('#dlg-system-invaliduser').length === 0) {
+                        var dlgSysUpdate = new MaintainerDlg('system-invaliduser', 400);
+                        dlgSysUpdate.SetCloseFunc(function () {
+                            window.location.reload(true);
+                        });
+                        dlgSysUpdate.SetButton('OK', function () {
+                            window.location.reload(true);
+                        });
+                        dlgSysUpdate.Open();
+                        setInterval(function () {
+                            try {
+                                dlgSysUpdate.Center();
+                            }
+                            catch (e) {
+                                ;
+                            }
+                        }, 1000);
+                    }
+                }
+            }, function () {
+                logToConsole('UserInfoCall failed from CommunityNewMaster')
+            });
+        }
+    }
+
+    function checkUserInfoDeactivate() {
+        document.removeEventListener("visibilitychange", checkUserInfo);
+        return true;
+    }
+
+$(function () {
+    document.addEventListener("visibilitychange", checkUserInfo);
+
+    try {
+        $("#SearchEdit").autocomplete({
+            minLength: 2,
+            source: function (request, response) {
+                var param = { prefixText: $('#SearchEdit').val(), count: 100, contextKey: 'rootdir=' + MaVas.DirId };
+                $.ajax({
+                    url: "/UserAndInfoService.asmx/GetCompletionList",
+                    data: JSON.stringify(param),
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {
+                        response($.map(data.d, function (item) {
+                            return {
+                                value: item
+                            }
+                        }))
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        ;
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#SearchEdit')[0].value = ui.item.value;
+                $('#Searcher').click();
+            }
+            ,
+            _renderItem: function (ul, item) {
+                return $("<li>")
+                    .attr("data-value", item.value)
+                    .append(item.label)
+                    .appendTo(ul);
+            }
+        });
+        $("#SearchEdit1").autocomplete({
+            minLength: 2,
+            source: function (request, response) {
+                var param = { prefixText: $('#SearchEdit1').val(), count: 100, contextKey: 'rootdir=1964532' };
+                $.ajax({
+                    url: "/UserAndInfoService.asmx/GetCompletionList",
+                    data: JSON.stringify(param),
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {
+                        response($.map(data.d, function (item) {
+                            return {
+                                value: item
+                            }
+                        }))
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        ;
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#SearchEdit1')[0].value = ui.item.value;
+                $('#Searcher1').click();
+            }
+            ,
+            _renderItem: function (ul, item) {
+                return $("<li>")
+                    .attr("data-value", item.value)
+                    .append(item.label)
+                    .appendTo(ul);
+            }
+        });
+    } catch (e) { };
+});
+
+    function CheckSavedMaVas() {
+        try {
+            if ($('#SavedMaVas').val() == '') {
+                var TempVas = jQuery.extend({}, MaVas);
+                TempVas.Navigation = [];
+                $('#SavedMaVas').val(encodeURI(JSON.stringify(TempVas)));
+            }
+        } catch (e) { };
+        return true;
+    }
+</script>
+
+
+<script type="text/javascript">
+
+
+
+    function toggleCheckmark(elem)
+    {
+        if (!$(elem).hasClass('checkedon')) {
+            $(elem).addClass('checkedon');
+            return "1";
+        }
+        else
+        {
+            $(elem).removeClass('checkedon');
+            return "0";
+        }
+    }
+    function replaceAtPos(pos,str,withWhat){ 
+        var len=1;
+        var a=str.substring(0,pos-1); 
+        var b=str.substr(pos); 
+        return a+withWhat+b; 
+    }
+
+    function ShowHideIvFilter() {
+        if (MaVas != null) {
+            if (MaVas.ViewTypes == "11111") {
+                $('#iv_filter').hide();
+            }
+            else
+                $('#iv_filter').show();
+        }
+    }
+
+    function UpdateSearchInfo() {
+        var scope = getCookie('SearchScope');
+        if (scope == '')
+            scope = 'folder';
+
+        if (scope == 'folder') {
+            $('.HeaderSearchInput').attr('placeholder', 'Search in Current Folder');
+            $('#Searcher').data('tooltip', 'Search in Current Folder');
+        }
+        else {
+            $('.HeaderSearchInput').attr('placeholder', 'Search');
+            $('#Searcher').data('tooltip', 'Search');
+        }
+        $('#Searcher').data('scope', scope);
+
+        var operator = getCookie('SearchOperator');
+        if (operator == '')
+            operator = 'any';
+        $('#Searcher').data('operator', operator);
+
+        var type = getCookie('SearchType');
+        if (type !== false)
+            $('#SearchType').val(type);
+    }
+
+    $(document).ready(function () {
+        
+
+    try {
+        DoContentResize();
+    } catch (e) { };
+
+        $('.SmallBoxButton').hover(function () {
+            $(this).addClass('SmallButtonHovered');
+    }, function () {
+            $(this).removeClass('SmallButtonHovered');
+    });
+ /*       if ($('#UserImg').length) {
+            replaceSVG($('#UserImg'), function () { });
+        }
+*/
+        UpdateSearchInfo();
+        $('.HeaderSearchMenu').click(function (e) {
+            if ($('#SearchScopeMenu').length == 0)
+                ShowSearchScopeMenu($(this));
+            else
+                HideSearchScopeMenu();
+        });
+
+        if (MaVas != null) {
+            if (MaVas.ViewTypes[0] == '0') {
+                toggleCheckmark($("#ShowPixs"));
+            }
+            if (MaVas.ViewTypes[1] == '0') {
+                toggleCheckmark($("#ShowVids"));
+            }
+            if (MaVas.ViewTypes[2] == '0') {
+                toggleCheckmark($("#ShowDocs"));
+            }
+            if (MaVas.ViewTypes[3] == '0') {
+                toggleCheckmark($("#ShowSounds"));
+            }
+            if (MaVas.ViewTypes[4] == '0') {
+                toggleCheckmark($("#ShowOther"));
+            }
+        }
+        ShowHideIvFilter();
+        $("#ShowPixs").click(function () {
+            MaVas.ViewTypes = replaceAtPos(1, MaVas.ViewTypes, toggleCheckmark(this));
+            ShowHideIvFilter();
+            MenuDontHide("MenuItems_View");
+        });
+        $("#ShowVids").click(function () {
+            MaVas.ViewTypes = replaceAtPos(2, MaVas.ViewTypes, toggleCheckmark(this));
+            ShowHideIvFilter();
+            MenuDontHide("MenuItems_View");
+        });
+        $("#ShowDocs").click(function () {
+            MaVas.ViewTypes = replaceAtPos(3, MaVas.ViewTypes, toggleCheckmark(this));
+            ShowHideIvFilter();
+            MenuDontHide("MenuItems_View");
+        });
+
+        $("#ShowSounds").click(function () {
+            MaVas.ViewTypes = replaceAtPos(4, MaVas.ViewTypes, toggleCheckmark(this));
+            ShowHideIvFilter();
+            MenuDontHide("MenuItems_View");
+        });
+        $("#ShowOther").click(function () {
+            MaVas.ViewTypes = replaceAtPos(5, MaVas.ViewTypes, toggleCheckmark(this));
+            ShowHideIvFilter();
+            MenuDontHide("MenuItems_View");
+        });
+        
+        $('#Menu_Login').keypress(function (e) {
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == 13)
+                window.location.href = $('#Menu_LoginSubmit').attr('href');
+        });
+
+        switch (window.location.hash) {
+            case '#imprint':
+                Show_ImprintDlg('l=en&did=1964532');
+                break;
+            case '#legal':
+                Show_LegalDlg('l=en');
+                break;
+        }
+        $("video").bind("contextmenu", function () {
+            return false;
+        });
+
+        if (parseInt($('body').css('min-width')) > Math.max(document.documentElement.clientWidth, window.innerWidth || 0) && window.location != window.parent.location) {
+            $('#FooterBreakFrame').show();
+        }
+        $('#MenuLogin').click(function () {
+            removeMenu();
+            ShowLogInDialog()
+        });
+        
+    });
+
+    function encode(control) {
+        var key = CryptoJS.enc.Utf8.parse('8080808080808080');
+        var iv = CryptoJS.enc.Utf8.parse('8080808080808080');
+
+        var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(control.val()), key,
+        {
+            keySize: 128 / 8,
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        return ''+encrypted;
+    }
+
+    function ShowLogInDialog() {
+        var dlgLogin = $('<div class="darkPanel"><div id="LogIn"><form class="signin" name="login"></form></div ></div>').appendTo('body').find('form');
+
+        dlgLogin.append('<div style="width:100%;height:12px"><div id="closer"></div></div>');
+        dlgLogin.append('<div id="HdrLogin">Sign in to MediaCenter.PLUS</div>');
+        inLogin = true;
+
+
+        dlgLogin.append('<div id="LogonErrorContainer"><span id="LogonError"></span></div>');
+
+        if (navigator.cookieEnabled) {
+            dlgLogin.append('<div id="UserName" class="UserLoginMargins"></div><div id="PassWord" class="UserLoginMargins"></div><div id="KeepLoggedIn" class="UserLoginMargins"></div>');
+            dlgLogin.append('<button id="PerformLogin">Sign In</button>');
+        }
+        else {
+            dlgLogin.append('<div class="SmallBoxText Centered"><p>Cookies are disabled in your browser.</p><p>In order to log in, cookies must be activated. Please change your browser settings accordingly and reload this page.</p></div>');
+        }
+
+        if (navigator.cookieEnabled) {
+            $('<div class="WatermarkDiv field" data-watermark="" data-watermark-class="DlgInputWatermark"><input id="Dlg_LoginMail" name="user" type="text" placeholder="User Name"/><label for="Dlg_LoginMail">User Name</label></div>').appendTo('#UserName');
+            $('<div class="WatermarkDiv field" data-watermark="" data-watermark-class="DlgInputWatermark"><input id="Dlg_LoginPwd" name="pwd" type="password" placeholder="Password" /><label for="Dlg_LoginPwd">Password</label> </div>').appendTo($('#PassWord'));
+            //          $('<input id="Dlg_LoginMail" name="user" type="text" placeholder="User Name"/>').appendTo('#UserName');
+            //          $('<input id="Dlg_LoginPwd" name="pwd" type="password" placeholder="Password" />').appendTo($('#PassWord'));
+            $('<input id="Dlg_LoginKeep" name="keepLoggedIn" type="checkbox" /><label for="Dlg_LoginKeep">Keep me signed in</label>').appendTo($('#KeepLoggedIn'));
+
+            //        CheckWatermark($('#Dlg_LoginMail'));
+            //        CheckWatermark($('#Dlg_LoginPwd'));
+            $('#Dlg_LoginMail').focus();
+
+            $(document).keypress(function (e) {
+                if (inLogin) {
+                    if (e.which == 13) {
+                        $('#PerformLogin').click();
+                    }
+                }
+            });
+            $('#PerformLogin').click(function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                var pwd = encode($('#Dlg_LoginPwd'));
+                var user = encode($('#Dlg_LoginMail'));
+                SLApp.UserAndInfoService.Login(user, pwd, $('#Dlg_LoginKeep').is(":checked"), function (ret) {
+                    retObj = jQuery.parseJSON(ret);
+                    if (retObj.ok == true) {
+                        $('.signin').remove();
+                        $('#AskForMaint').remove();
+                        $('<div id="AskForMaint"><div id="HdrLogin">Where you want to go?</div><div id="LoginDescription">You can stay on current site or maintain your files</div><div class="ButtonsClass"><button id="stayBtn">Stay</button><button id="maintBtn">Maintain Files</button></div></div>').appendTo($('#LogIn'))
+                        $('#stayBtn').click(function () {
+                            if (getQueryParam('redirect') == 'login') {
+                                location.href = SetUrlParam(location.href, 'redirect', '');
+                            }
+                            else {
+                                location.reload();
+                            }
+                        })
+                        $('#maintBtn').click(function () {
+                            location.href = retObj.MaintUrl;
+                        })
+                    }
+
+                    else {
+                        $('#LogonError').text(retObj.Error);
+                    }
+                }, function (failed) {
+                    alert("login failed");
+                });
+                return false;
+            });
+        }
+
+
+        $('#closer').click(function () {
+            $('#LogIn').remove();
+            $('.darkPanel').remove();
+            inLogin = false;
+        });
+    }
+</script>
+
+
+    <script src="./NewHomejs"></script>
+
+        <link href="./select2.min.css" rel="stylesheet">
+        <script src="./select2.full.js" type="text/javascript"></script>
+        <script src="./printIt.js" type="text/javascript"></script>
+    
+    <script src="./howler.core.min.js" type="text/javascript"></script>
+    <script src="./siriwave.min.js" type="text/javascript"></script>
+    <script src="./player.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="./styles.css">
+
+<script type="text/javascript">
+    // Picture element HTML5 shiv
+    document.createElement("picture");
+    $(function () {
+
+
+        if ($("#SortedList").length > 0) {
+            $("#SortedList").select2({ minimumResultsForSearch: Infinity, containerCssClass: 'SortedListSelect', dropdownCssClass:'SearchDropDown'});
+            $("#SortedList").on('change.select2', function (e) {
+                setCookie("SearchOrder", $(this).val(), 180);
+                window.location.href = getLocElementsExcept(['so']) + "&so=" + $(this).val();
+            });
+        }
+        if ($("#SortedDesc").length > 0) {
+            $("#SortedDesc").select2({ minimumResultsForSearch: Infinity, containerCssClass: 'SortedListSelect', dropdownCssClass: 'SearchDropDown'});
+            $("#SortedDesc").on('change.select2', function (e) {
+                var so = getQueryParam("so");
+                if (!so) {
+                    so = "DispOrder-SortOrder";
+                }
+                var loc = getLocElementsExcept(["so"], null, null);
+                so = so.replace("+desc", "").replace(" desc", "");
+                if ($(this).val() === "desc") {
+                    so = so + "+desc";
+                }
+                window.location.href = loc + "&so=" + so;
+            });
+        }
+
+    });
+</script>
+
+
+<script type="text/javascript">
+	function OnHoverItem(e, args) {
+		if (args.get_item()._highlighted) {
+			ValueBefore = $(e.get_element()).val();
+
+			//            $(e.get_element()).css("color", "Gray");
+			$(e.get_element()).val(args.get_value());
+		}
+		else {
+			$(e.get_element()).val(ValueBefore);
+			//            $(e.get_element()).css("color", "Black");
+		}
+
+	}
+	function OnItemOut(e, args) {
+	}
+	function OnAutoCompleteItemClicked(e, args) {
+	    $('#Searcher').click();
+	}
+
+	function pageLoad() {
+	    var autoComplete = $find('AutoCompleteBehavior');
+	    if (autoComplete != null && autoComplete != undefined) {
+	        var target = autoComplete.get_element();
+
+	        if (autoComplete) {
+	            autoComplete.add_populating(function () {
+	                autoComplete.set_contextKey('rootdir=1964532');
+	                if (target) {
+	                    $('#SearchingAnim').css("visibility", "visible");
+	                }
+	            });
+	            autoComplete.add_populated(function () {
+	                $('#SearchingAnim').css("visibility", "hidden");
+	                // Sys.Extended.UI.Animation.ColorAnimation.play(target, 1, 20, 'style', 'backgroundColor', '#F4F2E5', '#FFFFFF');
+	            });
+	            autoComplete.add_itemSelected(function (e, args) {
+	                $(e.get_element()).val(args.get_value());
+	            });
+	        }
+	    }
+
+	    $('#Searcher').hover(function () {
+	        ShowMainMenuTooltip($(this), $(this).data('tooltip'));
+	    },
+		function () {
+		    HideMainMenuTooltip();
+		});
+
+
+	    $(".SearchMenu").click(function () { // trigger
+	        $(this).toggleClass('open');
+	        $('#HeaderSearch').slideToggle(100);
+//	        $('#HeaderSearch').delay(4000).fadeToggle(200);
+	    });
+	    $("#PageHeaderMenu").click(function () {
+	        $('#PageHeaderMenuItems').toggleClass('open');
+	        $('#PageHeaderMenu').toggleClass('PageHeaderMenu_active');
+	    });
+	}
+</script>
+<script type="text/javascript" src="./glfx.js"></script><style type="text/css" media="print">.dropShadow{visibility:hidden;}</style></head>
+
+<body>
+<div id="FrameSpace" style="">
+<form method="post" action="https://barchetta.stage.mediacenter.plus/?color=Dark&amp;op=ds&amp;v=a&amp;rd=1964532&amp;vi=3362760&amp;menu=small&amp;flat=true&amp;ft=search.0513GT&amp;so=DateTaken-DispOrder-SortOrder&amp;dir=1964569&amp;dsh=800" id="form1" autocomplete="off">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="SKpciEPjt0gy3okRTZFjcRfgli1Iq7UMWPkOwJQbYH1OVkEe/ecyKvMAn0catOBZJI5OhP3rO/5wdo+YYICk5YZkWaS6eaXbMl65uknsaahoYeOCZrVBelmcvGlBwvGZx4wVHDmi6WW/bBH9DIyCH7djyl/uEqmEMIL9X/9YuS6Nxr31txBkTTXcJz7WAnSQY5GfnNzgPHsqDvznAd9T+WUv3zTIHB/ZTS0lW5HvlqdS02zVm+k0O26mJhILPcxdGWE2SmtuD9WnlQLINbYcRWP5Epe82Ecoe7aXtm539diax81VlVQJbLLuSRe1gyHsoSzU21eyrsmKYnqiYoV2lJrggGlotnAPtbMa5pcNz0TcEUj2O4gudMhJ26eaDvjUrk9/ZQ==">
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="./WebResource.axd" type="text/javascript"></script>
+
+<script type="text/javascript">function loadUI(url, callback){var head = document.getElementsByTagName('head')[0];var script = document.createElement('script');script.type = 'text/javascript';script.src = url;script.onreadystatechange = callback;script.onload = callback;head.appendChild(script);}function dlgICenter(s) {s.css('left',($(window).width()-s.width())/2+'px');s.css('top',($(window).scrollTop()+($(window).height()-s.height())/2)+'px');}
+
+function dlgBT(s) {
+$('.sDialog').css('z-index','0');$(s).css('z-index','60000');}
+
+
+function DshowBack(s,color) {if($('#DlgBack_'+s).length==0)$('<div id="DlgBack_'+s+'" style="position:fixed;width:100%;height:100%;top:0px;left:0px;background-color:'+ color + ';opacity:0.65;-moz-opacity:0.65;filter:Alpha(Opacity=65);z-index:2"></div>').appendTo($('body'));
+$('#DlgBack_'+s).show();}
+function DhideBack(s) {$('#DlgBack_'+s).hide();}
+function GetExtraHeight(s) {
+var Dialog=$('#Dialg_' + s );if(!Dialog[0])return 0;
+return Dialog[0].hdr.outerHeight()+Dialog[0].foot.outerHeight()+(Dialog.outerHeight()-Dialog.height());}
+function dlgSizeNC(s,W,H) {
+var Dialog=$('#Dialg_' + s );
+Dialog[0].frm.css({'width':'100%','height':'calc(100% - 23px)'});
+Dialog[0].outerFrm.css({'width':'100%','height':'calc(100% - 23px)'});
+Dialog.css({'width':W,'height':H});
+Dialog.resize();}
+function dlgSize(s,W,H) {
+dlgSizeNC(s,W,H);
+dlgICenter($('#Dialg_' + s ));
+$(window).resize();}
+
+function dlgBT(s) {
+$('.sDialog').css('z-index','59000');$(s).css('z-index','60000');}
+
+</script>
+<script src="./ScriptResource.axd" type="text/javascript"></script>
+<script src="./ScriptResource(1).axd" type="text/javascript"></script>
+<script src="./DXViewer.Strings.js" type="text/javascript"></script>
+<script src="./AlbumStrings.js" type="text/javascript"></script>
+<script src="./js(1)" type="text/javascript"></script>
+<script src="./js(2)" type="text/javascript"></script>
+<script src="./js(3)" type="text/javascript"></script>
+<script src="./js(4)" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="79076FF0">
+	<input type="hidden" name="__PREVIOUSPAGE" id="__PREVIOUSPAGE" value="rPzCXSH_vqOvsPO-0ISdGYVHdpdXnboysglAmYPXVS5IKwEEyf2udI1RLn14fagNr0cU_A2">
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="ChwnEZzMXcEc2njy4QxvBN0Ba86im8OSnhF3V0DilLUZGd6jFHdI3HhPOdeNuI6X3fZue4bczolZsC1EydwW1aQ7/zLzWY22Wp7ZPlckmDb/thGPK0rRuezYwuIABJ1f6svzQdtlcER3NTrhz77W/3r6ClRkHeYVhrE/degwXRQxNyoZibZnNHQyMd8dkWZmkj4TbmGQLwStNiTdB2fu2YV73/zQret1+AxiAwvqABrF6bRuiCVMpuGczsXSFq+dGCRn6Fh+k0OiyGubcmLfFwHzYNMWyllVmg+urUGBRoyOuDton4d8H3BeADYEDqvZ9nK3+g==">
+</div>
+        <iframe id="sso" src="./Update.html" style="position:absolute; top:0; left:-20px; width:10px; height:10px; visibility: hidden"></iframe>
+	<script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$ajaxScriptManager', 'form1', [], [], [], 90, 'ctl00');
+//]]>
+</script>
+   
+      
+    
+    <input type="hidden" name="ctl00$SMaVasDir" id="SMaVasDir">
+    
+    <div id="Page">
+        <div id="PageAligned" class="">
+            <div id="SearchPlaceUnder" style="display: none;">
+            <div id="HeaderSearch2" onkeypress="javascript:return WebForm_FireDefaultButton(event, &#39;Searcher1&#39;)">
+	
+			        <input name="ctl00$SearchEdit1" type="text" value="0513GT" id="SearchEdit1" class="HeaderSearchInput ui-autocomplete-input" placeholder="Search in Current Folder" autocomplete="off" style="width: 0px;">
+				    <input type="image" name="ctl00$Searcher1" id="Searcher1" class="HeaderSearchBtn" src="./lupe-0.png" alt="Search" onclick="return CheckSavedMaVas();">
+                    <div class="HeaderSearchMenu"></div>
+			        <img src="./QueryList.gif" style="position: absolute; right: 38px; visibility: hidden; top: 3px; float: none;" id="SearchingAnim" alt="Searching">
+		        
+</div>
+		    
+            </div>
+        </div>
+
+
+    <div id="PageTopLine">
+	<div id="PageHeader" style="background-color:transparent">
+        
+<!--
+        <div class="PageHeaderMenuCls" id="PageHeaderMenu">
+            <div id="PageHeaderMenuItems">
+                <ul>
+
+                    <li><a id="Menu_LoginBtnSmallMen" href="http://www.stage.mediacenter.plus/user/?tab=maintainer" class="SmallMenuButton">Login</a></li>
+                    <li><a id="Menu_RegisterSmallMen" href="http://www.stage.mediacenter.plus/user/?tab=register" class="SmallMenuButton">Register</a></li>
+                </ul>
+            </div>
+        </div>
+-->        
+        <input type="hidden" name="ctl00$SavedMaVas" id="SavedMaVas" value="%7B%22Used%22:true,%22hosted%22:%22%22,%22DirId%22:1964569,%22IsFlat%22:%22True%22,%22DisplayDirs%22:false,%22RootDirId%22:1964532,%22FlatDirId%22:1964569,%22AllowDirMap%22:false,%22DarkColor%22:%22True%22,%22SearchOptions%22:%22so=DateTaken-DispOrder-SortOrder%22,%22SearchFor%22:%220513GT%22,%22SearchForAny%22:%22%22,%22SearchForExact%22:%22%22,%22FileType%22:%22search.0513GT%22,%22Lang%22:%22en-US%22,%22it%22:%2211111%22,%22Request%22:%22color=Dark&amp;op=ds&amp;v=a&amp;rd=1964532&amp;vi=3362760&amp;menu=small&amp;flat=true&amp;ft=search.0513GT&amp;so=DateTaken-DispOrder-SortOrder&amp;dir=1964569&amp;dsh=800%22,%22UserID%22:38,%22UFOffset%22:0,%22UFCount%22:100,%22Items%22:0,%22AllItems%22:1886042,%22ParentId%22:0,%22CurrentImageID%22:0,%22SortFor%22:%22DateTaken-DispOrder-SortOrder%22,%22Filter%22:%22%22,%22TLTextUnder%22:true,%22Type%22:%22a%22,%22ListView%22:false,%22NoMenu%22:true,%22ShownUID%22:38,%22SearchRoot%22:1964532,%22StartSlideShow%22:false,%22SlideShowBackgroundCol%22:%22#131313%22,%22Album%22:%22/barchetta%22,%22DetailViewOffset%22:140,%22DetailViewType%22:%22ds%22,%22InsideSL%22:false,%22ViewTypes%22:%2211111%22,%22Copy%22:%22%22,%22Bot%22:false,%22IsFriend%22:false,%22Index%22:-1,%22thumbSize%22:%22large%22,%22Navigation%22:%5B%5D,%22NavIdx%22:0,%22DetailDisplay%22:%22ds%22%7D">
+
+        <div id="HeaderMenu" class="HeaderMenuRight">
+			
+		</div>
+
+        <div class="CommunityMenuContent" style="display: none;">
+            <div id="LogoHolder">
+            
+            </div>
+
+            <div id="SearchPlaceNew">
+            <div id="HeaderSearch" onkeypress="javascript:return WebForm_FireDefaultButton(event, &#39;Searcher&#39;)">
+	
+			        <div class="WatermarkDiv" data-watermark="" data-watermark-class="HeaderSearchInputWatermark">
+    			        <input name="ctl00$SearchEdit" type="text" value="0513GT" id="SearchEdit" class="HeaderSearchInput ui-autocomplete-input" placeholder="Search in Current Folder" autocomplete="off">
+				        <input type="image" name="ctl00$Searcher" id="Searcher" class="HeaderSearchBtn" src="./empty.png" onclick="return CheckSavedMaVas();">
+                        <div class="HeaderSearchMenu"></div>
+    			        <img src="./QueryList.gif" style="position: absolute; right: 61px; visibility: hidden; top: 3px; float: none;" id="SearchingAnim" alt="Searching">
+                        <input type="hidden" name="ctl00$SearchAny" id="SearchAny">
+                        <input type="hidden" name="ctl00$SearchExact" id="SearchExact">
+                        <input type="hidden" name="ctl00$SearchType" id="SearchType" value="">
+    		        <div class="WatermarkText HeaderSearchInputWatermark" style="font-size: 16px; top: 1px; left: 5px; max-width: 0px; display: none;"></div></div>
+		        
+</div>
+		    
+            </div>
+            
+<!--
+                
+                        <div id="LoginBtns">                
+                        <a id="Menu_Register" href="http://www.stage.mediacenter.plus/user/?tab=register" class="MainMenuButton">Register</a>
+                        <a id="Menu_LoginBtn" href="http://www.stage.mediacenter.plus/user/?tab=maintainer" class="MainMenuButton">Login</a>
+                                    </div>
+                        <div id="Menu_Login">
+                            <div class="WatermarkDiv" data-watermark="User Name" data-watermark-class="HeaderSearchInputWatermark"><input name="ctl00$Menu_LoginMail" type="text" id="Menu_LoginMail" /></div>
+                            <div class="WatermarkDiv" data-watermark="Password" data-watermark-class="HeaderSearchInputWatermark"><input name="ctl00$Menu_LoginPwd" type="password" id="Menu_LoginPwd" /></div>
+                            <a id="Menu_LoginSubmit" class="MainMenuButton" href="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$Menu_LoginSubmit&quot;, &quot;&quot;, false, &quot;&quot;, &quot;http://www.stage.mediacenter.plus/user/?tab=login&amp;back=controlpanel&quot;, false, true))">Login</a>
+
+                        </div>
+                    </div>
+		            
+            </div>
+-->
+    	</div>
+        <div class="CommunitySmallMenuContent" style="display: block;">
+
+            <div id="smallHeader">
+                <div id="HeaderCount" class="SearchResultSmallMenu">(1 File)</div>
+                <div id="HeaderPath" style="vertical-align:middle">
+                    <a title="MediaCenter.PLUS" href="https://barchetta.stage.mediacenter.plus/?v=t" target="_blank"><img alt="" src="./logo-mcplus.svg" style="height:22px;vertical-align:middle"></a>
+                    <span style="padding-left:5px;vertical-align:middle">
+                        <a href="https://barchetta.stage.mediacenter.plus/?v=t" target="_blank" id="UserHomeSmallMenu">barchetta</a>  » <a href="https://barchetta.stage.mediacenter.plus/?Dir=1964569&amp;so=DateTaken-DispOrder-SortOrder&amp;ft=search.0513GT&amp;v=a" target="_blank">0513GT</a>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+            </div>
+        
+    <div id="Placer" style="height: 36px;">
+
+    </div>
+	<div id="PageContent">
+		
+    <!-- NewHome start-->
+    
+    <script src="./datetimepicker_css.js" type="text/javascript"></script>
+    <script src="./moment.js" type="text/javascript"></script>
+    <script src="./daterangepicker.js" type="text/javascript"></script>
+    <!--<script src="/JavaScript/LanczosScale.js" type="text/javascript"></script>-->
+
+    <link href="./daterangepicker.css" rel="stylesheet">
+
+    <script type="text/javascript">
+        var MoreImagesOffset = 0;
+        var thumbSize = 452;
+        var thumSizeH = 452;
+        var DisplWith = 0;
+        var DateLastInserted = "";
+        var dimentionClass = '';
+        var datesXML;
+        var SortCriteria = 'newest';
+        var SortField = 'DateInserted';
+        var intervalSSO = null;
+
+        
+        var bannerImages = [];
+        
+
+        var _localized = {
+        
+            'Colon': unescape('%3A%20 '),
+            'images': unescape('Images%3A '),
+            'videos': unescape('Videos%3A '),
+            'documents': unescape('Documents%3A '),
+            'subfolder': unescape('Subfolder%3A '),
+            'copyright': unescape('Copyright%3A'),
+            'Download': unescape('Download'),
+            'DownloadAll': unescape('Download%20all%20files%20in%20directory'),
+            'DownloadSelected': unescape('Download%20selected'),
+            'Geo': unescape('Show%20Geo%20Location'),
+            'GeoSelected': unescape('Show%20Geo%20Locations%20of%20Selection'),
+            'More': unescape('more...'),
+            'ImgHov_Print': unescape('Print'),
+            'ImgHov_Detail': unescape('Show%20Detail%20View'),
+            'ImgHov_Geo': unescape('Show%20Geo%20Location'),
+            'ImgHov_Download': unescape('Download%20Item'),
+            'ImgHov_MarkedImg': unescape('unselect'),
+            'ImgHov_MarkImg': unescape('select'),
+            'ImgHov_OpenFolder': unescape('Display%20picture%20in%20corresponding%20folder'),
+            'ImgHov_Share': unescape('Share'),
+            'ImgHov_EditImg': unescape('Edit%20Image'),
+            'DownloadProgress': unescape('Processing%20download'),
+            'AllFilesPreparedDnl': unescape('All%20Files%20are%20ready%20for%20dowload'),
+            'downfile': unescape('Download%20Part%20%7B0%7D'),
+            'Cancel': unescape('Cancel'),
+            'Files': unescape('Files'),
+            'File': unescape('File'),
+            'Dirs': unescape('Directories'),
+            'DateTaken': unescape('Creation%20Date'),
+            'DateInserted': unescape('Added'),
+            'DateFormatLong': unescape('MMMM%20d%2C%20yyyy'),
+            'ShowDateInserted': unescape('Timeline%20by%20insert%20date'),
+            'ShowDateTaken': unescape('Timeline%20by%20creation%20date'),
+            'ShowDetailView': unescape('Show%20detail%20view'),
+            'ShowDetailViewNT': unescape('Show%20detail%20view%20in%20new%20tab'),
+            'OpenFolder': unescape('Open%20Folder'),
+            'OpenFolderNT': unescape('Open%20Folder%20in%20new%20tab'),
+            'OpenImgInFolder': unescape('Display%20picture%20in%20corresponding%20folder'),
+            'OpenImgInFolderNT': unescape('Display%20picture%20in%20corresponding%20folder%20in%20new%20tab'),
+            'ShowThumbs': unescape('Show%20as%20Galleryview'),
+            'ShowList': unescape('Show%20as%20Listview'),
+            'ShowSlides': unescape('Slideshow'),
+            'ShowInMaintainer': unescape('Edit%20Folder'),
+            'SortingNotPossible': unescape('Format'),
+            'Error': unescape('Error'),
+            'DateTimePickerFormat': 'MMddyyyy',
+            'Warning': unescape('Warning'),
+            'public': unescape('Public'),
+            'protected': unescape('Protected'),
+            'ReadMore': unescape('Read%20More'),
+            'ReadLess': unescape('Read%20Less'),
+            'WithAllImagesInSubDir': unescape('With%20all%20Images%20in%20SubDirectories'),
+            'WithDirectory': unescape('With%20Directory%20Names')
+        }
+
+        var MaVas = {
+            Used: true,
+            hosted: '',
+            DirId: 1964569,
+            IsFlat: 'True',
+            DisplayDirs:  false ,
+            RootDirId: Math.abs( 1964532),
+            FlatDirId: -1,
+            AllowDirMap: false ,
+            DarkColor: 'True',
+            SearchOptions: 'so=DateTaken-DispOrder-SortOrder',
+            SearchFor: '0513GT',
+            SearchForAny: '',
+            SearchForExact: '',
+            FileType: 'search.0513GT',
+            Lang: "en-US",
+            it: '11111',
+            Request: 'color=Dark&op=ds&v=a&rd=1964532&vi=3362760&menu=small&flat=true&ft=search.0513GT&so=DateTaken-DispOrder-SortOrder&dir=1964569&dsh=800',
+            UserID: 38,
+            UFOffset: 0,
+            UFCount: 100,
+            Items: 0,
+            AllItems:1886042,
+            ParentId: 0,
+            CurrentImageID: 0,
+            SortFor: "DateTaken-DispOrder-SortOrder",
+            Filter: '',
+            TLTextUnder: true,
+            Type: "a",
+            ListView: false,
+            NoMenu: true,
+            ShownUID:38,
+            SearchRoot:1964532,
+            StartSlideShow:false,
+            SlideShowBackgroundCol: '#131313',
+            Album: '/barchetta',
+            DetailViewOffset: 140,
+            DetailViewType: 'ds',
+            InsideSL: false,
+            ViewTypes: '11111',
+            Copy: '',
+            Bot: false ,
+            IsFriend: false ,
+            Index: -1,
+            thumbSize: 'large',
+            Navigation: new Array(),
+            NavIdx: 0,
+            DetailDisplay: 'ds'
+        };
+
+        function onError() {
+        }
+        function onAbort() {
+
+        }
+
+        function BuildArrayOnStart(ImageID) {
+            SLApp.UserAndInfoService.GetImageIndex(ImageID, MaVas.DirId, MaVas.IsFlat, MaVas.SortFor, -1, MaVas.SearchFor, MaVas.SearchForAny, MaVas.SearchForExact, parseInt(MaVas.ViewTypes), MaVas.SearchOptions, function (idx) {
+                var offset = MaVas.UFOffset = idx - MaVas.UFCount / 2;
+                MaVas.Index = idx;
+                if (offset < 0)
+                    offset = 0;
+                GetImagesData(MaVas, offset, function (ItemsArround) {
+                    if (!CurrentView)
+                        CurrentView = jQuery.extend({}, MaVas);
+
+                    var disp = PreDetailView(ImageID, ItemsArround, 'AlbumsView', true, true, ItemsArround.length, function () { }, function () { });
+                    GotImageView(ImageID, function () { }, ItemsArround, 'AlbumsView', disp.displIndex, true, disp.hrefBev, function () { });
+                    SizeImage();
+                });
+            });
+        }
+
+        function reloadTimeLineContent(clear, addHistory, onDone) {
+            if (typeof ImagesScrolled != "undefined")
+                ImagesScrolled();
+            if (typeof reloadTimeLineContentJS != "undefined") {
+                reloadTimeLineContentJS(clear, addHistory, 38, '', function () {
+                    buildItemsContextMenu();
+                    if (onDone)
+                        onDone();
+                });
+            }
+        }
+
+        $(window).resize(function () {
+            try {
+                SetScrollBarsSize();
+            } catch (e) { };
+
+            setBanneHotSpot();
+            ResizeFolderDescription();
+
+            var elements = $('.item');
+
+            var portScale = { min: 1, max: 0 };
+
+            for (var cbI = 0; cbI < elements.length; cbI++) {
+                var element = $(elements[cbI]);
+                var scale = element.data("sizey") / element.data("sizex");
+                if (scale < 1) {
+                    portScale.max = Math.max(scale, portScale.max);
+                    portScale.min = Math.min(scale, portScale.min);
+                }
+            }
+            var maxScale = portScale.min + ((portScale.max - portScale.min) / 2);
+
+            ResizeGridsImgs(true, maxScale);
+            CheckImgs();
+            setTimeout('SetIframeParentSize();', 500);
+
+        })
+
+        $(window).on('scroll', function () {
+            CheckImgs()
+        });
+        $('#ScrollableContentLayer').on('scroll', function () {
+            CheckImgs()
+        });
+
+
+        function FlatViewModeClicked() {
+            var VasDir = jQuery.extend({}, CurrentView);
+            VasDir.IsFlat = $("#FlatViewToggle").data("flat") ? 'False' : 'True';
+
+            SetFlatViewMode(VasDir.IsFlat);
+            RefreshCurrentView(VasDir.IsFlat, VasDir.Type, VasDir.SortFor);
+        }
+        function SetFlatViewMode(mode) {
+            if (mode == 'True') {
+                $("#FlatViewToggle").addClass('checkedon');
+                $("#FlatViewToggle").data("flat", 1);
+                //MaVas.UFCount = 50;
+            } else {
+                $("#FlatViewToggle").removeClass('checkedon');
+                $("#FlatViewToggle").data("flat", 0);
+                //MaVas.UFCount = 1120;
+            }
+        }
+
+         function ShowItems() {
+             $('#PageAligned').removeClass('HiddenClass');
+         }
+         var scrollWasVisible = false;
+        var MyScrollBar = null;
+        var hadGotImagesLoaded = false;
+        function GotImagesLoaded() {
+            if (hadGotImagesLoaded === true || bannerImages.length == 0)
+                return;
+            var index = 0;
+            if ($('#BannerImg').length > 0) {
+                $('#BannerImg').attr("src", bannerImages[index].src);
+                $('#BannerImg').data('hotx', bannerImages[index].hotX);
+                $('#BannerImg').data('hoty', bannerImages[index].hotY);
+                $('#BannerImg').data('sizex', bannerImages[index].sizeX);
+                $('#BannerImg').data('sizey', bannerImages[index].sizeY);
+                setBanneHotSpot();
+                hadGotImagesLoaded = true;
+            }
+        }
+
+
+        $(document).ready(function () {
+            if (intervalSSO == null && $('#sso').length > 0) {
+                intervalSSO = setInterval(function () {
+                    SLApp.CommunityService.GetCurrentUserAuth(function (user) {
+                        var url = new URL(document.getElementById('sso').src);
+                        url.searchParams.set('authToken', user);
+                        document.getElementById('sso').src = url;
+                    });
+                }, 900000);
+            }
+
+            $('.OnHover').hover(function () {
+                $(this).addClass('HasHovered')
+            }, function () {
+                $(this).removeClass('HasHovered')
+            });
+            var thm = 'minimal-dark';
+            try {
+                if (getMobileOperatingSystem() === 'unknown') {
+                    thm = 'inset-dark';
+                } else {
+                    BannerOff(false);
+                }
+            } catch (e) { };
+            //             $.mCustomScrollbar.defaults.scrollButtons.enable = true;
+
+            var container = $('#ScrollableContentLayer');
+            try {
+                if (UseOwnScrollbar()) {
+                    container.data('scroller', MyScrollBar = new PerfectScrollbar(container[0], { suppressScrollX: true, minScrollbarLength: 40 }));
+                    container.addClass('ps--focus');
+                    $('#NewBtn_View').data('scoller', new PerfectScrollbar('#NewBtn_View', { suppressScrollX: true }));
+                    if (getQueryParam('menu') == 'small' || getQueryParam('menu') == 'no')
+                        $('#ScrollableContentLayer .ps__rail-y').css('margin', "0px");
+
+                    container.bind('scroll', function () {
+                        var cp = $('#ScrollableContentLayer').scrollTop();
+                        if (cp > 400)
+                            $("#ScrollToTopNav").show();
+                        else
+                            $("#ScrollToTopNav").hide();
+                        CheckImgs();
+                    });
+                    container.bind('updatedScrollbar', function (e, ui) {
+                        if (e.shown_y === true) {
+                            var mar = 0;
+                            if (mar = parseInt($('.dategrid').css('margin-right')) < 25)
+                                $('.dategrid').css('margin-right', mar + 12 + "px")
+                        }
+                    });
+                } else {
+                    $(window).bind('scroll', function () {
+                        var cp = $(window).scrollTop();
+                        if (cp > 400)
+                            $("#ScrollToTopNav").show();
+                        else
+                            $("#ScrollToTopNav").hide();
+                        CheckImgs();
+                    });
+                }
+            } catch (e) { };
+
+            if (MaVas.ListView)
+                ResetMenuItemsView("ShowList");
+            else
+                ResetMenuItemsView("ShowGallery");
+
+            $("#ShowPixs").click(function () {
+                setTimeout(function () {
+                    var VasDir = jQuery.extend({}, CurrentView);
+                    RefreshCurrentView(VasDir.IsFlat, VasDir.Type, VasDir.SortFor);
+//                     reloadTimeLineContent(true, true);
+                }, 300)
+            });
+            $("#ShowVids").click(function () {
+                setTimeout(function () {
+                    var VasDir = jQuery.extend({}, CurrentView);
+                    RefreshCurrentView(VasDir.IsFlat, VasDir.Type, VasDir.SortFor);
+//                     reloadTimeLineContent(true, true);
+                }, 300)
+            });
+
+            $("#ShowDocs").click(function () {
+                setTimeout(function () {
+                    var VasDir = jQuery.extend({}, CurrentView);
+                    RefreshCurrentView(VasDir.IsFlat, VasDir.Type, VasDir.SortFor);
+                    //                     reloadTimeLineContent(true, true);
+                }, 300)
+            });
+
+            $("#ShowSounds").click(function () {
+                setTimeout(function () {
+                    var VasDir = jQuery.extend({}, CurrentView);
+                    RefreshCurrentView(VasDir.IsFlat, VasDir.Type, VasDir.SortFor);
+                    //                     reloadTimeLineContent(true, true);
+                }, 300)
+            });
+
+            $("#ShowOther").click(function () {
+                setTimeout(function () {
+                    var VasDir = jQuery.extend({}, CurrentView);
+                    RefreshCurrentView(VasDir.IsFlat, VasDir.Type, VasDir.SortFor);
+                    //                     reloadTimeLineContent(true, true);
+                }, 300)
+            });
+
+            if ($('#BannerImg').data('sizex') > '0') {
+                $('#BannerImg').one("load", function () {
+                    setBanneHotSpot();
+                    setTimeout(function () {
+                        setBanneHotSpot();
+                    }, 1000);
+                }).each(function () {
+                    if (this.complete)
+                        $(this).trigger('load');
+                });
+            }
+
+             if (getCookie('SortPhotos').length > 1) {
+                 $(getCookie('SortPhotos')).data('checked', true);
+                 if (getCookie('SortPhotos') != '#DateAdded') {
+                     SortCriteria = 'DateTaken';
+                     SortField = 'DateTaken';
+                 }
+             }
+             else
+                 $('#DateAdded').data('checked', true);
+
+             checkcheckers('.sorttype');
+             $('#DateAdded').PadMouseDrag({
+                 click: function () {
+                     ShowSpinner("#NewBtn_View", 50);
+                     $('#DateTaken').data('checked', false);
+                     $('#DateAdded').data('checked', true);
+                     checkcheckers('.sorttype');
+                     setCookie('SortPhotos', '#DateAdded', 180);
+                     SortCriteria = 'DateAdded';
+                     SortField = 'DateInserted';
+
+                     reloadTimeLineContent(true, true, function () {
+                         $('#NewBtn').click();
+                     });
+                 }
+             });
+
+             $('#DateTaken').PadMouseDrag({
+                 click: function() {
+                     ShowSpinner("#NewBtn_View", 50);
+                     $('#DateAdded').data('checked', false);
+                     $('#DateTaken').data('checked', true);
+                     checkcheckers('.sorttype');
+                     setCookie('SortPhotos', '#DateTaken', 180);
+                     SortCriteria = 'DateTaken';
+                     SortField = 'DateTaken';
+                     reloadTimeLineContent(true, true, function () {
+                         $('#NewBtn').click();
+                     });
+                 }
+             });
+            if (bannerImages.length > 0) {
+                $('#Banner').focusPoint();
+
+                var index = 0;
+                var timer = setInterval(function () {
+                    index++;
+                    if (index < bannerImages.length) {
+                        $('#BannerImg').attr("src", bannerImages[index].src);
+                        $('#BannerImg').data('hotx', bannerImages[index].hotX);
+                        $('#BannerImg').data('hoty', bannerImages[index].hotY);
+                        $('#BannerImg').data('sizex', bannerImages[index].sizeX);
+                        $('#BannerImg').data('sizey', bannerImages[index].sizeY);
+                        setBanneHotSpot();
+                    } else {
+                        index = 0;
+                    }
+
+                }, 240000);
+            }
+            
+                SLApp.CommunityService.GetObjectCounts(1964569, true, 'search.0513GT', -1, '', '0513GT', '', '', function (xml) {
+                    var obj = xml.getElementsByTagName('Objects')[0];
+                    var info = FormatNumber(obj.getAttribute('All')) + ' ';
+                    info += (parseInt(obj.getAttribute('All')) == 1) ? _locStrings.File : _locStrings.Files;
+                    $('#HeaderCount').html('(' + info + ')');
+                }, function () { });
+            SelectAbout('#Albums');ShowUserFolder(MaVas,null,false);NoTopMenu();ShowSmallMenu();OnShowImage('slideshow');ShowItems();
+                ClickHandler('#NewBtn', 'NewBtnActive');
+
+            $('#NewBtn').click(function (e) {
+
+
+                SelectAbout(this);
+                if (!removeAboutMe() && !removeAlbumView() && !RefreshNeedet()) {
+
+                    if ($('#NewBtn_View').height() > $(window).height() - $('#NewBtn').offset().top) {
+                        if ($(window).width() > 700)
+                            $('#NewBtnItems_View').addClass('threeCols');
+                        $('#NewBtn_View').height($(window).height() - $('#NewBtn').offset().top - 50);
+                    }
+                    else
+                        $('#NewBtnItems_View').removeClass('threeCols');
+                    $('#NewBtn_View').data('scoller').update();
+                }
+                else {
+                    e.preventDefault();
+                    MaVas.Type = 't';
+                    reloadTimeLineContent(false, true);
+                    removeMenu();
+                }
+            });
+            $('#BtnUserInfo').click(function () {
+                SelectAbout(this);
+                ShowUserInfoDlg(38, CurrentView.DirId, true);
+            });
+            $('#Albums').click(function () {
+                if (CurrentView == null) {
+                    MaVas.Type = 'a';
+                    SelectAbout(this);
+                    ShowUserFolder(MaVas, null, true);
+                }
+                else {
+                    CurrentView.Type = 'a';
+                    SelectAbout(this);
+                    ShowUserFolder(CurrentView, null, true);
+                }
+            });
+            $('#UserInfoSmall').click(function () {
+                SelectAbout(this);
+                ShowUserInfoDlg(38,1964532, false, true);
+            });
+            SetFlatViewMode(MaVas.IsFlat);
+            SetScrollBarsSize();
+         });
+         function ResetMenuItemsView(selected) {
+             $('.activeEye').each(function () {
+                 if (!$(this).hasClass('activeEyeNone'))
+                     $(this).addClass('activeEyeNone');
+             });
+             $('#' + selected + ' div').removeClass('activeEyeNone');
+         }
+    </script>
+    
+    
+    <div id="topPlace" style="display: none;">
+        <img id="CheckMarkOn" src="./checkbox-o.png" alt="" style="visibility: collapse">
+        <img id="CheckMarkOff" src="./checkbox-x.png" alt="" style="visibility: collapse">
+    </div>
+
+    
+
+
+    <div id="StartLine"></div>
+    <div id="ScrollableContentLayer" class="ps ps--focus" style="height: 964px;">
+        <div id="ScrollableContent" class="scrollbar-chrome">
+            
+            <div class="Protected" style="display:none"><div id="ProtIcon"></div>This folder is private and password protected</div>
+            
+            <div id="AboutMenuPlace"></div>
+            
+    <div id="frameNavigation" style="display:none">
+        <p id="DirName"></p>
+        <div id="backDir" class="NavBtn"></div>
+        <div id="vorwDir" class="NavBtn"></div> 
+
+    </div>
+            
+        <div id="AlbumsView" class="sqs-gallery-design-autocolumns Album"><div id="FordersAndImagesContainer" data-gridname="FordersAndImages"><div id="FordersAndImages" class="sqs-gallery-design-autocolumns dategrid" style="position: relative; height: 279px;"><div class="item sqs-gallery-design-autocolumns-slide slide-stretched FolderViewItem" id="id_4036424" data-type="img" data-id="4036424" data-sizex="563" data-sizey="357" data-title="56/sep/17 - dnf - Tour de France - Maurice Trintignant / Francois Picard - #72" data-description="Ferrari 250 GT LWB Berlinetta &quot;TdF&quot; s/n 0513GT" data-href="null" data-datet=" September 17, 1956" data-print="0" data-downl="0" data-geo="0" data-protected="0" data-selected="0" data-imgsrc="/SLOAIMGTMB_4036424_2286566_7.jpg?w=300&amp;f=l" data-imgtmb="/SLOAIMGTMB_4036424_2286566_7.jpg?w=300&amp;f=l" data-itype="0" data-ext=".jpg" data-dateinserted="09/03/2019" data-datetaken="09/17/1956" data-cropsizey="375.3333333333333" data-grid="#FordersAndImages" data-scale="0.6341030195381883" data-hotx="62" data-hoty="7" data-view="FolderViewItem" data-index="0" data-dir="2286566" data-samesize="true" data-itemsinview="1" data-version="7" data-hov="2" style="position: absolute; x: -1000px; y: -1000px; left: -1000px; top: -1000px;"><div class="cropper" id="crop_4036424" style="width: 298px; height: 188px;"><canvas style="position:absolute" id="canv_4036424" width="100%" height="100%"></canvas><div id="outer_4036424" class="outerImg " style="height: 188px; background-color: rgb(204, 216, 221); width: 298px;"><a id="lnk_4036424" href="https://barchetta.stage.mediacenter.plus/?i=4036424"><div><img id="tmb_4036424" name="tmb_4036424" data-id="4036424" src="./SLOAIMGTMB_4036424_2286566_7.jpg" style="pointer-events:none" class="Thumb ThumbItem" title=""></div></a><div class="ThumbButtons"></div> </div></div><div class="FolderDescr FolderDescrHeight" id="Descr_4036424" style="width: 282px; height: 64px;"><span id="DS_4036424">56/sep/17 - dnf - Tour de France - Maurice Trintignant / Francois Picard - #72<br>Ferrari 250 GT LWB Berlinetta "TdF" s/n 0513GT</span></div></div></div></div><div id="FordersAndImagesContainerEnd" style=""></div></div></div>
+    <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px; margin: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></div>
+    <div class="SubMenu ps" id="NewBtn_View" data-menu="true">
+
+        <a class="smallhdr">sort for:</a>
+        <ul id="ViewType">
+            <li><a id="DateAdded" data-checked="false" data-menu="true" class="checker sorttype checkedon">Date inserted</a></li>
+            <li><a id="DateTaken" data-checked="false" data-menu="true" class="checker sorttype">Creation Date</a></li>
+        </ul>
+        <hr class="line">
+        <ul id="NewBtnItems_View"></ul>
+        <hr class="line">
+        <div class="FromToDate">Show data from <input id="ShowDateFromTo"></div>
+    <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></div>
+    <div id="ScrollToTopNav" title="Scroll to Top">
+        <svg enable-background="new 0 0 240.835 240.835" height="26px" width="26px" id="GoToTop" viewBox="0 0 240.835 240.835">
+            <path id="ArrowDropDown" d="M129.007,57.819c-4.68-4.68-12.499-4.68-17.191,0L3.555,165.803c-4.74,4.74-4.74,12.427,0,17.155   c4.74,4.74,12.439,4.74,17.179,0l99.683-99.406l99.671,99.418c4.752,4.74,12.439,4.74,17.191,0c4.74-4.74,4.74-12.427,0-17.155   L129.007,57.819z"></path> 
+        </svg>
+    </div>
+    <div id="DownloadingInfo"></div>
+    
+    <div class="item FolderViewItem" style="display: none"></div>
+    <div class="item DateViewItem" style="display: none"></div>
+    <div class="tmbVids" style="display: none"></div>
+    <div class="CloseDeleteDwonl" style="display: none"></div>
+    
+    <!-- NowHome finish -->
+
+
+	</div>
+
+    </div>
+<script id="PrivacyDlg">
+	function Close_PrivacyDlg(param) {
+$('#DlgFrm_PrivacyDlg')[0].src=""
+$('#Dialg_PrivacyDlg').fadeOut(500, function () {
+$('#DlgFrm_PrivacyDlg').remove();$('#Dialg_PrivacyDlg').remove();DhideBack('PrivacyDlg');})};function Hdr_PrivacyDlg(t) {$('#DlgTxt_PrivacyDlg').text(t);};function Show_PrivacyDlg(param) {
+loadUI('/javascript/jquery-ui-1.12.1.js',function(){Show_PrivacyDlg_intern(param);})};
+function Show_PrivacyDlg_intern(param) {if($('#Dialg_PrivacyDlg').length!=0) return false;DshowBack('PrivacyDlg','White');$('<div class="sDialog  Shadow" id="Dialg_PrivacyDlg"><div class="DialogText  " id= "DlgTxt_PrivacyDlg"></div><div class="dlgCont" id="dlgContPrivacyDlg" style="width:100%"></div></div>').appendTo('body');var Dialog=$('#Dialg_PrivacyDlg');
+Dialog.css({'width':'740px','height':'550px'});Dialog[0].outerFrm= $('#dlgContPrivacyDlg');Dialog.css({'z-index':'6000'});
+Dialog.draggable({start:function(){
+dlgBT(this);
+}});Dialog.css('overflow','hide')
+Dialog[0].frm = $('<iframe id="DlgFrm_PrivacyDlg" style="visibility:hidden;width:100%;height:100%background-color:transparent"  marginheight="0" frameborder="0" src="/Community/SubPrivacy.aspx?'+param+'&callID=PrivacyDlg " onLoad=""></iframe>').appendTo($("#dlgContPrivacyDlg"));
+Dialog[0].foot = $('<div id="footer_PrivacyDlg" class="SubPageControl" style="width:100%"></div>').appendTo(Dialog);
+
+Dialog[0].hdr=$("#DlgTxt_PrivacyDlg");
+Dialog[0].hdr.height(0);dlgSizeNC('PrivacyDlg','740px','550px');AddStdBtns("PrivacyDlg", "print|close");Dialog[0].frm.on('load',function () {$(this).css("visibility", "visible");Dialog.show();Dialog.resize();Dialog[0].frm[0].contentWindow.CloseDlg=window.parent.Close_PrivacyDlg;Dialog[0].frm[0].contentWindow.ChildID=PrivacyDlg;
+});
+window.PrivacyDlg= Dialog;
+dlgICenter(Dialog);dlgBT(Dialog);return Dialog;
+ }
+</script>
+	<script id="ImprintDlg">
+	function Close_ImprintDlg(param) {
+$('#DlgFrm_ImprintDlg')[0].src=""
+$('#Dialg_ImprintDlg').fadeOut(500, function () {
+$('#DlgFrm_ImprintDlg').remove();$('#Dialg_ImprintDlg').remove();DhideBack('ImprintDlg');})};function Hdr_ImprintDlg(t) {$('#DlgTxt_ImprintDlg').text(t);};function Show_ImprintDlg(param) {
+loadUI('/javascript/jquery-ui-1.12.1.js',function(){Show_ImprintDlg_intern(param);})};
+function Show_ImprintDlg_intern(param) {if($('#Dialg_ImprintDlg').length!=0) return false;DshowBack('ImprintDlg','White');$('<div class="sDialog  Shadow" id="Dialg_ImprintDlg"><div class="DialogText  " id= "DlgTxt_ImprintDlg"></div><div class="dlgCont" id="dlgContImprintDlg" style="width:100%"></div></div>').appendTo('body');var Dialog=$('#Dialg_ImprintDlg');
+Dialog.css({'width':'740px','height':'550px'});Dialog[0].outerFrm= $('#dlgContImprintDlg');Dialog.css({'z-index':'6000'});
+Dialog.draggable({start:function(){
+dlgBT(this);
+}});Dialog.css('overflow','hide')
+Dialog[0].frm = $('<iframe id="DlgFrm_ImprintDlg" style="visibility:hidden;width:100%;height:100%background-color:transparent"  marginheight="0" frameborder="0" src="/Community/SubImprint.aspx?'+param+'&callID=ImprintDlg " onLoad=""></iframe>').appendTo($("#dlgContImprintDlg"));
+Dialog[0].foot = $('<div id="footer_ImprintDlg" class="SubPageControl" style="width:100%"></div>').appendTo(Dialog);
+
+Dialog[0].hdr=$("#DlgTxt_ImprintDlg");
+Dialog[0].hdr.height(0);dlgSizeNC('ImprintDlg','740px','550px');AddStdBtns("ImprintDlg", "print|close");Dialog[0].frm.on('load',function () {$(this).css("visibility", "visible");Dialog.show();Dialog.resize();Dialog[0].frm[0].contentWindow.CloseDlg=window.parent.Close_ImprintDlg;Dialog[0].frm[0].contentWindow.ChildID=ImprintDlg;
+});
+window.ImprintDlg= Dialog;
+dlgICenter(Dialog);dlgBT(Dialog);return Dialog;
+ }
+</script>
+	<script id="LegalDlg">
+	function Close_LegalDlg(param) {
+$('#DlgFrm_LegalDlg')[0].src=""
+$('#Dialg_LegalDlg').fadeOut(500, function () {
+$('#DlgFrm_LegalDlg').remove();$('#Dialg_LegalDlg').remove();DhideBack('LegalDlg');})};function Hdr_LegalDlg(t) {$('#DlgTxt_LegalDlg').text(t);};function Show_LegalDlg(param) {
+loadUI('/javascript/jquery-ui-1.12.1.js',function(){Show_LegalDlg_intern(param);})};
+function Show_LegalDlg_intern(param) {if($('#Dialg_LegalDlg').length!=0) return false;DshowBack('LegalDlg','White');$('<div class="sDialog  Shadow" id="Dialg_LegalDlg"><div class="DialogText  " id= "DlgTxt_LegalDlg"></div><div class="dlgCont" id="dlgContLegalDlg" style="width:100%"></div></div>').appendTo('body');var Dialog=$('#Dialg_LegalDlg');
+Dialog.css({'width':'740px','height':'550px'});Dialog[0].outerFrm= $('#dlgContLegalDlg');Dialog.css({'z-index':'6000'});
+Dialog.draggable({start:function(){
+dlgBT(this);
+}});Dialog.css('overflow','hide')
+Dialog[0].frm = $('<iframe id="DlgFrm_LegalDlg" style="visibility:hidden;width:100%;height:100%background-color:transparent"  marginheight="0" frameborder="0" src="/Community/SubLegal.aspx?'+param+'&callID=LegalDlg " onLoad=""></iframe>').appendTo($("#dlgContLegalDlg"));
+Dialog[0].foot = $('<div id="footer_LegalDlg" class="SubPageControl" style="width:100%"></div>').appendTo(Dialog);
+
+Dialog[0].hdr=$("#DlgTxt_LegalDlg");
+Dialog[0].hdr.height(0);dlgSizeNC('LegalDlg','740px','550px');AddStdBtns("LegalDlg", "print|close");Dialog[0].frm.on('load',function () {$(this).css("visibility", "visible");Dialog.show();Dialog.resize();Dialog[0].frm[0].contentWindow.CloseDlg=window.parent.Close_LegalDlg;Dialog[0].frm[0].contentWindow.ChildID=LegalDlg;
+});
+window.LegalDlg= Dialog;
+dlgICenter(Dialog);dlgBT(Dialog);return Dialog;
+ }
+</script>
+    
+    <script id="MapsDlg">
+	function Close_MapsDlg(param) {
+$('#DlgFrm_MapsDlg')[0].src=""
+$('#Dialg_MapsDlg').fadeOut(500, function () {
+$('#DlgFrm_MapsDlg').remove();$('#Dialg_MapsDlg').remove();DhideBack('MapsDlg');})};function Hdr_MapsDlg(t) {$('#DlgTxt_MapsDlg').text(t);};function Show_MapsDlg(param) {
+loadUI('/javascript/jquery-ui-1.12.1.js',function(){Show_MapsDlg_intern(param);})};
+function Show_MapsDlg_intern(param) {if($('#Dialg_MapsDlg').length!=0) return false;DshowBack('MapsDlg','White');$('<div class="sDialog  ShadowFixed" id="Dialg_MapsDlg"><div class="DialogText  " id= "DlgTxt_MapsDlg"></div><div class="dlgCont" id="dlgContMapsDlg" style="width:100%"></div></div>').appendTo('body');var Dialog=$('#Dialg_MapsDlg');
+Dialog.css({'width':'80%','height':'80%'});Dialog[0].outerFrm= $('#dlgContMapsDlg');Dialog.css({'z-index':'6000'});
+Dialog.draggable({start:function(){
+dlgBT(this);
+}});Dialog.css('overflow','hide')
+Dialog[0].frm = $('<iframe id="DlgFrm_MapsDlg" style="visibility:hidden;width:100%;height:100%background-color:transparent"  marginheight="0" frameborder="0" src="/Community/SubMap.aspx?'+param+'&callID=MapsDlg " onLoad=""></iframe>').appendTo($("#dlgContMapsDlg"));
+Dialog[0].foot = $('<div id="footer_MapsDlg" class="SubPageControl" style="width:100%"></div>').appendTo(Dialog);
+
+Dialog[0].hdr=$("#DlgTxt_MapsDlg");
+Dialog[0].hdr.height(0);dlgSizeNC('MapsDlg','80%','80%');AddStdBtns("MapsDlg", "close");Dialog[0].frm.on('load',function () {$(this).css("visibility", "visible");Dialog.show();Dialog.resize();Dialog[0].frm[0].contentWindow.CloseDlg=window.parent.Close_MapsDlg;Dialog[0].frm[0].contentWindow.ChildID=MapsDlg;
+});
+window.MapsDlg= Dialog;
+Dialog.css({'left':'10%','top':'10%'});dlgBT(Dialog);return Dialog;
+ }
+</script>
+    
+    <script id="Download">
+	function Close_Download(param) {
+$('#DlgFrm_Download')[0].src=""
+$('#Dialg_Download').fadeOut(500, function () {
+$('#DlgFrm_Download').remove();$('#Dialg_Download').remove();DhideBack('Download');})};function Hdr_Download(t) {$('#DlgTxt_Download').text(t);};function Show_Download(param) {
+loadUI('/javascript/jquery-ui-1.12.1.js',function(){Show_Download_intern(param);})};
+function Show_Download_intern(param) {if($('#Dialg_Download').length!=0) return false;DshowBack('Download','White');$('<div class="sDialog  thumbsDialog Shadow" id="Dialg_Download"><div class="DialogText DialogHeaderStyle " id= "DlgTxt_Download"></div><div class="dlgCont" id="dlgContDownload" style="width:100%"></div></div>').appendTo('body');var Dialog=$('#Dialg_Download');
+Dialog.css({'width':'640px','height':'170px'});Dialog[0].outerFrm= $('#dlgContDownload');Dialog.css({'z-index':'6000'});
+Dialog.draggable({start:function(){
+dlgBT(this);
+}});Dialog.css('overflow','hide')
+Dialog[0].frm = $('<iframe id="DlgFrm_Download" style="visibility:hidden;width:100%;height:100%background-color:transparent"  marginheight="0" frameborder="0" src="/Dialogs/Download.aspx?'+param+'&callID=Download " onLoad=""></iframe>').appendTo($("#dlgContDownload"));
+Dialog[0].foot = $('<div id="footer_Download" class="" style="width:100%"></div>').appendTo(Dialog);
+
+Dialog[0].hdr=$("#DlgTxt_Download");
+Dialog[0].hdr.height(0);dlgSizeNC('Download','640px','170px');Dialog[0].frm.on('load',function () {$(this).css("visibility", "visible");Dialog.show();Dialog.resize();Dialog[0].frm[0].contentWindow.CloseDlg=window.parent.Close_Download;Dialog[0].frm[0].contentWindow.ChildID=Download;
+});
+window.Download= Dialog;
+dlgICenter(Dialog);dlgBT(Dialog);return Dialog;
+ }
+</script>
+
+	<script id="SendPM">
+	function Close_SendPM(param) {
+$('#DlgFrm_SendPM')[0].src=""
+$('#Dialg_SendPM').fadeOut(500, function () {
+$('#DlgFrm_SendPM').remove();$('#Dialg_SendPM').remove();DhideBack('SendPM');})};function Hdr_SendPM(t) {$('#DlgTxt_SendPM').text(t);};function Show_SendPM(param) {
+loadUI('/javascript/jquery-ui-1.12.1.js',function(){Show_SendPM_intern(param);})};
+function Show_SendPM_intern(param) {if($('#Dialg_SendPM').length!=0) return false;DshowBack('SendPM','White');$('<div class="sDialog  Shadow" id="Dialg_SendPM"><div class="DialogText  " id= "DlgTxt_SendPM"></div><div class="dlgCont" id="dlgContSendPM" style="width:100%"></div></div>').appendTo('body');var Dialog=$('#Dialg_SendPM');
+Dialog.css({'width':'450px','height':'340px'});Dialog[0].outerFrm= $('#dlgContSendPM');Dialog.css({'z-index':'6000'});
+Dialog.draggable({start:function(){
+dlgBT(this);
+}});Dialog.css('overflow','hide')
+Dialog[0].frm = $('<iframe id="DlgFrm_SendPM" style="visibility:hidden;width:100%;height:100%background-color:transparent"  marginheight="0" frameborder="0" src="/Community/SubSendPM.aspx?'+param+'&callID=SendPM " onLoad=""></iframe>').appendTo($("#dlgContSendPM"));
+Dialog[0].foot = $('<div id="footer_SendPM" class="SubPageControl" style="width:100%"></div>').appendTo(Dialog);
+
+Dialog[0].hdr=$("#DlgTxt_SendPM");
+Dialog[0].hdr.height(0);dlgSizeNC('SendPM','450px','340px');AddStdBtns("SendPM", "close");Dialog[0].frm.on('load',function () {$(this).css("visibility", "visible");Dialog.show();Dialog.resize();Dialog[0].frm[0].contentWindow.CloseDlg=window.parent.Close_SendPM;Dialog[0].frm[0].contentWindow.ChildID=SendPM;
+});
+window.SendPM= Dialog;
+dlgICenter(Dialog);dlgBT(Dialog);return Dialog;
+ }
+</script>
+
+	<script id="ReportImageDlg">
+	function Close_ReportImageDlg(param) {
+$('#DlgFrm_ReportImageDlg')[0].src=""
+$('#Dialg_ReportImageDlg').fadeOut(500, function () {
+$('#DlgFrm_ReportImageDlg').remove();$('#Dialg_ReportImageDlg').remove();DhideBack('ReportImageDlg');})};function Hdr_ReportImageDlg(t) {$('#DlgTxt_ReportImageDlg').text(t);};function Show_ReportImageDlg(param) {
+loadUI('/javascript/jquery-ui-1.12.1.js',function(){Show_ReportImageDlg_intern(param);})};
+function Show_ReportImageDlg_intern(param) {if($('#Dialg_ReportImageDlg').length!=0) return false;DshowBack('ReportImageDlg','White');$('<div class="sDialog  Shadow" id="Dialg_ReportImageDlg"><div class="DialogText  " id= "DlgTxt_ReportImageDlg"></div><div class="dlgCont" id="dlgContReportImageDlg" style="width:100%"></div></div>').appendTo('body');var Dialog=$('#Dialg_ReportImageDlg');
+Dialog.css({'width':'450px','height':'340px'});Dialog[0].outerFrm= $('#dlgContReportImageDlg');Dialog.css({'z-index':'6000'});
+Dialog.draggable({start:function(){
+dlgBT(this);
+}});Dialog.css('overflow','hide')
+Dialog[0].frm = $('<iframe id="DlgFrm_ReportImageDlg" style="visibility:hidden;width:100%;height:100%background-color:transparent"  marginheight="0" frameborder="0" src="/Community/SubReportImage.aspx?'+param+'&callID=ReportImageDlg " onLoad=""></iframe>').appendTo($("#dlgContReportImageDlg"));
+Dialog[0].foot = $('<div id="footer_ReportImageDlg" class="SubPageControl" style="width:100%"></div>').appendTo(Dialog);
+
+Dialog[0].hdr=$("#DlgTxt_ReportImageDlg");
+Dialog[0].hdr.height(0);dlgSizeNC('ReportImageDlg','450px','340px');AddStdBtns("ReportImageDlg", "close");Dialog[0].frm.on('load',function () {$(this).css("visibility", "visible");Dialog.show();Dialog.resize();Dialog[0].frm[0].contentWindow.CloseDlg=window.parent.Close_ReportImageDlg;Dialog[0].frm[0].contentWindow.ChildID=ReportImageDlg;
+});
+window.ReportImageDlg= Dialog;
+dlgICenter(Dialog);dlgBT(Dialog);return Dialog;
+ }
+</script>
+
+    </form>
+    
+
+</div>
+
+
+<ul id="ui-id-1" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><ul id="ui-id-2" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><div class="daterangepicker ltr show-calendar opensright"><div class="ranges"></div><div class="drp-calendar left"><div class="calendar-table"></div><div class="calendar-time" style="display: none;"></div></div><div class="drp-calendar right"><div class="calendar-table"></div><div class="calendar-time" style="display: none;"></div></div><div class="drp-buttons"><span class="drp-selected"></span><button class="cancelBtn btn btn-sm btn-default" type="button">Cancel</button><button class="applyBtn btn btn-sm btn-primary" disabled="disabled" type="button">Show</button> </div></div><div id="ShowDescriptors" data-checked="true"></div></body></html>

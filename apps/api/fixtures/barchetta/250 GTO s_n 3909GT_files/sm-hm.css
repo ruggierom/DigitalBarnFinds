@@ -1,0 +1,287 @@
+.sm-hm {
+    background-color: rgb(57, 57, 57);
+    color:#404040;
+}
+
+    .sm-hm a, .sm-hm a:hover, .sm-hm a:focus, .sm-hm a:active {
+        padding: 10px 20px;
+        /* make room for the toggle button (sub indicator) */
+        padding-right: 58px;
+        font-weight: 400;
+        line-height: 17px;
+        text-decoration: none;
+    }
+    .sm-hm a:hover {
+        background-color: rgb(0, 142, 201);
+        color: #ffffff;
+    }
+
+
+.sm-hm a.current {
+  background: #555555;
+}
+.sm-hm a.disabled {
+  color: #cccccc;
+}
+
+    .sm-hm a .sub-arrow {
+        position: absolute;
+        top: 50%;
+        margin-top: -7px;
+        left: auto;
+        right: 6px;
+        overflow: hidden;
+        font: bold 14px/34px monospace !important;
+        text-align: center;
+        text-shadow: none;
+        border-radius: 4px;
+        width: 0;
+        height: 0;
+        border-top: 7px solid transparent;
+        border-bottom: 7px solid transparent;
+        border-left: 7px solid #707070;
+    }
+
+.highlighted .sub-arrow {
+    top: 50% !important;
+    right: 4px !important;
+    
+    margin-top: -4.5px !important;
+    border-left: 7px solid transparent !important;
+    border-right: 7px solid transparent !important;
+    border-top: 7px solid #707070 !important;
+}
+
+        .sm-hm a .sub-arrow::before {
+            content: '+';
+        }
+.sm-hm a.highlighted .sub-arrow::before {
+  content: '-';
+}
+.sm-hm li {
+  border-top: 1px solid transparent;
+}
+.sm-hm > li:first-child {
+  border-top: 0;
+}
+.sm-hm ul {
+  background: rgba(179, 179, 179, 0.1);
+}
+.sm-hm ul a, .sm-hm ul a:hover, .sm-hm ul a:focus, .sm-hm ul a:active {
+
+  border-left: 8px solid transparent;
+}
+.sm-hm ul ul a,
+.sm-hm ul ul a:hover,
+.sm-hm ul ul a:focus,
+.sm-hm ul ul a:active {
+  border-left: 16px solid transparent;
+}
+.sm-hm ul ul ul a,
+.sm-hm ul ul ul a:hover,
+.sm-hm ul ul ul a:focus,
+.sm-hm ul ul ul a:active {
+  border-left: 24px solid transparent;
+}
+.sm-hm ul ul ul ul a,
+.sm-hm ul ul ul ul a:hover,
+.sm-hm ul ul ul ul a:focus,
+.sm-hm ul ul ul ul a:active {
+  border-left: 32px solid transparent;
+}
+.sm-hm ul ul ul ul ul a,
+.sm-hm ul ul ul ul ul a:hover,
+.sm-hm ul ul ul ul ul a:focus,
+.sm-hm ul ul ul ul ul a:active {
+  border-left: 40px solid transparent;
+}
+
+@media (min-width: 768px) {
+  /* Switch to desktop layout
+  -----------------------------------------------
+     These transform the menu tree from
+     collapsible to desktop (navbar + dropdowns)
+  -----------------------------------------------*/
+  /* start... (it's not recommended editing these rules) */
+  .sm-hm ul {
+    position: absolute;
+    width: 12em;
+  }
+    .sm-hm a .sub-arrow {
+        display: none;
+    }
+
+    .sm-hm li {
+        float: left;
+    }
+
+  .sm-hm.sm-rtl li {
+    float: right;
+  }
+
+  .sm-hm ul li, .sm-hm.sm-rtl ul li, .sm-hm.sm-vertical li {
+    float: none;
+  }
+
+  .sm-hm a {
+    white-space: nowrap;
+  }
+
+  .sm-hm ul a, .sm-hm.sm-vertical a {
+    white-space: normal;
+  }
+
+  .sm-hm .sm-nowrap > li > a, .sm-hm .sm-nowrap > li > :not(ul) a {
+    white-space: nowrap;
+  }
+
+  /* ...end */
+    .sm-hm {
+        background-color: rgb(57, 57, 57)
+    }
+  .sm-hm a, .sm-hm a:hover, .sm-hm a:focus, .sm-hm a:active, .sm-hm a.highlighted {
+    padding: 11px 20px;
+  }
+    .sm-hm a:hover {
+        background-color: rgb(0, 142, 201);
+        color:#ffffff;
+    }
+
+
+  .sm-hm a.current {
+    background: #555555;
+    color: #fff;
+  }
+  .sm-hm a.disabled {
+    background: #fff;
+    color: #cccccc;
+  }
+  .sm-hm a.has-submenu {
+    padding-right: 32px;
+  }
+    .sm-hm a .sub-arrow {
+        top: 50%;
+        margin-top: -2px;
+        right: 12px;
+        width: 0;
+        height: 0;
+        border-width: 4px;
+        border-style: solid dashed dashed dashed;
+        border-color: #555555 transparent transparent transparent;
+        background: transparent;
+        border-radius: 0;
+    }
+    /*
+    .sm-hm a .sub-arrow {
+        top: 50%;
+        
+        margin-top: -8px;
+        right: 20px;
+        width: 8px;
+        height: 16px;
+        font: 14px/16px monospace !important;
+    }
+    */
+  .sm-hm a.highlighted .sub-arrow::before {
+    content: '+';
+  }
+  .sm-hm > li {
+    border-top: 0;
+  }
+  .sm-hm > li:first-child {
+    border-left: 0;
+  }
+
+    .sm-hm ul {
+        border: 1px solid #bbbbbb;
+        background: #fff;
+        box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
+        padding: 5px 10px 5px 10px;
+    }
+
+  .sm-hm ul a {
+    border: 0 !important;
+  }
+  .sm-hm ul a.has-submenu {
+    padding-right: 20px;
+  }
+  .sm-hm ul a .sub-arrow {
+    left: 8px;
+    right: auto;
+  }
+  .sm-hm ul > li {
+    border-left: 0;
+    border-top: 0px solid #eeeeee;
+  }
+  .sm-hm ul > li:first-child {
+    border-top: 0;
+  }
+  .sm-hm .scroll-up,
+  .sm-hm .scroll-down {
+    position: absolute;
+    display: none;
+    visibility: hidden;
+    overflow: hidden;
+    background: #fff;
+    height: 20px;
+  }
+  .sm-hm .scroll-up-arrow,
+  .sm-hm .scroll-down-arrow {
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    margin-left: -8px;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    border-width: 8px;
+    border-style: dashed dashed solid dashed;
+    border-color: transparent transparent #555555 transparent;
+  }
+  .sm-hm .scroll-down-arrow {
+    top: 6px;
+    border-style: solid dashed dashed dashed;
+    border-color: #555555 transparent transparent transparent;
+  }
+  .sm-hm.sm-rtl a.has-submenu {
+    padding-right: 20px;
+    padding-left: 32px;
+  }
+  .sm-hm.sm-rtl a .sub-arrow {
+    left: 20px;
+    right: auto;
+  }
+  .sm-hm.sm-rtl.sm-vertical a.has-submenu {
+    padding: 11px 20px;
+  }
+  .sm-hm.sm-rtl.sm-vertical a .sub-arrow {
+    left: auto;
+    right: 8px;
+  }
+  .sm-hm.sm-rtl > li:first-child {
+    border-left: 1px solid #eeeeee;
+  }
+  .sm-hm.sm-rtl > li:last-child {
+    border-left: 0;
+  }
+  .sm-hm.sm-rtl ul a.has-submenu {
+    padding: 11px 20px;
+  }
+  .sm-hm.sm-rtl ul a .sub-arrow {
+    left: auto;
+    right: 8px;
+  }
+  .sm-hm.sm-vertical a .sub-arrow {
+    left: 8px;
+    right: auto;
+  }
+  .sm-hm.sm-vertical li {
+    border-left: 0;
+    border-top: 1px solid #eeeeee;
+  }
+  .sm-hm.sm-vertical > li:first-child {
+    border-top: 0;
+  }
+}
+
+
