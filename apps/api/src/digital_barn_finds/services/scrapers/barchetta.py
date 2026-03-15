@@ -4,6 +4,7 @@ import re
 import time
 from datetime import date
 from pathlib import Path
+from typing import Any
 from urllib.parse import parse_qs, unquote, urlencode, urljoin, urlparse
 from xml.etree import ElementTree as ET
 
@@ -30,6 +31,7 @@ class BarchettaScraper(BaseScraper):
         user_agent = settings.effective_user_agent
         print(f"BarchettaScraper using User-Agent: {user_agent}")
         print(f"BarchettaScraper discovery paths: {self.seed_paths}")
+        self.max_attempts = 3
         self.client = httpx.Client(
             headers={"User-Agent": user_agent},
             follow_redirects=True,
@@ -42,7 +44,7 @@ class BarchettaScraper(BaseScraper):
         for path in seed_paths:
             url = urljoin(self.base_url, path)
             try:
-                response = self.client.get(url)
+                response = self._request("GET", url)
                 response.raise_for_status()
             except httpx.HTTPStatusError as exc:
                 if exc.response.status_code in {403, 404}:
@@ -50,12 +52,15 @@ class BarchettaScraper(BaseScraper):
                     print(f"BarchettaScraper skipping {status} discovery path: {url}")
                     continue
                 raise
+            except httpx.HTTPError as exc:
+                print(f"BarchettaScraper skipping errored discovery path: {url} ({exc})")
+                continue
             detail_links.extend(self._extract_detail_links(response.text))
             time.sleep(self.delay_seconds)
         return sorted(set(detail_links))
 
     def parse_detail_page(self, url: str) -> ScrapedCarRecord:
-        response = self.client.get(url)
+        response = self._request("GET", url)
         response.raise_for_status()
         record = self.parse_detail_html(response.text, url)
         soup = BeautifulSoup(response.text, "html.parser")
@@ -66,7 +71,7 @@ class BarchettaScraper(BaseScraper):
                     record.media,
                     self._query_mediacenter_images(iframe_url),
                 )
-                iframe_response = self.client.get(iframe_url)
+                iframe_response = self._request("GET", iframe_url)
                 iframe_response.raise_for_status()
                 iframe_soup = BeautifulSoup(iframe_response.text, "html.parser")
                 self._merge_media(
@@ -533,7 +538,7 @@ class BarchettaScraper(BaseScraper):
                 "nMaxHoverHeight": 60000,
                 "bFullInfo": False,
             }
-            response = self.client.post(service_url, json=payload)
+            response = self._request("POST", service_url, json=payload)
             response.raise_for_status()
             xml_text = response.text.strip()
             if not xml_text:
@@ -592,6 +597,24 @@ class BarchettaScraper(BaseScraper):
             time.sleep(self.delay_seconds)
 
         return media
+
+    def _request(self, method: str, url: str, **kwargs: Any) -> httpx.Response:
+        last_error: httpx.HTTPError | None = None
+        for attempt in range(1, self.max_attempts + 1):
+            try:
+                return self.client.request(method, url, **kwargs)
+            except httpx.HTTPError as exc:
+                last_error = exc
+                if attempt == self.max_attempts:
+                    break
+                sleep_seconds = max(self.delay_seconds, 1.0) * attempt
+                print(
+                    f"BarchettaScraper retrying {method} {url} "
+                    f"(attempt {attempt + 1}/{self.max_attempts}) after {exc}"
+                )
+                time.sleep(sleep_seconds)
+        assert last_error is not None
+        raise last_error
 
 
 def _read_fixture_text(path: Path) -> str:
