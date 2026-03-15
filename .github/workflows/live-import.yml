@@ -1,5 +1,7 @@
 name: Live Import Cars
 
+# Trigger note: production 5-car image-backed import workflow.
+
 on:
   push:
     branches: [main]
