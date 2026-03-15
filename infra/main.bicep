@@ -40,6 +40,8 @@ var functionAppName = '${prefix}-worker'
 var storageAccountName = toLower(replace('${prefix}workerstore', '-', ''))
 var postgresServerName = '${prefix}-psql'
 var postgresDbName = 'digital_barn_finds'
+var webHostName = '${webAppName}.azurewebsites.net'
+var apiHostName = '${apiAppName}.azurewebsites.net'
 
 resource plan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: appServicePlanName
@@ -115,7 +117,7 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
         }
         {
           name: 'NEXTAUTH_URL'
-          value: 'https://${webApp.properties.defaultHostName}'
+          value: 'https://${webHostName}'
         }
         {
           name: 'NEXTAUTH_SECRET'
@@ -147,7 +149,7 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
         }
         {
           name: 'API_BASE_URL'
-          value: 'https://${apiApp.properties.defaultHostName}'
+          value: 'https://${apiHostName}'
         }
         {
           name: 'API_ADMIN_TOKEN'
@@ -183,7 +185,7 @@ resource apiApp 'Microsoft.Web/sites@2023-12-01' = {
         }
         {
           name: 'DBF_ALLOWED_ORIGINS'
-          value: 'https://${webApp.properties.defaultHostName}'
+          value: 'https://${webHostName}'
         }
         {
           name: 'DBF_BARCHETTA_BASE_URL'
@@ -222,7 +224,7 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
         }
         {
           name: 'API_BASE_URL'
-          value: 'https://${apiApp.properties.defaultHostName}'
+          value: 'https://${apiHostName}'
         }
         {
           name: 'API_ADMIN_TOKEN'
