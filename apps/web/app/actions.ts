@@ -79,7 +79,7 @@ export async function updateSettingAction(formData: FormData) {
 }
 
 export async function fetchMoreCarsAction(formData: FormData) {
-  const limit = Number(formData.get("limit") ?? 5);
+  const limit = 5;
 
   const result = (await apiFetch(`/admin/jobs/fetch?limit=${encodeURIComponent(String(limit))}`, {
     method: "POST"

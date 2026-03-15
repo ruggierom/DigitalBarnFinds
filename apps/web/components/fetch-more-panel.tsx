@@ -17,14 +17,13 @@ export function FetchMorePanel({ result }: FetchMorePanelProps) {
     <section className="card">
       <h2 className="section-title">Fetch More Cars</h2>
       <p className="empty">
-        Pull a random batch of unseen cars into the registry. In local dev, the
-        fetch will automatically fall back to saved fixture pages if the live
-        source blocks discovery.
+        Pull five unseen cars into the registry. In local dev, the fetch will
+        automatically fall back to saved fixture pages if the live source blocks
+        discovery.
       </p>
       <form action={fetchMoreCarsAction} className="fetch-form">
-        <input className="field" defaultValue="5" max="50" min="1" name="limit" type="number" />
         <button className="button" type="submit">
-          Fetch N more cars
+          Import 5 cars
         </button>
       </form>
       {result ? (
