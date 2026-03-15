@@ -51,7 +51,7 @@ from digital_barn_finds.services.fetch_more import fetch_random_cars
 from digital_barn_finds.seed import seed_sources
 
 settings = get_settings()
-app = FastAPI(title="DigitalBarnFinds API", version="0.1.0")
+app = FastAPI(title="DigitalBarnFinds API", version="0.1.1")
 FIXTURE_ROOT = Path(__file__).resolve().parents[2] / "fixtures"
 RENDERABLE_EXTENSIONS = ("jpg", "jpeg", "png", "webp", "gif", "avif", "bmp", "jfif")
 EXPORT_COLUMNS = [
