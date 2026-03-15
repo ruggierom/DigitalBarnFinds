@@ -185,6 +185,10 @@ resource apiApp 'Microsoft.Web/sites@2023-12-01' = {
           value: 'true'
         }
         {
+          name: 'DBF_APP_ENV'
+          value: 'production'
+        }
+        {
           name: 'DBF_DATABASE_URL'
           value: 'postgresql+psycopg://${postgresAdminLogin}:${postgresAdminPassword}@${postgres.name}.postgres.database.azure.com:5432/${postgresDbName}?sslmode=require'
         }
@@ -230,6 +234,10 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
         {
           name: 'SCM_DO_BUILD_DURING_DEPLOYMENT'
           value: 'true'
+        }
+        {
+          name: 'DBF_APP_ENV'
+          value: 'production'
         }
         {
           name: 'API_BASE_URL'
