@@ -97,6 +97,15 @@ resource postgresDb 'Microsoft.DBforPostgreSQL/flexibleServers/databases@2024-08
   }
 }
 
+resource postgresAzureFirewallRule 'Microsoft.DBforPostgreSQL/flexibleServers/firewallRules@2024-08-01' = {
+  parent: postgres
+  name: 'AllowAzureServices'
+  properties: {
+    startIpAddress: '0.0.0.0'
+    endIpAddress: '0.0.0.0'
+  }
+}
+
 resource webApp 'Microsoft.Web/sites@2023-12-01' = {
   name: webAppName
   location: location
