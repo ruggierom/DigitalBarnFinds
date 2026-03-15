@@ -10,15 +10,18 @@ param adminToken string
 
 @description('NextAuth secret used by the web app.')
 @secure()
-param nextAuthSecret string
+param nextAuthSecret string = ''
 
 @description('Google OAuth client id.')
 @secure()
-param googleClientId string
+param googleClientId string = ''
 
 @description('Google OAuth client secret.')
 @secure()
-param googleClientSecret string
+param googleClientSecret string = ''
+
+@description('Disable auth in the first deployment so the admin UI is accessible before OAuth is configured.')
+param authDisabled bool = true
 
 @description('Comma separated admin email allowlist.')
 param adminAllowlist string = 'hjwurl@gmail.com,michael.ruggiero@gmail.com'
@@ -117,6 +120,18 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
         {
           name: 'NEXTAUTH_SECRET'
           value: nextAuthSecret
+        }
+        {
+          name: 'AUTH_DISABLED'
+          value: authDisabled ? 'true' : 'false'
+        }
+        {
+          name: 'NEXT_PUBLIC_AUTH_DISABLED'
+          value: authDisabled ? 'true' : 'false'
+        }
+        {
+          name: 'DEV_AUTH_BYPASS'
+          value: authDisabled ? 'true' : 'false'
         }
         {
           name: 'GOOGLE_CLIENT_ID'

@@ -2,7 +2,8 @@ const errorMessages: Record<string, string> = {
   google: "Google sign-in failed before the session could be created.",
   AccessDenied: "Your Google account is not in the admin allowlist."
 };
-const devAuthBypass = process.env.DEV_AUTH_BYPASS === "true";
+const authDisabled =
+  process.env.AUTH_DISABLED === "true" || process.env.DEV_AUTH_BYPASS === "true";
 
 export default function SignInPage({
   searchParams
@@ -23,7 +24,7 @@ export default function SignInPage({
           public view.
         </p>
         <p>
-          {devAuthBypass ? (
+          {authDisabled ? (
             <a className="button" href="/dashboard">
               Continue to dashboard
             </a>

@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 
+const authDisabled = process.env.NEXT_PUBLIC_AUTH_DISABLED === "true";
+
 const navItems = [
   { href: "/cars?search=true", label: "Search", match: "/cars" },
   { href: "/cars?sort=recently_imported_desc", label: "Cars", match: "/cars" },
@@ -46,9 +48,11 @@ export function TopNav() {
           );
         })}
       </div>
-      <a className="signout signout--nav" href="/api/auth/signout?callbackUrl=/signin">
-        Sign out
-      </a>
+      {authDisabled ? null : (
+        <a className="signout signout--nav" href="/api/auth/signout?callbackUrl=/signin">
+          Sign out
+        </a>
+      )}
     </nav>
   );
 }

@@ -5,15 +5,18 @@ const allowlist = (process.env.ADMIN_ALLOWLIST ?? "")
   .split(",")
   .map((email) => email.trim().toLowerCase())
   .filter(Boolean);
-const devAuthBypass = process.env.DEV_AUTH_BYPASS === "true";
+export const authDisabled =
+  process.env.AUTH_DISABLED === "true" || process.env.DEV_AUTH_BYPASS === "true";
 
 export const authOptions: NextAuthOptions = {
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? ""
-    })
-  ],
+  providers: authDisabled
+    ? []
+    : [
+        GoogleProvider({
+          clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? ""
+        })
+      ],
   pages: {
     signIn: "/signin"
   },
@@ -22,7 +25,7 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({ user }) {
-      if (devAuthBypass) {
+      if (authDisabled) {
         console.log("[auth] bypass enabled");
         return true;
       }
@@ -36,7 +39,7 @@ export const authOptions: NextAuthOptions = {
       return allowed;
     },
     async session({ session }) {
-      if (devAuthBypass && !session.user?.email) {
+      if (authDisabled && !session.user?.email) {
         session.user = {
           ...session.user,
           name: "Local Admin",

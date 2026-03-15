@@ -2,19 +2,17 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 import { TopNav } from "@/components/top-nav";
-import { authOptions } from "@/lib/auth";
-
-const devAuthBypass = process.env.DEV_AUTH_BYPASS === "true";
+import { authDisabled, authOptions } from "@/lib/auth";
 
 export default async function AuthenticatedLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = devAuthBypass
+  const session = authDisabled
     ? {
         user: {
-          name: "Local Admin",
+          name: "Admin Preview",
           email:
             process.env.ADMIN_ALLOWLIST?.split(",")[0]?.trim() ??
             "local-admin@example.com"

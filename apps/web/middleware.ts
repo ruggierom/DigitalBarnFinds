@@ -1,9 +1,10 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
-const devAuthBypass = process.env.DEV_AUTH_BYPASS === "true";
+const authDisabled =
+  process.env.AUTH_DISABLED === "true" || process.env.DEV_AUTH_BYPASS === "true";
 
-const middleware = devAuthBypass
+const middleware = authDisabled
   ? () => NextResponse.next()
   : withAuth({
       pages: {
