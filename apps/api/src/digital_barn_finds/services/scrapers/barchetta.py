@@ -26,11 +26,23 @@ class BarchettaScraper(BaseScraper):
     def __init__(self) -> None:
         settings = get_settings()
         self.base_url = settings.barchetta_base_url.replace("https://www.barchetta.cc", "http://www.barchetta.cc")
+        self.discovery_base_urls = list(
+            dict.fromkeys(
+                [
+                    self.base_url.rstrip("/") + "/",
+                    "http://www.barchetta.cc/",
+                    "https://www.barchetta.cc/",
+                    "http://barchetta.cc/",
+                    "https://barchetta.cc/",
+                ]
+            )
+        )
         self.delay_seconds = settings.request_delay_seconds
         self.seed_paths = settings.barchetta_seed_paths
         user_agent = settings.effective_user_agent
         print(f"BarchettaScraper using User-Agent: {user_agent}")
         print(f"BarchettaScraper discovery paths: {self.seed_paths}")
+        print(f"BarchettaScraper discovery bases: {self.discovery_base_urls}")
         self.max_attempts = 3
         self.client = httpx.Client(
             headers={"User-Agent": user_agent},
@@ -42,20 +54,34 @@ class BarchettaScraper(BaseScraper):
         detail_links: list[str] = []
         seed_paths = self.seed_paths if full else self.seed_paths[:1]
         for path in seed_paths:
-            url = urljoin(self.base_url, path)
-            try:
-                response = self._request("GET", url)
-                response.raise_for_status()
-            except httpx.HTTPStatusError as exc:
-                if exc.response.status_code in {403, 404}:
-                    status = "blocked" if exc.response.status_code == 403 else "missing"
-                    print(f"BarchettaScraper skipping {status} discovery path: {url}")
+            path_links: list[str] = []
+            for base_url in self.discovery_base_urls:
+                url = urljoin(base_url, path)
+                try:
+                    response = self._request("GET", url)
+                    response.raise_for_status()
+                except httpx.HTTPStatusError as exc:
+                    if exc.response.status_code in {403, 404}:
+                        status = "blocked" if exc.response.status_code == 403 else "missing"
+                        print(f"BarchettaScraper skipping {status} discovery path: {url}")
+                        continue
+                    raise
+                except httpx.HTTPError as exc:
+                    print(f"BarchettaScraper skipping errored discovery path: {url} ({exc})")
                     continue
-                raise
-            except httpx.HTTPError as exc:
-                print(f"BarchettaScraper skipping errored discovery path: {url} ({exc})")
-                continue
-            detail_links.extend(self._extract_detail_links(response.text))
+
+                extracted_links = self._extract_detail_links(response.text)
+                if extracted_links:
+                    path_links.extend(extracted_links)
+                    if base_url != self.discovery_base_urls[0]:
+                        print(
+                            f"BarchettaScraper discovered {len(extracted_links)} links via alternate base: {url}"
+                        )
+                    break
+
+                print(f"BarchettaScraper found 0 detail links at discovery path: {url}")
+
+            detail_links.extend(path_links)
             time.sleep(self.delay_seconds)
         return sorted(set(detail_links))
 
@@ -156,10 +182,35 @@ class BarchettaScraper(BaseScraper):
     def _extract_detail_links(self, html: str) -> list[str]:
         soup = BeautifulSoup(html, "html.parser")
         links: list[str] = []
+        seen: set[str] = set()
         for anchor in soup.find_all("a", href=True):
             href = anchor["href"]
             if "Detail/" in href and href.lower().endswith(".htm"):
-                links.append(urljoin(self.base_url, href))
+                resolved = urljoin(self.base_url, href)
+                if resolved not in seen:
+                    seen.add(resolved)
+                    links.append(resolved)
+
+        # Some Barchetta pages render malformed or partial anchor markup in production.
+        # A raw HTML pass keeps discovery working when BeautifulSoup misses links.
+        for match in re.findall(
+            r"""https?://(?:www\.)?barchetta\.cc/english/(?:All|all)\.ferraris/Detail/[^"'\\s<>]+?\.htm""",
+            html,
+            flags=re.IGNORECASE,
+        ):
+            resolved = urljoin(self.base_url, match)
+            if resolved not in seen:
+                seen.add(resolved)
+                links.append(resolved)
+        for match in re.findall(
+            r"""(?:href=)?["']?((?:\.\./)+english/(?:All|all)\.ferraris/Detail/[^"'\\s<>]+?\.htm)""",
+            html,
+            flags=re.IGNORECASE,
+        ):
+            resolved = urljoin(self.base_url, match)
+            if resolved not in seen:
+                seen.add(resolved)
+                links.append(resolved)
         return links
 
     def _extract_serial(self, url: str, title: str, heading: str | None) -> str:
