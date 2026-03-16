@@ -46,6 +46,14 @@ def seed_sources() -> None:
                     description="Weights and thresholds for darkness score computation.",
                 )
             )
+        if db.query(AppSetting).filter(AppSetting.key == "fetch_more_ui").one_or_none() is None:
+            db.add(
+                AppSetting(
+                    key="fetch_more_ui",
+                    value={"enabled": False},
+                    description="Controls whether the Fetch More Cars panel is shown in the admin UI.",
+                )
+            )
         db.commit()
     finally:
         db.close()
@@ -53,4 +61,3 @@ def seed_sources() -> None:
 
 if __name__ == "__main__":
     seed_sources()
-

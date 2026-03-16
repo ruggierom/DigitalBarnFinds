@@ -44,7 +44,7 @@ export function RequestLabPanel({
     <>
       <section className="hero">
         <div className="hero__eyebrow">Internal request lab</div>
-        <h1 className="hero__title">Inspect every request detail safely.</h1>
+        <h1 className="section-title">Inspect every request detail safely.</h1>
         <p className="hero__copy">
           This lab is restricted to localhost and env-allowlisted internal hosts. Use it to tweak headers, method,
           and body, then inspect the exact request your backend sent and the raw response that came back.

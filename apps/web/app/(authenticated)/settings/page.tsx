@@ -3,6 +3,11 @@ import { RequestDiagnosticsPanel } from "@/components/request-diagnostics-panel"
 import { SettingsEditor } from "@/components/settings-editor";
 import { getBarchettaRequestDiagnostics, getSettings } from "@/lib/api";
 
+function isFeatureEnabled(value: Record<string, unknown> | undefined) {
+  const enabled = value?.enabled;
+  return enabled === true || enabled === "true" || enabled === 1;
+}
+
 export default async function SettingsPage({
   searchParams
 }: {
@@ -13,6 +18,7 @@ export default async function SettingsPage({
   const diagnosticsPath = queryValue(searchParams?.diag_path) ?? "/english/all.ferraris/summary/";
   const diagnosticsUserAgent = queryValue(searchParams?.diag_user_agent) ?? "";
   const diagnosticsRun = queryValue(searchParams?.diag_run) === "1";
+  const showFetchMorePanel = isFeatureEnabled(rows.find((row) => row.key === "fetch_more_ui")?.value);
   const diagnostics = await getBarchettaRequestDiagnostics({
     path: diagnosticsPath,
     userAgentOverride: diagnosticsUserAgent || undefined,
@@ -34,13 +40,13 @@ export default async function SettingsPage({
     <>
       <section className="hero">
         <div className="hero__eyebrow">Scoring controls</div>
-        <h1 className="hero__title">Tune what counts as dark.</h1>
+        <h1 className="section-title">Tune what counts as dark.</h1>
         <p className="hero__copy">
           Darkness thresholds and scoring weights are editable admin settings so
           the system can evolve as your acquisition strategy sharpens.
         </p>
       </section>
-      <FetchMorePanel result={fetchResult} />
+      {showFetchMorePanel ? <FetchMorePanel result={fetchResult} /> : null}
       <RequestDiagnosticsPanel
         currentPath={diagnosticsPath}
         currentUserAgentOverride={diagnosticsUserAgent}

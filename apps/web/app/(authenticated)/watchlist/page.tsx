@@ -8,7 +8,7 @@ export default async function WatchlistPage() {
     <>
       <section className="hero">
         <div className="hero__eyebrow">Editable shortlist</div>
-        <h1 className="hero__title">Track the leads worth human follow-up.</h1>
+        <h1 className="section-title">Track the leads worth human follow-up.</h1>
         <p className="hero__copy">
           Watchlist state is persisted separately from scoring so you can promote,
           drop, or annotate cars without losing the underlying darkness history.

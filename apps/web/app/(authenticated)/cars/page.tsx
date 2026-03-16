@@ -68,7 +68,7 @@ export default async function CarsPage({
     <>
       <section className="hero">
         <div className="hero__eyebrow">Canonical registry</div>
-        <h1 className="hero__title">Read every chassis like a case file.</h1>
+        <h1 className="section-title">Read every chassis like a case file.</h1>
         <p className="hero__copy">
           Every car now surfaces its darkness stats, every source page we
           scraped, and the merged provenance timeline that drives the watchlist.
@@ -139,37 +139,28 @@ export default async function CarsPage({
             <form className="car-search__form" method="GET">
               <input name="search" type="hidden" value="true" />
               <input name="page" type="hidden" value="1" />
-              <div className="car-search__primary">
-                <input
-                  className="field car-search__query"
-                  defaultValue={params.q ?? ""}
-                  name="q"
-                  placeholder="Search serial, model, owner, event, source reference..."
-                  type="search"
-                />
-              </div>
-              <div className="car-search__utility">
-                <div className="car-search__sortgroup">
-                  <label className="car-search__label" htmlFor="cars-sort">
-                    Sort
-                  </label>
-                  <select className="field car-search__sort" defaultValue={params.sort} id="cars-sort" name="sort">
-                    <option value="relevance">Relevance</option>
-                    <option value="darkness_score_desc">Darkness score</option>
-                    <option value="last_known_year_asc">Oldest last seen</option>
-                    <option value="recently_imported_desc">Recently imported</option>
-                  </select>
-                </div>
-                <div className="car-search__actions">
-                  <button className="button" type="submit">
-                    Apply
-                  </button>
-                  {hasFilters ? (
-                    <Link className="button button--secondary" href="/cars">
-                      Clear
-                    </Link>
-                  ) : null}
-                </div>
+              <input
+                className="field car-search__query"
+                defaultValue={params.q ?? ""}
+                name="q"
+                placeholder="Search serial, model, owner, event, source reference..."
+                type="search"
+              />
+              <select className="field car-search__sort" defaultValue={params.sort} name="sort">
+                <option value="relevance">Relevance</option>
+                <option value="darkness_score_desc">Darkness score</option>
+                <option value="last_known_year_asc">Oldest last seen</option>
+                <option value="recently_imported_desc">Recently imported</option>
+              </select>
+              <div className="car-search__actions">
+                <button className="button" type="submit">
+                  Apply
+                </button>
+                {hasFilters ? (
+                  <Link className="button button--secondary" href="/cars">
+                    Clear
+                  </Link>
+                ) : null}
               </div>
               <details className="car-search__advanced" open={hasFilters}>
                 <summary>Advanced filters</summary>

@@ -88,6 +88,9 @@ class Settings(BaseSettings):
         "DigitalBarnFindsBot/1.0"
     )
     request_delay_seconds: float = 2.0
+    barchetta_request_timeout_seconds: float = 20.0
+    barchetta_max_attempts: int = 2
+    barchetta_max_media_per_car: int = 60
     request_lab_allowed_hosts: str = "localhost,127.0.0.1"
 
     @property

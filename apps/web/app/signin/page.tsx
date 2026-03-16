@@ -17,7 +17,7 @@ export default function SignInPage({
     <main className="signin">
       <section className="hero signin__panel">
         <div className="hero__eyebrow">DigitalBarnFinds</div>
-        <h1 className="hero__title">Find the cars history forgot.</h1>
+        <h1 className="section-title">Find the cars history forgot.</h1>
         <p className="hero__copy">
           Search authenticated source records, surface deep provenance gaps,
           and track the cars that look most likely to have slipped out of

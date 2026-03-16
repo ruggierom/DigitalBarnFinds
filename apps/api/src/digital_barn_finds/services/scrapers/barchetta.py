@@ -39,15 +39,16 @@ class BarchettaScraper(BaseScraper):
         )
         self.delay_seconds = settings.request_delay_seconds
         self.seed_paths = settings.barchetta_seed_paths
+        self.max_media_per_car = settings.barchetta_max_media_per_car
         user_agent = settings.effective_user_agent
         print(f"BarchettaScraper using User-Agent: {user_agent}")
         print(f"BarchettaScraper discovery paths: {self.seed_paths}")
         print(f"BarchettaScraper discovery bases: {self.discovery_base_urls}")
-        self.max_attempts = 3
+        self.max_attempts = settings.barchetta_max_attempts
         self.client = httpx.Client(
             headers={"User-Agent": user_agent},
             follow_redirects=True,
-            timeout=30.0,
+            timeout=settings.barchetta_request_timeout_seconds,
         )
 
     def crawl(self, *, full: bool) -> list[str]:
@@ -93,17 +94,16 @@ class BarchettaScraper(BaseScraper):
 
         for iframe_url in self._extract_media_iframe_urls(soup, record.source_url):
             try:
-                self._merge_media(
-                    record.media,
-                    self._query_mediacenter_images(iframe_url),
-                )
-                iframe_response = self._request("GET", iframe_url)
-                iframe_response.raise_for_status()
-                iframe_soup = BeautifulSoup(iframe_response.text, "html.parser")
-                self._merge_media(
-                    record.media,
-                    self._parse_media(iframe_soup, iframe_url, iframe_url),
-                )
+                queried_media = self._query_mediacenter_images(iframe_url)
+                self._merge_media(record.media, queried_media)
+                if not queried_media:
+                    iframe_response = self._request("GET", iframe_url)
+                    iframe_response.raise_for_status()
+                    iframe_soup = BeautifulSoup(iframe_response.text, "html.parser")
+                    self._merge_media(
+                        record.media,
+                        self._parse_media(iframe_soup, iframe_url, iframe_url),
+                    )
                 time.sleep(self.delay_seconds)
             except httpx.HTTPError as exc:
                 print(f"BarchettaScraper media iframe fetch failed for {iframe_url}: {exc}")
@@ -569,6 +569,8 @@ class BarchettaScraper(BaseScraper):
         seen: set[str] = set()
 
         while total_items is None or offset < total_items:
+            if len(media) >= self.max_media_per_car:
+                break
             payload = {
                 "sQueryString": search_query,
                 "lDirID": dir_id,
@@ -641,6 +643,8 @@ class BarchettaScraper(BaseScraper):
                         "caption": caption,
                     }
                 )
+                if len(media) >= self.max_media_per_car:
+                    break
 
             offset += len(images)
             if len(images) < page_size:

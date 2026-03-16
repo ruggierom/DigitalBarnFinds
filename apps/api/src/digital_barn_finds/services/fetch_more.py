@@ -78,17 +78,29 @@ def _import_from_live(
     skipped_without_images = 0
     errors: list[str] = []
 
-    for url in selected_urls:
+    print(
+        f"FetchMore live import: mode={mode_used}, discovered={len(discovered_urls)}, "
+        f"unseen={len(unseen_urls)}, selected={len(selected_urls)}"
+    )
+
+    for index, url in enumerate(selected_urls, start=1):
+        print(f"FetchMore live import [{index}/{len(selected_urls)}]: {url}")
         try:
             record = scraper.parse_detail_page(url)
             if ignore_without_images and not _has_renderable_media(record.media):
                 skipped_without_images += 1
+                print(f"FetchMore live import skipped without images: {record.source_url}")
                 continue
             upsert_scraped_car(db, source, record)
             imported += 1
+            print(
+                f"FetchMore live import saved {record.car.serial_number} "
+                f"with {len(record.media)} media items"
+            )
         except Exception as exc:  # pragma: no cover - operational path
             db.rollback()
             errors.append(f"{url}: {exc}")
+            print(f"FetchMore live import error for {url}: {exc}")
 
     return FetchMoreResult(
         requested=limit,
