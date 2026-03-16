@@ -667,14 +667,14 @@ def get_watchlist(db: Session = Depends(get_db)) -> list[WatchlistItem]:
         WatchlistItem(
             car_id=entry.car_id,
             serial_number=entry.car.display_serial_number,
-            make=entry.car.make,
-            model=entry.car.model,
+            make=_clean_text(entry.car.make) or entry.car.make,
+            model=_clean_text(entry.car.model) or entry.car.model,
             priority=entry.priority,
             status=entry.status,
             score=entry.car.darkness_score.score if entry.car.darkness_score else None,
-            interest_reason=entry.interest_reason,
-            agent_instructions=entry.agent_instructions,
-            notes=entry.notes,
+            interest_reason=_clean_text(entry.interest_reason),
+            agent_instructions=_clean_text(entry.agent_instructions),
+            notes=_clean_text(entry.notes),
             updated_at=entry.updated_at,
         )
         for entry in entries
@@ -707,14 +707,14 @@ def upsert_watchlist_item(
     return WatchlistItem(
         car_id=entry.car_id,
         serial_number=car.display_serial_number,
-        make=car.make,
-        model=car.model,
+        make=_clean_text(car.make) or car.make,
+        model=_clean_text(car.model) or car.model,
         priority=entry.priority,
         status=entry.status,
         score=car.darkness_score.score if car.darkness_score else None,
-        interest_reason=entry.interest_reason,
-        agent_instructions=entry.agent_instructions,
-        notes=entry.notes,
+        interest_reason=_clean_text(entry.interest_reason),
+        agent_instructions=_clean_text(entry.agent_instructions),
+        notes=_clean_text(entry.notes),
         updated_at=entry.updated_at,
     )
 
@@ -733,12 +733,12 @@ def list_sources(db: Session = Depends(get_db)) -> list[SourceSummary]:
         results.append(
             SourceSummary(
                 id=source.id,
-                name=source.name,
+                name=_clean_text(source.name) or source.name,
                 base_url=source.base_url,
                 scraper_key=source.scraper_key,
                 enabled=source.enabled,
                 last_scraped_at=source.last_scraped_at,
-                last_status=latest_log.status if latest_log else None,
+                last_status=_clean_text(latest_log.status) if latest_log else None,
             )
         )
     return results
@@ -750,7 +750,7 @@ def list_settings(db: Session = Depends(get_db)) -> list[SettingItem]:
         SettingItem(
             key=setting.key,
             value=setting.value,
-            description=setting.description,
+            description=_clean_text(setting.description),
             updated_at=setting.updated_at,
         )
         for setting in db.query(AppSetting).order_by(AppSetting.key.asc()).all()
@@ -779,7 +779,7 @@ def update_setting(
     return SettingItem(
         key=setting.key,
         value=setting.value,
-        description=setting.description,
+        description=_clean_text(setting.description),
         updated_at=setting.updated_at,
     )
 
