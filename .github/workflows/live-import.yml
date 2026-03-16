@@ -1,6 +1,6 @@
 name: Live Import Cars
 
-# Trigger note: production 5-car image-backed import workflow. Refresh trigger 2026-03-15.
+# Trigger note: production 5-car image-backed import workflow. Refresh trigger 2026-03-16.
 
 on:
   push:
