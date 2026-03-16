@@ -15,6 +15,17 @@ class DashboardSnapshot(BaseModel):
     dark_now_count: int
 
 
+class RegistryStats(BaseModel):
+    total_cars: int
+    cars_with_media: int
+    media_rows: int
+    enabled_sources: int
+    watchlist_count: int
+    dark_now_count: int
+    primary_candidate_count: int
+    secondary_candidate_count: int
+
+
 class CarListItem(BaseModel):
     id: UUID
     serial_number: str

@@ -21,6 +21,7 @@ from digital_barn_finds.models import (
     AppSetting,
     Car,
     CarEvent,
+    CarMedia,
     CarSource,
     CustodyEvent,
     DarknessScore,
@@ -35,6 +36,7 @@ from digital_barn_finds.schemas import (
     CarListItem,
     DashboardSnapshot,
     BarchettaRequestDiagnostics,
+    RegistryStats,
     RequestLabInput,
     RequestLabResult,
     RequestHeaderItem,
@@ -135,6 +137,44 @@ def get_dashboard(db: Session = Depends(get_db)) -> DashboardSnapshot:
         watchlist_count=watchlist_count,
         source_count=source_count,
         dark_now_count=dark_now_count,
+    )
+
+
+@app.get("/stats", response_model=RegistryStats)
+def get_registry_stats(db: Session = Depends(get_db)) -> RegistryStats:
+    total_cars = db.query(func.count(Car.id)).scalar() or 0
+    cars_with_media = db.query(func.count(func.distinct(CarMedia.car_id))).scalar() or 0
+    media_rows = db.query(func.count(CarMedia.id)).scalar() or 0
+    enabled_sources = db.query(func.count(Source.id)).filter(Source.enabled.is_(True)).scalar() or 0
+    watchlist_count = db.query(func.count(WatchlistEntry.id)).scalar() or 0
+    dark_now_count = (
+        db.query(func.count(DarknessScore.id))
+        .filter(DarknessScore.is_currently_dark.is_(True))
+        .scalar()
+        or 0
+    )
+    primary_candidate_count = (
+        db.query(func.count(DarknessScore.id))
+        .filter(DarknessScore.qualifies_primary.is_(True))
+        .scalar()
+        or 0
+    )
+    secondary_candidate_count = (
+        db.query(func.count(DarknessScore.id))
+        .filter(DarknessScore.qualifies_secondary.is_(True))
+        .scalar()
+        or 0
+    )
+
+    return RegistryStats(
+        total_cars=total_cars,
+        cars_with_media=cars_with_media,
+        media_rows=media_rows,
+        enabled_sources=enabled_sources,
+        watchlist_count=watchlist_count,
+        dark_now_count=dark_now_count,
+        primary_candidate_count=primary_candidate_count,
+        secondary_candidate_count=secondary_candidate_count,
     )
 
 
