@@ -1,9 +1,12 @@
 import Link from "next/link";
 
+import { CarsAutoRefresh } from "@/components/cars-auto-refresh";
 import { CarsDataTable } from "@/components/cars-data-table";
 import { CarsDossierGrid } from "@/components/cars-dossier-grid";
 import { getCars, toSearchParams } from "@/lib/api";
 import type { CarSearchParams } from "@/lib/api";
+
+export const dynamic = "force-dynamic";
 
 export default async function CarsPage({
   searchParams
@@ -60,19 +63,30 @@ export default async function CarsPage({
   ].filter(Boolean) as string[];
 
   const presetKey = getPresetKey(params);
+  const presetLabel = getPresetLabel(presetKey);
   const exportQuery = toSearchParams({ ...params, page: undefined, page_size: undefined }).toString();
   const exportCsvHref = `/cars/export?format=csv${exportQuery ? `&${exportQuery}` : ""}`;
   const exportXlsxHref = `/cars/export?format=xlsx${exportQuery ? `&${exportQuery}` : ""}`;
+  const searchSummary = [
+    params.q ? `Query: ${params.q}` : null,
+    presetLabel,
+    activeFilters.length > 0 ? `${activeFilters.length} filter${activeFilters.length === 1 ? "" : "s"}` : null
+  ]
+    .filter(Boolean)
+    .join(" · ");
 
   return (
     <>
-      <section className="hero">
+      <CarsAutoRefresh />
+      <section className={`hero${isSearchMode ? " hero--compact" : ""}`}>
         <div className="hero__eyebrow">Canonical registry</div>
         <h1 className="section-title">Read every chassis like a case file.</h1>
-        <p className="hero__copy">
-          Every car now surfaces its darkness stats, every source page we
-          scraped, and the merged provenance timeline that drives the watchlist.
-        </p>
+        {!isSearchMode ? (
+          <p className="hero__copy">
+            Every car now surfaces its darkness stats, every source page we
+            scraped, and the merged provenance timeline that drives the watchlist.
+          </p>
+        ) : null}
       </section>
       <section className="car-search">
         <div className="car-search__heading">
@@ -115,132 +129,140 @@ export default async function CarsPage({
           ) : null}
         </div>
         {view === "cards" ? (
-          <>
-            <div className="car-search__presets">
-              <Link className={`filter-pill${presetKey === "all" ? " filter-pill--active" : ""}`} href={browseHref as any}>
-                All
-              </Link>
-              <Link className={`filter-pill${presetKey === "dark" ? " filter-pill--active" : ""}`} href={buildCarsHref({ dark_now: true, sort: "darkness_score_desc" }) as any}>
-                Dark
-              </Link>
-              <Link
-                className={`filter-pill${presetKey === "candidate" ? " filter-pill--active" : ""}`}
-                href={buildCarsHref({ candidates_only: true, sort: "darkness_score_desc" }) as any}
-              >
-                Candidates
-              </Link>
-              <Link
-                className={`filter-pill${presetKey === "images" ? " filter-pill--active" : ""}`}
-                href={buildCarsHref({ has_images: true, sort: "recently_imported_desc" }) as any}
-              >
-                With images
-              </Link>
-            </div>
-            <form className="car-search__form" method="GET">
-              <input name="search" type="hidden" value="true" />
-              <input name="page" type="hidden" value="1" />
-              <input
-                className="field car-search__query"
-                defaultValue={params.q ?? ""}
-                name="q"
-                placeholder="Search serial, model, owner, event, source reference..."
-                type="search"
-              />
-              <select className="field car-search__sort" defaultValue={params.sort} name="sort">
-                <option value="relevance">Relevance</option>
-                <option value="darkness_score_desc">Darkness score</option>
-                <option value="last_known_year_asc">Oldest last seen</option>
-                <option value="recently_imported_desc">Recently imported</option>
-              </select>
-              <div className="car-search__actions">
-                <button className="button" type="submit">
-                  Apply
-                </button>
-                {hasFilters ? (
-                  <Link className="button button--secondary" href="/cars">
-                    Clear
-                  </Link>
-                ) : null}
+          <details className="car-search__controls" open={!isSearchMode}>
+            <summary className="car-search__controls-summary">
+              <span className="car-search__controls-title">Search and filters</span>
+              <span className="car-search__controls-meta">
+                {searchSummary || "Open controls"}
+              </span>
+            </summary>
+            <div className="car-search__controls-body">
+              <div className="car-search__presets">
+                <Link className={`filter-pill${presetKey === "all" ? " filter-pill--active" : ""}`} href={browseHref as any}>
+                  All
+                </Link>
+                <Link className={`filter-pill${presetKey === "dark" ? " filter-pill--active" : ""}`} href={buildCarsHref({ dark_now: true, sort: "darkness_score_desc" }) as any}>
+                  Dark
+                </Link>
+                <Link
+                  className={`filter-pill${presetKey === "candidate" ? " filter-pill--active" : ""}`}
+                  href={buildCarsHref({ candidates_only: true, sort: "darkness_score_desc" }) as any}
+                >
+                  Candidates
+                </Link>
+                <Link
+                  className={`filter-pill${presetKey === "images" ? " filter-pill--active" : ""}`}
+                  href={buildCarsHref({ has_images: true, sort: "recently_imported_desc" }) as any}
+                >
+                  With images
+                </Link>
               </div>
-              <details className="car-search__advanced" open={hasFilters}>
-                <summary>Advanced filters</summary>
-                <div className="car-search__advanced-grid">
-                  <input className="field" defaultValue={params.make ?? ""} name="make" placeholder="Make" type="text" />
-                  <input className="field" defaultValue={params.model ?? ""} name="model" placeholder="Model" type="text" />
-                  <input
-                    className="field"
-                    defaultValue={params.drive_side ?? ""}
-                    name="drive_side"
-                    placeholder="Drive side"
-                    type="text"
-                  />
-                  <input
-                    className="field"
-                    defaultValue={params.original_color ?? ""}
-                    name="original_color"
-                    placeholder="Original color"
-                    type="text"
-                  />
-                  <input
-                    className="field"
-                    defaultValue={params.source ?? ""}
-                    name="source"
-                    placeholder="Source or URL"
-                    type="text"
-                  />
-                  <input
-                    className="field"
-                    defaultValue={params.serial_number ?? ""}
-                    name="serial_number"
-                    placeholder="Serial number"
-                    type="text"
-                  />
-                  <input
-                    className="field"
-                    defaultValue={params.build_date ?? ""}
-                    name="build_date"
-                    placeholder="Build date"
-                    type="date"
-                  />
-                  <input
-                    className="field"
-                    defaultValue={params.score_min ?? ""}
-                    min="0"
-                    max="100"
-                    name="score_min"
-                    placeholder="Min darkness score"
-                    type="number"
-                  />
-                  <input
-                    className="field"
-                    defaultValue={params.last_seen_before ?? ""}
-                    min="1800"
-                    max="2100"
-                    name="last_seen_before"
-                    placeholder="Last seen before year"
-                    type="number"
-                  />
-                  <label className="toggle-chip">
-                    <input defaultChecked={params.dark_now === true} name="dark_now" type="checkbox" value="true" />
-                    <span>Currently dark only</span>
-                  </label>
-                  <label className="toggle-chip">
-                    <input defaultChecked={params.has_images === true} name="has_images" type="checkbox" value="true" />
-                    <span>Only cars with images</span>
-                  </label>
+              <form className="car-search__form" method="GET">
+                <input name="search" type="hidden" value="true" />
+                <input name="page" type="hidden" value="1" />
+                <input
+                  className="field car-search__query"
+                  defaultValue={params.q ?? ""}
+                  name="q"
+                  placeholder="Search serial, model, owner, event, source reference..."
+                  type="search"
+                />
+                <select className="field car-search__sort" defaultValue={params.sort} name="sort">
+                  <option value="relevance">Relevance</option>
+                  <option value="darkness_score_desc">Darkness score</option>
+                  <option value="last_known_year_asc">Oldest last seen</option>
+                  <option value="recently_imported_desc">Recently imported</option>
+                </select>
+                <div className="car-search__actions">
+                  <button className="button" type="submit">
+                    Apply
+                  </button>
+                  {hasFilters ? (
+                    <Link className="button button--secondary" href="/cars">
+                      Clear
+                    </Link>
+                  ) : null}
                 </div>
-              </details>
-            </form>
-            {activeFilters.length > 0 ? (
-              <div className="car-search__active">
-                {activeFilters.map((filter) => (
-                  <span className="active-filter" key={filter}>
-                    {filter}
-                  </span>
-                ))}
-              </div>
-            ) : null}
-          </>
+                <details className="car-search__advanced" open={hasFilters}>
+                  <summary>Advanced filters</summary>
+                  <div className="car-search__advanced-grid">
+                    <input className="field" defaultValue={params.make ?? ""} name="make" placeholder="Make" type="text" />
+                    <input className="field" defaultValue={params.model ?? ""} name="model" placeholder="Model" type="text" />
+                    <input
+                      className="field"
+                      defaultValue={params.drive_side ?? ""}
+                      name="drive_side"
+                      placeholder="Drive side"
+                      type="text"
+                    />
+                    <input
+                      className="field"
+                      defaultValue={params.original_color ?? ""}
+                      name="original_color"
+                      placeholder="Original color"
+                      type="text"
+                    />
+                    <input
+                      className="field"
+                      defaultValue={params.source ?? ""}
+                      name="source"
+                      placeholder="Source or URL"
+                      type="text"
+                    />
+                    <input
+                      className="field"
+                      defaultValue={params.serial_number ?? ""}
+                      name="serial_number"
+                      placeholder="Serial number"
+                      type="text"
+                    />
+                    <input
+                      className="field"
+                      defaultValue={params.build_date ?? ""}
+                      name="build_date"
+                      placeholder="Build date"
+                      type="date"
+                    />
+                    <input
+                      className="field"
+                      defaultValue={params.score_min ?? ""}
+                      min="0"
+                      max="100"
+                      name="score_min"
+                      placeholder="Min darkness score"
+                      type="number"
+                    />
+                    <input
+                      className="field"
+                      defaultValue={params.last_seen_before ?? ""}
+                      min="1800"
+                      max="2100"
+                      name="last_seen_before"
+                      placeholder="Last seen before year"
+                      type="number"
+                    />
+                    <label className="toggle-chip">
+                      <input defaultChecked={params.dark_now === true} name="dark_now" type="checkbox" value="true" />
+                      <span>Currently dark only</span>
+                    </label>
+                    <label className="toggle-chip">
+                      <input defaultChecked={params.has_images === true} name="has_images" type="checkbox" value="true" />
+                      <span>Only cars with images</span>
+                    </label>
+                  </div>
+                </details>
+              </form>
+              {activeFilters.length > 0 ? (
+                <div className="car-search__active">
+                  {activeFilters.map((filter) => (
+                    <span className="active-filter" key={filter}>
+                      {filter}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          </details>
         ) : null}
       </section>
       <div className="results-toolbar">
@@ -323,6 +345,19 @@ function getPresetKey(params: CarSearchParams) {
     return "images";
   }
   return "all";
+}
+
+function getPresetLabel(presetKey: string) {
+  if (presetKey === "dark") {
+    return "Dark";
+  }
+  if (presetKey === "candidate") {
+    return "Candidates";
+  }
+  if (presetKey === "images") {
+    return "With images";
+  }
+  return null;
 }
 
 function buildCarsHref(params: Partial<CarSearchParams> & { search?: boolean; view?: string }) {
