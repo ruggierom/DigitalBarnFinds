@@ -25,7 +25,7 @@ class BarchettaScraper(BaseScraper):
 
     def __init__(self) -> None:
         settings = get_settings()
-        self.base_url = settings.barchetta_base_url
+        self.base_url = settings.barchetta_base_url.replace("https://www.barchetta.cc", "http://www.barchetta.cc")
         self.delay_seconds = settings.request_delay_seconds
         self.seed_paths = settings.barchetta_seed_paths
         user_agent = settings.effective_user_agent

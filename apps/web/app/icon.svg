@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="DigitalBarnFinds">
+  <rect width="64" height="64" rx="16" fill="#f5efe3"/>
+  <path d="M16 42V22h15c8 0 13 4 13 10s-5 10-13 10H16zm8-6h6c4 0 6-1.4 6-4s-2-4-6-4h-6v8z" fill="#111111"/>
+  <path d="M43 43l-6-6" stroke="#b43b2e" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="44" cy="44" r="7" fill="none" stroke="#b43b2e" stroke-width="4"/>
+</svg>
