@@ -17,15 +17,18 @@ jobs:
       - name: Health check production API
         run: curl -f --max-time 20 https://digitalbarnfinds-api.azurewebsites.net/healthz
 
-      - name: Import 100 cars with images
+      - name: Import 100 cars with images in 20 batches
         env:
           API_ADMIN_TOKEN: ${{ secrets.API_ADMIN_TOKEN }}
         run: |
-          response=$(curl -f --max-time 600 \
-            -X POST \
-            -H "x-admin-token: ${API_ADMIN_TOKEN}" \
-            "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/fetch?limit=100&ignore_without_images=true")
-          echo "$response"
+          for batch in $(seq 1 20); do
+            echo "Starting batch ${batch}/20"
+            curl -f --max-time 180 \
+              -X POST \
+              -H "x-admin-token: ${API_ADMIN_TOKEN}" \
+              "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/fetch?limit=5&ignore_without_images=true"
+            echo
+          done
 
       - name: Recompute darkness scores
         env:
