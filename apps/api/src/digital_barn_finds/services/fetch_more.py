@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from sqlalchemy.orm import Session
 
 from digital_barn_finds.models import CarSource, Source
+from digital_barn_finds.config import get_settings
 from digital_barn_finds.services.fixture_pool import discover_barchetta_fixture_pages
 from digital_barn_finds.services.ingest import upsert_scraped_car
 from digital_barn_finds.services.scrapers.barchetta import BarchettaScraper
@@ -65,6 +66,12 @@ def _import_from_live(
     limit: int,
     ignore_without_images: bool,
 ) -> FetchMoreResult:
+    mode_used = "live"
+    settings = get_settings()
+    if not discovered_urls:
+        discovered_urls = settings.barchetta_fallback_urls
+        mode_used = "seeded-live"
+
     unseen_urls = [url for url in discovered_urls if url not in existing_urls]
     selected_urls = random.sample(unseen_urls, k=min(limit, len(unseen_urls))) if unseen_urls else []
     imported = 0
@@ -90,7 +97,7 @@ def _import_from_live(
         skipped_existing=max(0, len(discovered_urls) - len(unseen_urls)),
         skipped_without_images=skipped_without_images,
         source_name=source.name,
-        mode_used="live",
+        mode_used=mode_used,
         errors=errors,
     )
 

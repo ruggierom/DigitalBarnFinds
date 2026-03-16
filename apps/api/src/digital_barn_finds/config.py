@@ -61,6 +61,28 @@ class Settings(BaseSettings):
         "/all.ferraris/by-serial-number/ferrari-by-serial-number/model-index/"
         "model-summary/365-gtb4-daytona-index/index.html"
     )
+    barchetta_fallback_detail_urls: str = (
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/5161.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6003.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6357.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6437.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6449.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6457.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6471.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6489.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6505.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6507.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6517.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6521.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6527.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6529.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6543.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6557.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6563.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6569.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6575.275GTB.htm,"
+        "http://www.barchetta.cc/english/All.Ferraris/Detail/6585.275GTB.htm"
+    )
     user_agent_override: str | None = None
     respectful_user_agent: str = (
         "DigitalBarnFindsBot/1.0"
@@ -79,6 +101,10 @@ class Settings(BaseSettings):
     @property
     def barchetta_seed_paths(self) -> list[str]:
         return [path.strip() for path in self.barchetta_discovery_paths.split(",") if path.strip()]
+
+    @property
+    def barchetta_fallback_urls(self) -> list[str]:
+        return [url.strip() for url in self.barchetta_fallback_detail_urls.split(",") if url.strip()]
 
     @property
     def allowed_request_lab_hosts(self) -> list[str]:
