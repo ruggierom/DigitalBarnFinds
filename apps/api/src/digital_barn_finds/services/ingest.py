@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import html
 from datetime import UTC, datetime
 
 from sqlalchemy.orm import Session
@@ -98,7 +99,7 @@ def upsert_scraped_car(db: Session, source: Source, record: ScrapedCarRecord) ->
                 owner_name=_string_value(custody_event.payload.get("owner_name")),
                 location=_string_value(custody_event.payload.get("location")),
                 transaction_notes=_string_value(custody_event.payload.get("transaction_notes")),
-                source_reference=custody_event.source_reference,
+                source_reference=_string_value(custody_event.source_reference),
             )
         )
 
@@ -116,7 +117,7 @@ def upsert_scraped_car(db: Session, source: Source, record: ScrapedCarRecord) ->
                 car_number=_string_value(event.payload.get("car_number")),
                 result=_string_value(event.payload.get("result")),
                 location=_string_value(event.payload.get("location")),
-                source_reference=event.source_reference,
+                source_reference=_string_value(event.source_reference),
             )
         )
 
@@ -143,7 +144,7 @@ def upsert_scraped_car(db: Session, source: Source, record: ScrapedCarRecord) ->
 def _string_value(value: object) -> str | None:
     if value is None:
         return None
-    text = str(value).strip()
+    text = html.unescape(str(value)).strip()
     return text or None
 
 
@@ -172,5 +173,5 @@ def _fit_car_fields(car: NormalizedCar) -> dict[str, str | None]:
 def _trim(value: str | None, limit: int) -> str | None:
     if value is None:
         return None
-    text = str(value).strip()
+    text = html.unescape(str(value)).strip()
     return text[:limit] if text else None

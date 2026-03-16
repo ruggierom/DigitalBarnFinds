@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import html
 import re
 import time
 from datetime import date
@@ -691,7 +692,7 @@ def _resolve_media_src(src: str, canonical_url: str, source_url: str) -> str:
 
 
 def _normalize_whitespace(value: str) -> str:
-    return re.sub(r"\s+", " ", value).strip()
+    return re.sub(r"\s+", " ", html.unescape(value).replace("\xa0", " ")).strip()
 
 
 def _string_or_none(value: object) -> str | None:

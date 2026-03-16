@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import html
 from datetime import date, datetime
 from io import BytesIO, StringIO
 from pathlib import Path
@@ -524,10 +525,10 @@ def _serialize_car(car: Car, request: Request | None = None) -> CarListItem:
                 event_date_label=_format_date_label(event.event_date, event.event_date_precision, event.event_year),
                 event_date_precision=event.event_date_precision,
                 event_year=event.event_year,
-                title=event.owner_name or "Ownership entry",
-                subtitle=event.location,
-                detail=event.transaction_notes,
-                source_reference=event.source_reference,
+                title=_clean_text(event.owner_name) or "Ownership entry",
+                subtitle=_clean_text(event.location),
+                detail=_clean_text(event.transaction_notes),
+                source_reference=_clean_text(event.source_reference),
             )
             for event in car.custody_events
         ]
@@ -542,15 +543,15 @@ def _serialize_car(car: Car, request: Request | None = None) -> CarListItem:
                 event_date_label=_format_date_label(event.event_date, event.event_date_precision, event.event_year),
                 event_date_precision=event.event_date_precision,
                 event_year=event.event_year,
-                title=event.event_name or "Car event",
-                subtitle=event.driver,
+                title=_clean_text(event.event_name) or "Car event",
+                subtitle=_clean_text(event.driver),
                 detail=" | ".join(
-                    part
+                    cleaned_part
                     for part in [event.result, event.location, event.car_number]
-                    if part
+                    if (cleaned_part := _clean_text(part))
                 )
                 or None,
-                source_reference=event.source_reference,
+                source_reference=_clean_text(event.source_reference),
             )
             for event in car.car_events
         ],
@@ -560,17 +561,17 @@ def _serialize_car(car: Car, request: Request | None = None) -> CarListItem:
     return CarListItem(
         id=car.id,
         serial_number=car.display_serial_number,
-        make=car.make,
-        model=car.model,
-        variant=car.variant,
+        make=_clean_text(car.make) or car.make,
+        model=_clean_text(car.model) or car.model,
+        variant=_clean_text(car.variant),
         year_built=car.year_built,
         build_date=car.build_date,
         build_date_precision=car.build_date_precision,
         build_date_label=_format_structured_date(car.build_date, car.build_date_precision),
-        body_style=car.body_style,
-        drive_side=car.drive_side,
-        original_color=car.original_color,
-        notes=car.notes,
+        body_style=_clean_text(car.body_style),
+        drive_side=_clean_text(car.drive_side),
+        original_color=_clean_text(car.original_color),
+        notes=_clean_text(car.notes),
         source_count=car.source_count,
         darkness_score=car.darkness_score.score if car.darkness_score else None,
         last_known_year=car.darkness_score.last_known_year if car.darkness_score else None,
@@ -582,9 +583,9 @@ def _serialize_car(car: Car, request: Request | None = None) -> CarListItem:
         watchlist_status=car.watchlist_entry.status if car.watchlist_entry else None,
         sources=[
             CarSourceItem(
-                source_name=source.source.name,
+                source_name=_clean_text(source.source.name) or source.source.name,
                 source_url=source.source_url,
-                source_serial_number=source.source_serial_number,
+                source_serial_number=_clean_text(source.source_serial_number) or source.source_serial_number,
                 scraped_at=source.scraped_at,
             )
             for source in sorted(car.sources, key=lambda item: item.scraped_at, reverse=True)
@@ -593,7 +594,7 @@ def _serialize_car(car: Car, request: Request | None = None) -> CarListItem:
             CarMediaItem(
                 media_type=media.media_type,
                 url=_resolve_media_url(media.url, request),
-                caption=media.caption,
+                caption=_clean_text(media.caption),
             )
             for media in sorted(
                 car.media_items,
@@ -649,6 +650,14 @@ def _format_structured_date(value: date | None, precision: str | None) -> str | 
     if normalized_precision == "month":
         return value.strftime("%Y/%b").lower()
     return value.strftime("%Y/%b/%d").lower()
+
+
+def _clean_text(value: str | None) -> str | None:
+    if value is None:
+        return None
+
+    cleaned = html.unescape(value).replace("\xa0", " ").strip()
+    return cleaned or None
 
 
 @app.get("/watchlist", response_model=list[WatchlistItem], dependencies=[Depends(require_admin_token)])
