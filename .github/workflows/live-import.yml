@@ -7,6 +7,9 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/live-import.yml"
+      - "apps/api/src/digital_barn_finds/config.py"
+      - "apps/api/src/digital_barn_finds/services/fetch_more.py"
+      - "apps/api/src/digital_barn_finds/services/scrapers/barchetta.py"
   workflow_dispatch:
 
 jobs:
@@ -23,10 +26,11 @@ jobs:
         env:
           API_ADMIN_TOKEN: ${{ secrets.API_ADMIN_TOKEN }}
         run: |
-          curl -f --max-time 180 \
+          response=$(curl -f --max-time 180 \
             -X POST \
             -H "x-admin-token: ${API_ADMIN_TOKEN}" \
-            "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/fetch?limit=5&ignore_without_images=true"
+            "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/fetch?limit=5&ignore_without_images=true")
+          echo "$response"
 
       - name: Recompute darkness scores
         env:
