@@ -7,13 +7,20 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/live-import.yml"
-      - "apps/api/src/digital_barn_finds/config.py"
-      - "apps/api/src/digital_barn_finds/services/fetch_more.py"
-      - "apps/api/src/digital_barn_finds/services/scrapers/barchetta.py"
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Deploy API"]
+    types:
+      - completed
 
 jobs:
   import:
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'push' ||
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
     concurrency:
       group: live-import-main
