@@ -908,8 +908,13 @@ def _format_date_label(event_date, precision: str, event_year: int | None) -> st
 def _resolve_media_url(url: str, request: Request | None = None) -> str:
     if url.startswith("file://"):
         path = unquote(url.removeprefix("file://"))
+        if settings.public_base_url:
+            return f"{settings.public_base_url.rstrip('/')}/media/local?path={quote(path)}"
         if request is not None:
-            return str(request.url_for("get_local_media")) + f"?path={quote(path)}"
+            resolved = str(request.url_for("get_local_media"))
+            if settings.app_env == "production" and resolved.startswith("http://"):
+                resolved = resolved.replace("http://", "https://", 1)
+            return resolved + f"?path={quote(path)}"
         return f"http://localhost:8000/media/local?path={quote(path)}"
     return url
 

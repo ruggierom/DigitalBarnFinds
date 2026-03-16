@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     app_env: str = "development"
     database_url: str
     admin_token: str
+    public_base_url: str | None = None
     allowed_origins: str = "http://localhost:3000"
     barchetta_base_url: str = "http://www.barchetta.cc"
     barchetta_discovery_paths: str = (

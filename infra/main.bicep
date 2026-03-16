@@ -197,6 +197,10 @@ resource apiApp 'Microsoft.Web/sites@2023-12-01' = {
           value: adminToken
         }
         {
+          name: 'DBF_PUBLIC_BASE_URL'
+          value: 'https://${apiHostName}'
+        }
+        {
           name: 'DBF_ALLOWED_ORIGINS'
           value: 'https://${webHostName}'
         }
