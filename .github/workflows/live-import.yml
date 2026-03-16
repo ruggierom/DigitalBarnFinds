@@ -1,6 +1,6 @@
 name: Live Import Cars
 
-# Trigger note: production 5-car image-backed import workflow. Refresh trigger 2026-03-16-2.
+# Trigger note: production batched image-backed import workflow. Refresh trigger 2026-03-16-3.
 
 on:
   push:
@@ -33,11 +33,14 @@ jobs:
         env:
           API_ADMIN_TOKEN: ${{ secrets.API_ADMIN_TOKEN }}
         run: |
-          response=$(curl -f --max-time 180 \
-            -X POST \
-            -H "x-admin-token: ${API_ADMIN_TOKEN}" \
-            "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/fetch?limit=5&ignore_without_images=true")
-          echo "$response"
+          for batch in $(seq 1 20); do
+            echo "Starting batch ${batch}/20"
+            curl -f --max-time 180 \
+              -X POST \
+              -H "x-admin-token: ${API_ADMIN_TOKEN}" \
+              "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/fetch?limit=5&ignore_without_images=true"
+            echo
+          done
 
       - name: Recompute darkness scores
         env:
