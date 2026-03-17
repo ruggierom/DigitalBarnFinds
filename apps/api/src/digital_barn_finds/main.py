@@ -1106,6 +1106,8 @@ def run_cache_media(
         "deduped": result.deduped,
         "skipped": result.skipped,
         "remaining_remote": result.remaining_remote,
+        "remaining_local": result.remaining_local,
+        "remaining_unmanaged": result.remaining_unmanaged,
         "scraper_key": result.scraper_key,
         "errors": result.errors or [],
     }

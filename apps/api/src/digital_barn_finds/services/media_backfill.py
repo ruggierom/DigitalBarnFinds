@@ -3,11 +3,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import httpx
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from digital_barn_finds.config import get_settings
 from digital_barn_finds.models import Car, CarMedia, CarSource, Source
-from digital_barn_finds.services.media_storage import persist_remote_media
+from digital_barn_finds.services.media_storage import persist_local_media, persist_remote_media
 
 
 @dataclass(slots=True)
@@ -17,6 +18,8 @@ class MediaBackfillResult:
     deduped: int
     skipped: int
     remaining_remote: int
+    remaining_local: int
+    remaining_unmanaged: int
     scraper_key: str | None = None
     errors: list[str] | None = None
 
@@ -33,7 +36,12 @@ def cache_existing_media(
         .join(Car, CarMedia.car_id == Car.id)
         .join(CarSource, CarMedia.car_source_id == CarSource.id)
         .join(Source, CarSource.source_id == Source.id)
-        .filter(CarMedia.url.like("http%"))
+        .filter(
+            or_(
+                CarMedia.url.like("http%"),
+                CarMedia.url.like("file://%"),
+            )
+        )
         .order_by(CarMedia.scraped_at.desc())
     )
     if scraper_key:
@@ -51,12 +59,23 @@ def cache_existing_media(
     try:
         for media, serial_number, row_scraper_key in rows:
             try:
-                stored = persist_remote_media(
-                    media.url,
-                    source_key=row_scraper_key,
-                    serial_number=serial_number,
-                    client=client,
-                )
+                if media.url.startswith("http"):
+                    stored = persist_remote_media(
+                        media.url,
+                        source_key=row_scraper_key,
+                        serial_number=serial_number,
+                        client=client,
+                    )
+                elif media.url.startswith("file://"):
+                    stored = persist_local_media(
+                        media.url,
+                        source_key=row_scraper_key,
+                        serial_number=serial_number,
+                    )
+                else:
+                    skipped += 1
+                    errors.append(f"{media.url}: unsupported media URL for backfill")
+                    continue
             except Exception as exc:  # noqa: BLE001
                 skipped += 1
                 errors.append(f"{media.url}: {exc}")
@@ -96,20 +115,31 @@ def cache_existing_media(
     finally:
         client.close()
 
-    remaining_query = db.query(CarMedia).filter(CarMedia.url.like("http%"))
+    remaining_remote_query = db.query(CarMedia).filter(CarMedia.url.like("http%"))
+    remaining_local_query = db.query(CarMedia).filter(CarMedia.url.like("file://%"))
     if scraper_key:
-        remaining_query = (
-            remaining_query.join(CarSource, CarMedia.car_source_id == CarSource.id)
+        remaining_remote_query = (
+            remaining_remote_query.join(CarSource, CarMedia.car_source_id == CarSource.id)
             .join(Source, CarSource.source_id == Source.id)
             .filter(Source.scraper_key == scraper_key)
         )
+        remaining_local_query = (
+            remaining_local_query.join(CarSource, CarMedia.car_source_id == CarSource.id)
+            .join(Source, CarSource.source_id == Source.id)
+            .filter(Source.scraper_key == scraper_key)
+        )
+
+    remaining_remote = remaining_remote_query.count()
+    remaining_local = remaining_local_query.count()
 
     return MediaBackfillResult(
         requested=len(rows),
         updated=updated,
         deduped=deduped,
         skipped=skipped,
-        remaining_remote=remaining_query.count(),
+        remaining_remote=remaining_remote,
+        remaining_local=remaining_local,
+        remaining_unmanaged=remaining_remote + remaining_local,
         scraper_key=scraper_key,
         errors=errors,
     )

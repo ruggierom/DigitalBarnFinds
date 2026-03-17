@@ -100,7 +100,8 @@ def run_cache_media(limit: int, scraper_key: str | None) -> None:
         result = cache_existing_media(db, limit=limit, scraper_key=scraper_key)
         print(
             f"Requested {result.requested}, cached {result.updated}, deduped {result.deduped}, skipped {result.skipped}, "
-            f"remaining remote {result.remaining_remote}."
+            f"remaining unmanaged {result.remaining_unmanaged} "
+            f"(remote={result.remaining_remote}, local={result.remaining_local})."
         )
         if result.errors:
             print("Errors:")

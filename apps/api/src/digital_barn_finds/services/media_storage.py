@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 from typing import Protocol
+from urllib.parse import unquote
 
 import httpx
 
@@ -197,16 +198,58 @@ def persist_remote_media(
                 raise ValueError(f"media exceeds max size of {settings.media_download_max_bytes} bytes")
 
     raw_bytes = bytes(payload)
-    if not raw_bytes:
+    return persist_media_payload(
+        raw_bytes,
+        source_key=source_key,
+        serial_number=serial_number,
+        content_type=content_type,
+        source_url=source_url,
+    )
+
+
+def persist_local_media(
+    local_url: str,
+    *,
+    source_key: str,
+    serial_number: str,
+) -> StoredMediaAsset:
+    local_path = Path(unquote(local_url.removeprefix("file://")))
+    if not local_path.exists():
+        raise FileNotFoundError(f"managed media file not found: {local_path}")
+    raw_bytes = local_path.read_bytes()
+    content_type = _normalize_content_type(mimetypes.guess_type(local_path.name)[0])
+    return persist_media_payload(
+        raw_bytes,
+        source_key=source_key,
+        serial_number=serial_number,
+        content_type=content_type,
+        source_url=str(local_path),
+    )
+
+
+def persist_media_payload(
+    payload: bytes,
+    *,
+    source_key: str,
+    serial_number: str,
+    content_type: str | None = None,
+    source_url: str | None = None,
+) -> StoredMediaAsset:
+    normalized_content_type = _normalize_content_type(content_type)
+    if not payload:
         raise ValueError("media response was empty")
-    if not _looks_like_image(source_url, content_type, raw_bytes):
+    if not _looks_like_image(source_url or "", normalized_content_type, payload):
         raise ValueError("media response does not look like an image")
 
-    suffix = _choose_suffix(source_url, content_type, raw_bytes)
-    digest = hashlib.sha256(raw_bytes).hexdigest()
+    suffix = _choose_suffix(source_url or "", normalized_content_type, payload)
+    digest = hashlib.sha256(payload).hexdigest()
     key = _build_storage_key(source_key, serial_number, digest, suffix)
-    stored_url = _get_media_backend().store(key, raw_bytes, content_type=content_type)
-    return StoredMediaAsset(url=stored_url, bytes_written=len(raw_bytes), content_type=content_type)
+    stored_url = _get_media_backend().store(key, payload, content_type=normalized_content_type)
+    return StoredMediaAsset(
+        url=stored_url,
+        bytes_written=len(payload),
+        content_type=normalized_content_type,
+    )
 
 
 def read_blob_media(key: str) -> tuple[bytes, str | None]:

@@ -12,7 +12,11 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from digital_barn_finds.config import get_settings  # noqa: E402
-from digital_barn_finds.services.media_storage import persist_media_items, persist_remote_media  # noqa: E402
+from digital_barn_finds.services.media_storage import (  # noqa: E402
+    persist_local_media,
+    persist_media_items,
+    persist_remote_media,
+)
 
 PNG_BYTES = (
     b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01"
@@ -49,6 +53,33 @@ def test_persist_remote_media_writes_file_into_local_media_root(tmp_path, monkey
     assert saved_path.is_file()
     assert saved_path.read_bytes() == PNG_BYTES
     assert saved_path.is_relative_to(tmp_path)
+    get_settings.cache_clear()
+
+
+def test_persist_local_media_rehydrates_managed_file_into_current_backend(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("DBF_DATABASE_URL", "postgresql://test")
+    monkeypatch.setenv("DBF_ADMIN_TOKEN", "test-token")
+    monkeypatch.setenv("DBF_MEDIA_STORAGE_MODE", "filesystem")
+    target_root = tmp_path / "target"
+    monkeypatch.setenv("DBF_MEDIA_LOCAL_ROOT", str(target_root))
+    get_settings.cache_clear()
+
+    original_root = tmp_path / "original"
+    original_root.mkdir()
+    original_file = original_root / "demo.png"
+    original_file.write_bytes(PNG_BYTES)
+
+    stored = persist_local_media(
+        f"file://{original_file}",
+        source_key="artcurial",
+        serial_number="sale-6144-lot-16",
+    )
+
+    assert stored.url.startswith("file://")
+    saved_path = Path(stored.url.removeprefix("file://"))
+    assert saved_path.exists()
+    assert saved_path.read_bytes() == PNG_BYTES
+    assert saved_path.is_relative_to(target_root)
     get_settings.cache_clear()
 
 
