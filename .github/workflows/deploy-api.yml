@@ -62,15 +62,30 @@ jobs:
         with:
           app-name: ${{ secrets.AZURE_API_APP_NAME }}
           package: ./apps/api
-      - name: Smoke test API health
+      - name: Smoke test API
         run: |
-          API_URL="https://${{ secrets.AZURE_API_APP_NAME }}.azurewebsites.net/healthz"
+          set -u
+
+          API_BASE="https://${{ secrets.AZURE_API_APP_NAME }}.azurewebsites.net"
+
+          check_health() {
+            curl -fsS --max-time 20 "${API_BASE}/healthz" | grep -q '"status":"ok"'
+          }
+
+          check_stats() {
+            stats="$(curl -fsS --max-time 20 "${API_BASE}/stats")" || return 1
+            printf '%s' "${stats}" | grep -q '"total_cars":' &&
+              printf '%s' "${stats}" | grep -q '"cars_with_media":' &&
+              printf '%s' "${stats}" | grep -q '"watchlist_count":'
+          }
+
           for attempt in 1 2 3 4 5 6; do
-            echo "Checking ${API_URL} (attempt ${attempt})"
-            if curl -fsS --max-time 20 "${API_URL}" | grep -q '"status":"ok"'; then
+            echo "Checking ${API_BASE}/healthz and ${API_BASE}/stats (attempt ${attempt})"
+            if check_health && check_stats; then
               exit 0
             fi
             sleep 10
           done
-          echo "API health smoke test failed."
+
+          echo "API smoke test failed."
           exit 1

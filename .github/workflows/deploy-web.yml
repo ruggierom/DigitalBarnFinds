@@ -69,14 +69,30 @@ jobs:
           package: ./apps/web
       - name: Smoke test web UI
         run: |
-          WEB_URL="https://${{ secrets.AZURE_WEB_APP_NAME }}.azurewebsites.net/cars"
+          set -u
+
+          WEB_BASE="https://${{ secrets.AZURE_WEB_APP_NAME }}.azurewebsites.net"
+
+          check_dashboard() {
+            page="$(curl -fLsS --max-time 20 "${WEB_BASE}/dashboard")" || return 1
+            printf '%s' "${page}" | grep -q "Research Dashboard" &&
+              printf '%s' "${page}" | grep -q "currently dark"
+          }
+
+          check_cars() {
+            page="$(curl -fLsS --max-time 20 "${WEB_BASE}/cars?view=data")" || return 1
+            printf '%s' "${page}" | grep -q "Canonical registry" &&
+              printf '%s' "${page}" | grep -q "Data view" &&
+              printf '%s' "${page}" | grep -q "Export CSV"
+          }
+
           for attempt in 1 2 3 4 5 6; do
-            echo "Checking ${WEB_URL} (attempt ${attempt})"
-            page="$(curl -fLsS --max-time 20 "${WEB_URL}" || true)"
-            if printf '%s' "${page}" | grep -q "Data view"; then
+            echo "Checking ${WEB_BASE}/dashboard and ${WEB_BASE}/cars?view=data (attempt ${attempt})"
+            if check_dashboard && check_cars; then
               exit 0
             fi
             sleep 15
           done
-          echo "Web smoke test failed: Data view marker not found."
+
+          echo "Web smoke test failed."
           exit 1
