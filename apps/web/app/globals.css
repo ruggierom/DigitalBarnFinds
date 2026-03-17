@@ -555,6 +555,11 @@ th {
   margin-top: 0;
 }
 
+.view-switcher-stack {
+  display: grid;
+  gap: 8px;
+}
+
 .view-switcher {
   display: inline-grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -622,11 +627,35 @@ th {
   animation: view-switcher-spin 0.75s linear infinite;
 }
 
+.view-switcher__spinner--large {
+  width: 14px;
+  height: 14px;
+  border-width: 2px;
+}
+
 .view-switcher__hint {
   font-size: 0.66rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   opacity: 0.82;
+}
+
+.view-switcher__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  width: fit-content;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(198, 155, 60, 0.22);
+  background: rgba(198, 155, 60, 0.08);
+  color: #4c4640;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 @keyframes view-switcher-spin {

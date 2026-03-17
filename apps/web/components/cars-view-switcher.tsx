@@ -58,9 +58,17 @@ export function CarsViewSwitcher({ activeView, cardsHref, dataHref }: CarsViewSw
   };
 
   return (
-    <div aria-label="View mode" className="view-switcher">
-      {renderOption("cards", "Web view", "cards and dossier layout", cardsHref)}
-      {renderOption("data", "Data view", "table and export workflow", dataHref)}
+    <div className="view-switcher-stack">
+      <div aria-label="View mode" className="view-switcher">
+        {renderOption("cards", "Web view", "cards and dossier layout", cardsHref)}
+        {renderOption("data", "Data view", "table and export workflow", dataHref)}
+      </div>
+      {isPending ? (
+        <div aria-live="polite" className="view-switcher__status" role="status">
+          <span aria-hidden="true" className="view-switcher__spinner view-switcher__spinner--large" />
+          <span>Loading {pendingView === "data" ? "data view" : "web view"}…</span>
+        </div>
+      ) : null}
     </div>
   );
 }

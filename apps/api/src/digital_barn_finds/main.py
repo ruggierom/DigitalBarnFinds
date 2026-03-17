@@ -123,6 +123,24 @@ COUNTRY_LABELS = {
     "US": "United States",
     "ZA": "South Africa",
 }
+SOURCE_COUNTRY_HINTS = {
+    "aguttes": "FR",
+    "aguttes.com": "FR",
+    "artcurial": "FR",
+    "artcurial.com": "FR",
+    "bring a trailer": "US",
+    "bringatrailer.com": "US",
+    "gooding": "US",
+    "goodingco.com": "US",
+    "historics": "GB",
+    "historics.co.uk": "GB",
+    "iconic": "GB",
+    "iconicauctioneers.com": "GB",
+    "mecum": "US",
+    "mecum.com": "US",
+    "osenat": "FR",
+    "osenat.com": "FR",
+}
 COUNTRY_ALIASES = {
     "AE": (
         "united arab emirates",
@@ -802,6 +820,7 @@ def _clean_text(value: str | None) -> str | None:
 
 def _resolve_last_seen_place(car: Car) -> tuple[str | None, str | None, str | None]:
     candidates: list[tuple[int, str, str | None, str | None, str | None]] = []
+    fallback_country_code, fallback_country_name = _infer_country_from_sources(car)
 
     for event in car.custody_events:
         location = _clean_text(event.location)
@@ -854,13 +873,36 @@ def _resolve_last_seen_place(car: Car) -> tuple[str | None, str | None, str | No
         key=lambda item: (item[0], item[1]),
         reverse=True,
     ):
-        if not location and not country_code:
+        effective_country_code = country_code or fallback_country_code
+        effective_country_name = country_name or fallback_country_name
+        if not location and not effective_country_code:
             continue
-        cleaned_location = _normalize_last_seen_location(location, country_code, country_name)
-        if cleaned_location or country_code:
-            return cleaned_location, country_code, country_name
+        cleaned_location = _normalize_last_seen_location(location, effective_country_code, effective_country_name)
+        if cleaned_location or effective_country_code:
+            return cleaned_location, effective_country_code, effective_country_name
+
+    if fallback_country_code:
+        return fallback_country_name, fallback_country_code, fallback_country_name
 
     return None, None, None
+
+
+def _infer_country_from_sources(car: Car) -> tuple[str | None, str | None]:
+    latest_sources = sorted(
+        car.sources,
+        key=lambda item: item.scraped_at or datetime.min,
+        reverse=True,
+    )
+    for source in latest_sources:
+        source_name = _normalize_country_text(source.source.name if source.source else None)
+        source_domain = _normalize_country_text(urlparse(source.source_url).netloc)
+        for candidate in (source_name, source_domain):
+            if not candidate:
+                continue
+            for hint, country_code in SOURCE_COUNTRY_HINTS.items():
+                if hint in candidate:
+                    return country_code, COUNTRY_LABELS[country_code]
+    return None, None
 
 
 def _extract_country_marker(location: str | None, context: str | None) -> tuple[str | None, str | None]:
