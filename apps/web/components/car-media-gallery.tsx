@@ -77,7 +77,7 @@ export function CarMediaGallery({ serialNumber, sources, media }: CarMediaGaller
         <section className="dossier-panel">
           <div className="dossier-panel__header">
             <h3 className="dossier-panel__title">Images</h3>
-            <span className="panel-count">{rankedMedia.length} renderable</span>
+            <span className="panel-count">{rankedMedia.length} images</span>
           </div>
           <div className="media-grid">
             {galleryMedia.map((item, index) => (
