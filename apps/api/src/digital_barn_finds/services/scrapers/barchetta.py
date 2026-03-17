@@ -10,7 +10,7 @@ from urllib.parse import parse_qs, unquote, urlencode, urljoin, urlparse
 from xml.etree import ElementTree as ET
 
 import httpx
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, UnicodeDammit
 
 from digital_barn_finds.config import get_settings
 from digital_barn_finds.services.scrapers.base import (
@@ -148,7 +148,8 @@ class BarchettaScraper(BaseScraper):
                     self._log(f"BarchettaScraper skipping errored discovery path: {url} ({exc})")
                     continue
 
-                extracted_links = self._extract_detail_links(response.text)
+                response_text = _decode_http_text(response, is_html=True)
+                extracted_links = self._extract_detail_links(response_text)
                 if extracted_links:
                     path_links.extend(extracted_links)
                     if base_url != self.discovery_base_urls[0]:
@@ -166,8 +167,9 @@ class BarchettaScraper(BaseScraper):
     def parse_detail_page(self, url: str) -> ScrapedCarRecord:
         response = self._request("GET", url)
         response.raise_for_status()
-        record = self.parse_detail_html(response.text, url)
-        soup = BeautifulSoup(response.text, "html.parser")
+        response_text = _decode_http_text(response, is_html=True)
+        record = self.parse_detail_html(response_text, url)
+        soup = BeautifulSoup(response_text, "html.parser")
 
         for iframe_url in self._extract_media_iframe_urls(soup, record.source_url):
             try:
@@ -176,7 +178,8 @@ class BarchettaScraper(BaseScraper):
                 if not queried_media:
                     iframe_response = self._request("GET", iframe_url)
                     iframe_response.raise_for_status()
-                    iframe_soup = BeautifulSoup(iframe_response.text, "html.parser")
+                    iframe_text = _decode_http_text(iframe_response, is_html=True)
+                    iframe_soup = BeautifulSoup(iframe_text, "html.parser")
                     self._merge_media(
                         record.media,
                         self._parse_media(iframe_soup, iframe_url, iframe_url),
@@ -780,7 +783,7 @@ class BarchettaScraper(BaseScraper):
             }
             response = self._request("POST", service_url, json=payload)
             response.raise_for_status()
-            xml_text = response.text.strip()
+            xml_text = _decode_http_text(response).strip()
             if not xml_text:
                 break
 
@@ -845,6 +848,31 @@ def _read_fixture_text(path: Path) -> str:
             return raw.decode(encoding)
         except UnicodeDecodeError:
             continue
+    return raw.decode("utf-8", errors="replace")
+
+
+def _decode_http_text(response: httpx.Response, *, is_html: bool = False) -> str:
+    raw = response.content
+    if not raw:
+        return ""
+
+    hinted_encodings: list[str] = []
+    content_type = response.headers.get("content-type", "")
+    match = re.search(r"charset=([A-Za-z0-9._-]+)", content_type, re.IGNORECASE)
+    if match:
+        hinted_encodings.append(match.group(1))
+
+    if is_html:
+        dammit = UnicodeDammit(raw, override_encodings=hinted_encodings or None, is_html=True)
+        if dammit.unicode_markup:
+            return dammit.unicode_markup
+
+    for encoding in [*hinted_encodings, "utf-8", "cp1252", "windows-1252", "latin-1"]:
+        try:
+            return raw.decode(encoding)
+        except UnicodeDecodeError:
+            continue
+
     return raw.decode("utf-8", errors="replace")
 
 
