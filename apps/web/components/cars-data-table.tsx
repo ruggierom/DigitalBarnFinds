@@ -173,10 +173,14 @@ const columns: ColumnDefinition[] = [
     label: "Notes",
     render: (row) => {
       const notes = row.notes ?? "";
-      if (notes.length <= 255) {
+      if (notes.length <= 80) {
         return notes;
       }
-      return `${notes.slice(0, 255).trimEnd()}...`;
+      return (
+        <span title={notes}>
+          {`${notes.slice(0, 80).trimEnd()}...`}
+        </span>
+      );
     },
     value: (row) => row.notes ?? "",
     filterValue: (row) => row.notes ?? "",

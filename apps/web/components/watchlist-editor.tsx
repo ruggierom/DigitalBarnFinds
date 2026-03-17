@@ -1,4 +1,5 @@
 import { upsertWatchlistAction } from "@/app/actions";
+import { PendingSubmitButton } from "@/components/pending-submit-button";
 
 type WatchlistRow = {
   car_id: string;
@@ -82,9 +83,7 @@ export function WatchlistEditor({ rows }: WatchlistEditorProps) {
                           placeholder="Research notes"
                           rows={3}
                         />
-                        <button className="button" type="submit">
-                          Update
-                        </button>
+                        <PendingSubmitButton idleLabel="Update" pendingLabel="Saving..." />
                       </div>
                     </form>
                   </td>

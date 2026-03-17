@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CarsAutoRefresh } from "@/components/cars-auto-refresh";
 import { CarsDataTable } from "@/components/cars-data-table";
 import { CarsDossierGrid } from "@/components/cars-dossier-grid";
+import { CarsViewSwitcher } from "@/components/cars-view-switcher";
 import { PageHeader } from "@/components/page-header";
 import { getCars, toSearchParams } from "@/lib/api";
 import type { CarSearchParams } from "@/lib/api";
@@ -76,25 +77,12 @@ export default async function CarsPage({
     .filter(Boolean)
     .join(" · ");
   const resultsLabel = `Page ${page} · ${visibleRows.length} result${visibleRows.length === 1 ? "" : "s"}`;
+  const cardsHref = buildCarsHref({ ...params, view: undefined, page: 1, page_size: undefined });
+  const dataHref = buildCarsHref({ ...params, view: "data", page: 1, page_size: undefined });
 
   const viewToolbar = (
     <div className="car-search__toolbar">
-      <div className="view-switcher" aria-label="View mode">
-        <Link
-          className={`view-switcher__option${view === "cards" ? " view-switcher__option--active" : ""}`}
-          href={buildCarsHref({ ...params, view: undefined, page: 1, page_size: undefined }) as any}
-        >
-          <span className="view-switcher__label">Web view</span>
-          <span className="view-switcher__hint">cards and dossier layout</span>
-        </Link>
-        <Link
-          className={`view-switcher__option${view === "data" ? " view-switcher__option--active" : ""}`}
-          href={buildCarsHref({ ...params, view: "data", page: 1, page_size: undefined }) as any}
-        >
-          <span className="view-switcher__label">Data view</span>
-          <span className="view-switcher__hint">table and export workflow</span>
-        </Link>
-      </div>
+      <CarsViewSwitcher activeView={view} cardsHref={String(cardsHref)} dataHref={String(dataHref)} />
       {view === "data" ? (
         <div className="car-search__exports">
           <a className="button button--secondary" href={exportCsvHref}>

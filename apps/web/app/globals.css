@@ -426,6 +426,26 @@ th {
   font-weight: 600;
 }
 
+.button:disabled {
+  cursor: wait;
+  opacity: 0.84;
+}
+
+.button__label-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button__spinner {
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  border-top-color: #fff;
+  border-radius: 999px;
+  animation: view-switcher-spin 0.75s linear infinite;
+}
+
 .button--secondary {
   background: #f1e6d0;
   color: var(--text);
@@ -552,8 +572,11 @@ th {
   min-width: 150px;
   padding: 8px 10px;
   border-radius: 10px;
+  border: none;
   color: var(--muted);
-  text-decoration: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
   transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
 }
 
@@ -562,10 +585,25 @@ th {
   background: rgba(255, 255, 255, 0.6);
 }
 
+.view-switcher__option:disabled {
+  cursor: wait;
+}
+
 .view-switcher__option--active {
   background: rgba(255, 255, 255, 0.98);
   color: var(--text);
   box-shadow: 0 6px 16px rgba(17, 17, 17, 0.07);
+}
+
+.view-switcher__option--pending {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.view-switcher__label-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .view-switcher__label {
@@ -575,11 +613,26 @@ th {
   letter-spacing: 0.01em;
 }
 
+.view-switcher__spinner {
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid rgba(21, 21, 21, 0.16);
+  border-top-color: var(--accent-deep);
+  border-radius: 999px;
+  animation: view-switcher-spin 0.75s linear infinite;
+}
+
 .view-switcher__hint {
   font-size: 0.66rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   opacity: 0.82;
+}
+
+@keyframes view-switcher-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .car-search__exports {
@@ -1117,7 +1170,7 @@ th {
   border: 1px solid rgba(21, 21, 21, 0.08);
 }
 
-.stat-chip span {
+.stat-chip__label {
   display: block;
   color: var(--muted);
   text-transform: uppercase;
@@ -1133,6 +1186,14 @@ th {
   font-size: 1.45rem;
   letter-spacing: -0.03em;
   font-weight: 800;
+}
+
+.stat-chip__meta {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
 }
 
 .dossier-card__hero {
@@ -1285,6 +1346,30 @@ th {
   border-radius: 10px;
   border: 1px solid rgba(21, 21, 21, 0.08);
   background: rgba(17, 17, 17, 0.06);
+}
+
+.page-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(21, 21, 21, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.page-loading__spinner {
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid rgba(21, 21, 21, 0.16);
+  border-top-color: var(--accent-deep);
+  border-radius: 999px;
+  animation: view-switcher-spin 0.75s linear infinite;
 }
 
 .media-card__caption {

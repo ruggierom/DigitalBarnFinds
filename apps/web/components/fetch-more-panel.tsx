@@ -1,4 +1,5 @@
 import { fetchMoreCarsAction } from "@/app/actions";
+import { PendingSubmitButton } from "@/components/pending-submit-button";
 
 type FetchMorePanelProps = {
   result?: {
@@ -22,9 +23,7 @@ export function FetchMorePanel({ result }: FetchMorePanelProps) {
         discovery.
       </p>
       <form action={fetchMoreCarsAction} className="fetch-form">
-        <button className="button" type="submit">
-          Import 5 cars
-        </button>
+        <PendingSubmitButton idleLabel="Import 5 cars" pendingLabel="Importing..." />
       </form>
       {result ? (
         <div className="fetch-result">

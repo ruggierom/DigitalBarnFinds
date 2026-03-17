@@ -1,4 +1,5 @@
 import { upsertWatchlistAction } from "@/app/actions";
+import { PendingSubmitButton } from "@/components/pending-submit-button";
 import type { CarRow } from "@/lib/api";
 import { CarMediaGallery } from "@/components/car-media-gallery";
 
@@ -12,6 +13,9 @@ export function CarsDossierGrid({ rows }: CarsDossierGridProps) {
   return (
     <section className="dossier-grid">
       {rows.map((row) => {
+        const lastSeenFlag = countryFlagEmoji(row.last_seen_country_code);
+        const lastSeenPlace = formatLastSeenPlace(row);
+
         return (
           <article className="dossier-card" key={row.id}>
             <div className="dossier-card__lead">
@@ -32,19 +36,24 @@ export function CarsDossierGrid({ rows }: CarsDossierGridProps) {
 
               <div className="dossier-stats">
                 <div className="stat-chip">
-                  <span>Darkness</span>
+                  <span className="stat-chip__label">Darkness</span>
                   <strong>{row.darkness_score ?? "—"}</strong>
                 </div>
                 <div className="stat-chip">
-                  <span>Last seen</span>
+                  <span className="stat-chip__label">Last seen</span>
                   <strong>{row.last_known_year ?? "—"}</strong>
+                  {lastSeenFlag ? (
+                    <span className="stat-chip__meta" title={row.last_seen_country_name ?? undefined}>
+                      {lastSeenFlag} {row.last_seen_country_code}
+                    </span>
+                  ) : null}
                 </div>
                 <div className="stat-chip">
-                  <span>Longest gap</span>
+                  <span className="stat-chip__label">Longest gap</span>
                   <strong>{row.gap_years ?? "—"}</strong>
                 </div>
                 <div className="stat-chip">
-                  <span>Sources</span>
+                  <span className="stat-chip__label">Sources</span>
                   <strong>{row.source_count}</strong>
                 </div>
               </div>
@@ -79,6 +88,10 @@ export function CarsDossierGrid({ rows }: CarsDossierGridProps) {
                   <div>
                     <dt>Years dark</dt>
                     <dd>{row.years_since_last_seen ?? "—"}</dd>
+                  </div>
+                  <div>
+                    <dt>Last seen place</dt>
+                    <dd>{lastSeenPlace}</dd>
                   </div>
                 </dl>
                 {row.notes ? <p className="panel-copy">{row.notes}</p> : null}
@@ -142,9 +155,7 @@ export function CarsDossierGrid({ rows }: CarsDossierGridProps) {
                   placeholder="Research notes"
                   rows={3}
                 />
-                <button className="button" type="submit">
-                  Save watchlist state
-                </button>
+                <PendingSubmitButton idleLabel="Save watchlist state" pendingLabel="Saving..." />
               </form>
             </section>
 
@@ -175,4 +186,22 @@ export function CarsDossierGrid({ rows }: CarsDossierGridProps) {
       })}
     </section>
   );
+}
+
+function countryFlagEmoji(countryCode: string | null) {
+  if (!countryCode || countryCode.length !== 2) {
+    return null;
+  }
+
+  const upper = countryCode.toUpperCase();
+  return String.fromCodePoint(...upper.split("").map((character) => 127397 + character.charCodeAt(0)));
+}
+
+function formatLastSeenPlace(row: CarRow) {
+  const flag = countryFlagEmoji(row.last_seen_country_code);
+  const label = row.last_seen_location ?? row.last_seen_country_name;
+  if (!label) {
+    return "—";
+  }
+  return flag ? `${flag} ${label}` : label;
 }

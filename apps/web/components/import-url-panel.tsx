@@ -1,4 +1,5 @@
 import { importCarByUrlAction } from "@/app/actions";
+import { PendingSubmitButton } from "@/components/pending-submit-button";
 
 type ImportUrlPanelProps = {
   defaultUrl?: string;
@@ -33,9 +34,7 @@ export function ImportUrlPanel({ defaultUrl, result, error }: ImportUrlPanelProp
           placeholder="https://www.mecum.com/lots/480219/2002-ferrari-360-spider/"
           type="url"
         />
-        <button className="button" type="submit">
-          Import URL
-        </button>
+        <PendingSubmitButton idleLabel="Import URL" pendingLabel="Importing..." />
       </form>
       {error ? <div className="fetch-result fetch-result__error-block">{error}</div> : null}
       {result ? (

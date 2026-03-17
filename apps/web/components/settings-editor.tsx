@@ -1,4 +1,5 @@
 import { updateSettingAction } from "@/app/actions";
+import { PendingSubmitButton } from "@/components/pending-submit-button";
 
 type SettingRow = {
   key: string;
@@ -27,9 +28,7 @@ export function SettingsEditor({ rows }: SettingsEditorProps) {
                 name="value"
                 rows={10}
               />
-              <button className="button" type="submit">
-                Save setting
-              </button>
+              <PendingSubmitButton idleLabel="Save setting" pendingLabel="Saving..." />
             </div>
           </form>
         </article>
@@ -37,4 +36,3 @@ export function SettingsEditor({ rows }: SettingsEditorProps) {
     </section>
   );
 }
-

@@ -57,6 +57,9 @@ export type CarRow = {
   last_known_year: number | null;
   gap_years: number | null;
   years_since_last_seen: number | null;
+  last_seen_location: string | null;
+  last_seen_country_code: string | null;
+  last_seen_country_name: string | null;
   is_currently_dark: boolean;
   qualifies_primary: boolean;
   qualifies_secondary: boolean;

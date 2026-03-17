@@ -75,13 +75,13 @@ jobs:
 
           check_dashboard() {
             page="$(curl -fLsS --max-time 20 "${WEB_BASE}/dashboard")" || return 1
-            printf '%s' "${page}" | grep -q "Research Dashboard" &&
+            printf '%s' "${page}" | grep -q "Research dashboard" &&
               printf '%s' "${page}" | grep -q "currently dark"
           }
 
           check_cars() {
             page="$(curl -fLsS --max-time 20 "${WEB_BASE}/cars?view=data")" || return 1
-            printf '%s' "${page}" | grep -q "Canonical registry" &&
+            printf '%s' "${page}" | grep -q "Vehicle ID" &&
               printf '%s' "${page}" | grep -q "Data view" &&
               printf '%s' "${page}" | grep -q "Export CSV"
           }
