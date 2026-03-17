@@ -842,6 +842,16 @@ def run_cache_media(
     }
 
 
+@app.post("/admin/jobs/seed", dependencies=[Depends(require_admin_token)])
+def run_seed_sources(db: Session = Depends(get_db)) -> dict[str, object]:
+    seed_sources()
+    enabled_source_count = db.query(func.count(Source.id)).filter(Source.enabled.is_(True)).scalar() or 0
+    return {
+        "status": "ok",
+        "enabled_sources": enabled_source_count,
+    }
+
+
 @app.post(
     "/admin/jobs/enrich",
     response_model=EnrichmentRunResultItem,

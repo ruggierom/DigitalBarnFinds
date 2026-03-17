@@ -14,7 +14,7 @@ on:
       - completed
 
 jobs:
-  import:
+  prepare:
     if: >
       github.event_name == 'workflow_dispatch' ||
       github.event_name == 'push' ||
@@ -25,6 +25,22 @@ jobs:
     concurrency:
       group: live-import-main
       cancel-in-progress: true
+    steps:
+      - name: Health check production API
+        run: curl -f --max-time 20 https://digitalbarnfinds-api.azurewebsites.net/healthz
+
+      - name: Seed production sources
+        env:
+          API_ADMIN_TOKEN: ${{ secrets.API_ADMIN_TOKEN }}
+        run: |
+          curl -f --max-time 180 \
+            -X POST \
+            -H "x-admin-token: ${API_ADMIN_TOKEN}" \
+            "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/seed"
+
+  import:
+    needs: prepare
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -38,9 +54,6 @@ jobs:
           - mecum
           - osenat
     steps:
-      - name: Health check production API
-        run: curl -f --max-time 20 https://digitalbarnfinds-api.azurewebsites.net/healthz
-
       - name: Import 5 cars with images for ${{ matrix.scraper_key }}
         env:
           API_ADMIN_TOKEN: ${{ secrets.API_ADMIN_TOKEN }}
