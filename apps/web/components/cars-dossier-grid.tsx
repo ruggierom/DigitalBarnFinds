@@ -147,13 +147,13 @@ export function CarsDossierGrid({ rows }: CarsDossierGridProps) {
                   className="field field--expanding"
                   name="agent_instructions"
                   placeholder="Agent instructions: what should the agent go try to figure out?"
-                  rows={3}
+                  rows={2}
                 />
                 <textarea
                   className="field field--expanding"
                   name="notes"
                   placeholder="Research notes"
-                  rows={3}
+                  rows={2}
                 />
                 <PendingSubmitButton idleLabel="Save watchlist state" pendingLabel="Saving..." />
               </form>
