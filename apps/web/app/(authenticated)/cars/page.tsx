@@ -65,8 +65,8 @@ export default async function CarsPage({
   const presetKey = getPresetKey(params);
   const presetLabel = getPresetLabel(presetKey);
   const exportQuery = toSearchParams({ ...params, page: undefined, page_size: undefined }).toString();
-  const exportCsvHref = `/cars/export?format=csv${exportQuery ? `&${exportQuery}` : ""}`;
-  const exportXlsxHref = `/cars/export?format=xlsx${exportQuery ? `&${exportQuery}` : ""}`;
+  const exportCsvHref = `/api/cars/export?format=csv${exportQuery ? `&${exportQuery}` : ""}`;
+  const exportXlsxHref = `/api/cars/export?format=xlsx${exportQuery ? `&${exportQuery}` : ""}`;
   const searchSummary = [
     params.q ? `Query: ${params.q}` : null,
     presetLabel,

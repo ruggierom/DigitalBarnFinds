@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
   const response = await fetch(upstreamUrl, {
     headers: adminToken ? { "x-admin-token": adminToken } : {},
-    cache: "no-store",
+    cache: "no-store"
   });
 
   if (!response.ok) {
@@ -36,6 +36,6 @@ export async function GET(request: NextRequest) {
 
   return new NextResponse(response.body, {
     status: 200,
-    headers,
+    headers
   });
 }

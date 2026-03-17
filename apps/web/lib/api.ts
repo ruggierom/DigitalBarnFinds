@@ -126,7 +126,8 @@ export async function getDashboardSnapshot() {
 export async function getCars(params: CarSearchParams = {}) {
   const search = toSearchParams(params);
   const suffix = search.size > 0 ? `?${search.toString()}` : "";
-  return request<Array<CarRow>>(`/cars${suffix}`);
+  const rows = await request<Array<CarRow>>(`/cars${suffix}`);
+  return rows.map(normalizeCarRow);
 }
 
 export async function getWatchlist() {
@@ -232,4 +233,32 @@ export async function runRequestLab(payload: {
     method: "POST",
     body: JSON.stringify(payload)
   });
+}
+
+function normalizeCarRow(row: CarRow): CarRow {
+  return {
+    ...row,
+    media: row.media.map((item) => ({
+      ...item,
+      url: normalizeManagedMediaUrl(item.url)
+    }))
+  };
+}
+
+function normalizeManagedMediaUrl(url: string): string {
+  if (!apiBaseUrl) {
+    return url;
+  }
+
+  if (url.startsWith("file://")) {
+    const path = url.slice("file://".length);
+    return `${apiBaseUrl}/media/local?path=${encodeURIComponent(path)}`;
+  }
+
+  if (url.startsWith("dbfblob://")) {
+    const key = url.slice("dbfblob://".length);
+    return `${apiBaseUrl}/media/blob?key=${encodeURIComponent(key)}`;
+  }
+
+  return url;
 }
