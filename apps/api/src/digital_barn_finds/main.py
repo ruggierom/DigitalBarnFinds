@@ -803,9 +803,15 @@ def run_upsert(db: Session = Depends(get_db)) -> dict[str, str]:
 def run_fetch_more(
     limit: int = Query(default=5, ge=1, le=50),
     ignore_without_images: bool = Query(default=False),
+    scraper_key: str = Query(...),
     db: Session = Depends(get_db),
 ) -> dict[str, object]:
-    result = fetch_random_cars(db, limit=limit, ignore_without_images=ignore_without_images)
+    result = fetch_random_cars(
+        db,
+        limit=limit,
+        ignore_without_images=ignore_without_images,
+        scraper_key=scraper_key,
+    )
     return {
         "requested": result.requested,
         "discovered": result.discovered,
@@ -813,6 +819,7 @@ def run_fetch_more(
         "skipped_existing": result.skipped_existing,
         "skipped_without_images": result.skipped_without_images,
         "source_name": result.source_name,
+        "scraper_key": scraper_key,
         "mode_used": result.mode_used,
         "errors": result.errors,
     }

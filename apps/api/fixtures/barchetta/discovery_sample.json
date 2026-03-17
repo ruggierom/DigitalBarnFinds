@@ -1,0 +1,19 @@
+{
+  "fixture_type": "search_results",
+  "source_key": "barchetta",
+  "source_url": "http://www.barchetta.cc/english/all.ferraris/summary/Ferraris.Overview.htm",
+  "description": "Barchetta discovery sample with mixed link formats",
+  "raw_html": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>Barchetta discovery sample</title>\n  </head>\n  <body>\n    <a href=\"/english/All.Ferraris/Detail/0465GT.250GT.PF.Coupe.htm\">0465GT</a>\n    <a href=\"http://www.barchetta.cc/english/all.ferraris/Detail/3909GT.250GTO.htm\">3909GT</a>\n    <a href=\"/english/All.Ferraris/Detail/0465GT.250GT.PF.Coupe.htm\">duplicate 0465GT</a>\n    <div>../english/All.Ferraris/Detail/0513GT.250GT.TdF.htm</div>\n  </body>\n</html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "discovery_url_count": 3,
+    "discovery_urls": [
+      "http://www.barchetta.cc/english/All.Ferraris/Detail/0465GT.250GT.PF.Coupe.htm",
+      "http://www.barchetta.cc/english/all.ferraris/Detail/3909GT.250GTO.htm",
+      "http://www.barchetta.cc/english/All.Ferraris/Detail/0513GT.250GT.TdF.htm"
+    ]
+  }
+}

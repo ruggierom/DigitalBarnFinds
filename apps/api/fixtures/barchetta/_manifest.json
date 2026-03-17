@@ -1,0 +1,26 @@
+{
+  "source_key": "barchetta",
+  "display_name": "Barchetta.cc",
+  "fixtures": [
+    {
+      "file": "0465GT.json",
+      "description": "Ferrari 250 GT PF Coupe Speciale 0465GT"
+    },
+    {
+      "file": "3909GT.json",
+      "description": "Ferrari 250 GTO 3909GT"
+    },
+    {
+      "file": "0513GT.json",
+      "description": "Ferrari 250 GT TdF 0513GT"
+    },
+    {
+      "file": "discovery_sample.json",
+      "description": "Barchetta discovery sample with mixed link formats"
+    },
+    {
+      "file": "9999GT_aux_media.json",
+      "description": "Minimal Barchetta detail fixture with auxiliary media payloads"
+    }
+  ]
+}

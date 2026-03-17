@@ -1,0 +1,43 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "barchetta",
+  "source_url": "http://www.barchetta.cc/english/All.Ferraris/Detail/9999GT.250GT.Test.htm",
+  "description": "Minimal Barchetta detail fixture with auxiliary media payloads",
+  "raw_html": "<!DOCTYPE html>\n<!-- saved from url=(0075)http://www.barchetta.cc/english/All.Ferraris/Detail/9999GT.250GT.Test.htm -->\n<html>\n  <head>\n    <title>250 GT s/n 9999GT</title>\n  </head>\n  <body>\n    <dl>\n      <dt>Barchetta sample detail fixture</dt>\n      <dt>9999GT 1961/aug/15</dt>\n      <dt>Ferrari 250 GT Interim, RHD</dt>\n      <dt>Rosso Cina</dt>\n    </dl>\n    <table border=\"0\" cellpadding=\"4\" cellspacing=\"0\" width=\"606\">\n      <tr>\n        <td>Date</td>\n        <td>Result</td>\n        <td>Event</td>\n        <td>Driver</td>\n        <td>#</td>\n        <td>Reference</td>\n      </tr>\n      <tr>\n        <td colspan=\"5\"><strong>1962 - Example Owner, London, UK</strong></td>\n        <td>Ref-1</td>\n      </tr>\n      <tr>\n        <td>1963/jul/07</td>\n        <td>1st</td>\n        <td>Goodwood Members Meeting</td>\n        <td>Sample Driver</td>\n        <td>#12</td>\n        <td>Ref-2</td>\n      </tr>\n      <tr>\n        <td colspan=\"5\">1964 - displayed at a sample concours</td>\n        <td>Ref-3</td>\n      </tr>\n    </table>\n  </body>\n</html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [
+    {
+      "url": "https://barchetta.stage.mediacenter.pro/Community/CommunityService.asmx/QueryMoreImagesFiltered?dir=1968141&rd=1968141&ft=search.9999GT",
+      "raw_xml": "<Images><Image ID=\"1001\" dirID=\"1968141\" Vs=\"7\" OrigWidth=\"1600\" OrigHeight=\"900\" HoverTitle=\"Front three-quarter\"/><Image ID=\"1002\" dirID=\"1968141\" Vs=\"7\" OrigWidth=\"900\" OrigHeight=\"1400\" HoverTitle=\"Side profile\"/></Images>"
+    },
+    {
+      "url": "https://barchetta.stage.mediacenter.plus/Album/9999GT.html",
+      "raw_html": "<html><head><title>9999GT gallery</title></head><body><div data-imgsrc=\"/images/9999gt-engine.jpg\" data-title=\"Engine bay\"></div></body></html>"
+    }
+  ],
+  "metadata": {},
+  "expected": {
+    "car": {
+      "serial_number": "9999GT",
+      "make": "Ferrari",
+      "model": "250 GT Interim",
+      "year_built": 1961,
+      "build_date": "1961-08-15",
+      "drive_side": "RHD",
+      "original_color": "Rosso Cina"
+    },
+    "custody_event_count": 1,
+    "car_event_count": 2,
+    "media_count_min": 3,
+    "first_custody_owner": "Example Owner, London, UK",
+    "event_kinds": [
+      "custody",
+      "event"
+    ],
+    "date_precisions": [
+      "day",
+      "year"
+    ]
+  }
+}

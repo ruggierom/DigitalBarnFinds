@@ -4,8 +4,6 @@ import argparse
 from pprint import pprint
 from pathlib import Path
 
-from sqlalchemy.orm import Session
-
 from digital_barn_finds.database import SessionLocal
 from digital_barn_finds.models import Source
 from digital_barn_finds.seed import seed_sources
@@ -24,6 +22,11 @@ def parse_args() -> argparse.Namespace:
     subparsers.add_parser("score")
     fetch_parser = subparsers.add_parser("fetch-random")
     fetch_parser.add_argument("--limit", type=int, default=25)
+    fetch_parser.add_argument(
+        "--scraper-key",
+        required=True,
+        help="Registered scraper key to run, for example 'barchetta'.",
+    )
     fetch_parser.add_argument(
         "--ignore-without-images",
         action="store_true",
@@ -96,10 +99,15 @@ def run_test_scrape(limit: int, commit: bool, from_files: bool) -> None:
         db.close()
 
 
-def run_fetch_random(limit: int, ignore_without_images: bool) -> None:
+def run_fetch_random(limit: int, scraper_key: str, ignore_without_images: bool) -> None:
     db = SessionLocal()
     try:
-        result = fetch_random_cars(db, limit=limit, ignore_without_images=ignore_without_images)
+        result = fetch_random_cars(
+            db,
+            limit=limit,
+            scraper_key=scraper_key,
+            ignore_without_images=ignore_without_images,
+        )
         print(
             f"Random fetch requested {result.requested}, discovered {result.discovered}, "
             f"imported {result.imported}, skipped {result.skipped_existing} existing, "
@@ -121,7 +129,11 @@ def main() -> None:
     elif args.command == "score":
         run_score()
     elif args.command == "fetch-random":
-        run_fetch_random(limit=args.limit, ignore_without_images=args.ignore_without_images)
+        run_fetch_random(
+            limit=args.limit,
+            scraper_key=args.scraper_key,
+            ignore_without_images=args.ignore_without_images,
+        )
     elif args.command == "test-scrape":
         run_test_scrape(limit=args.limit, commit=args.commit, from_files=args.from_files)
 

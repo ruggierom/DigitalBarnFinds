@@ -14,7 +14,10 @@ from bs4 import BeautifulSoup
 
 from digital_barn_finds.config import get_settings
 from digital_barn_finds.services.scrapers.base import (
+    AdapterManifest,
     BaseScraper,
+    FixtureInput,
+    FixtureType,
     NormalizedCar,
     NormalizedTimelineEvent,
     ScrapedCarRecord,
@@ -23,11 +26,35 @@ from digital_barn_finds.services.scrapers.base import (
 
 class BarchettaScraper(BaseScraper):
     source_key = "barchetta"
+    manifest = AdapterManifest(
+        source_key="barchetta",
+        display_name="Barchetta.cc",
+        base_url="http://www.barchetta.cc",
+        supported_detail_fixture_types=[FixtureType.DETAIL_PAGE],
+        supported_discovery_fixture_types=[FixtureType.SEARCH_RESULTS],
+        language="en",
+    )
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        *,
+        base_url: str | None = None,
+        discovery_base_urls: list[str] | None = None,
+        delay_seconds: float | None = None,
+        seed_paths: list[str] | None = None,
+        max_media_per_car: int | None = None,
+        user_agent: str | None = None,
+        max_attempts: int | None = None,
+        request_timeout_seconds: float | None = None,
+        client: httpx.Client | None = None,
+        log_debug: bool = False,
+    ) -> None:
         settings = get_settings()
-        self.base_url = settings.barchetta_base_url.replace("https://www.barchetta.cc", "http://www.barchetta.cc")
-        self.discovery_base_urls = list(
+        self.log_debug = log_debug
+        self.base_url = (base_url or settings.barchetta_base_url).replace(
+            "https://www.barchetta.cc", "http://www.barchetta.cc"
+        )
+        default_discovery_base_urls = list(
             dict.fromkeys(
                 [
                     self.base_url.rstrip("/") + "/",
@@ -38,19 +65,28 @@ class BarchettaScraper(BaseScraper):
                 ]
             )
         )
-        self.delay_seconds = settings.request_delay_seconds
-        self.seed_paths = settings.barchetta_seed_paths
-        self.max_media_per_car = settings.barchetta_max_media_per_car
-        user_agent = settings.effective_user_agent
-        print(f"BarchettaScraper using User-Agent: {user_agent}")
-        print(f"BarchettaScraper discovery paths: {self.seed_paths}")
-        print(f"BarchettaScraper discovery bases: {self.discovery_base_urls}")
-        self.max_attempts = settings.barchetta_max_attempts
-        self.client = httpx.Client(
-            headers={"User-Agent": user_agent},
+        self.discovery_base_urls = discovery_base_urls or default_discovery_base_urls
+        self.delay_seconds = settings.request_delay_seconds if delay_seconds is None else delay_seconds
+        self.seed_paths = seed_paths or settings.barchetta_seed_paths
+        self.max_media_per_car = settings.barchetta_max_media_per_car if max_media_per_car is None else max_media_per_car
+        effective_user_agent = user_agent or settings.effective_user_agent
+        self._log(f"BarchettaScraper using User-Agent: {effective_user_agent}")
+        self._log(f"BarchettaScraper discovery paths: {self.seed_paths}")
+        self._log(f"BarchettaScraper discovery bases: {self.discovery_base_urls}")
+        self.max_attempts = settings.barchetta_max_attempts if max_attempts is None else max_attempts
+        self.client = client or httpx.Client(
+            headers={"User-Agent": effective_user_agent},
             follow_redirects=True,
-            timeout=settings.barchetta_request_timeout_seconds,
+            timeout=(
+                settings.barchetta_request_timeout_seconds
+                if request_timeout_seconds is None
+                else request_timeout_seconds
+            ),
         )
+
+    def _log(self, message: str) -> None:
+        if self.log_debug:
+            print(message)
 
     def crawl(self, *, full: bool) -> list[str]:
         detail_links: list[str] = []
@@ -65,23 +101,23 @@ class BarchettaScraper(BaseScraper):
                 except httpx.HTTPStatusError as exc:
                     if exc.response.status_code in {403, 404}:
                         status = "blocked" if exc.response.status_code == 403 else "missing"
-                        print(f"BarchettaScraper skipping {status} discovery path: {url}")
+                        self._log(f"BarchettaScraper skipping {status} discovery path: {url}")
                         continue
                     raise
                 except httpx.HTTPError as exc:
-                    print(f"BarchettaScraper skipping errored discovery path: {url} ({exc})")
+                    self._log(f"BarchettaScraper skipping errored discovery path: {url} ({exc})")
                     continue
 
                 extracted_links = self._extract_detail_links(response.text)
                 if extracted_links:
                     path_links.extend(extracted_links)
                     if base_url != self.discovery_base_urls[0]:
-                        print(
+                        self._log(
                             f"BarchettaScraper discovered {len(extracted_links)} links via alternate base: {url}"
                         )
                     break
 
-                print(f"BarchettaScraper found 0 detail links at discovery path: {url}")
+                self._log(f"BarchettaScraper found 0 detail links at discovery path: {url}")
 
             detail_links.extend(path_links)
             time.sleep(self.delay_seconds)
@@ -107,9 +143,38 @@ class BarchettaScraper(BaseScraper):
                     )
                 time.sleep(self.delay_seconds)
             except httpx.HTTPError as exc:
-                print(f"BarchettaScraper media iframe fetch failed for {iframe_url}: {exc}")
+                self._log(f"BarchettaScraper media iframe fetch failed for {iframe_url}: {exc}")
 
         time.sleep(self.delay_seconds)
+        return record
+
+    def parse_discovery_page(self, fixture: FixtureInput) -> list[str]:
+        if fixture.source_key != self.source_key:
+            raise ValueError(f"Expected source_key={self.source_key}, got {fixture.source_key}")
+        if fixture.fixture_type != FixtureType.SEARCH_RESULTS:
+            raise ValueError(
+                f"Expected fixture_type={FixtureType.SEARCH_RESULTS.value}, "
+                f"got {fixture.fixture_type.value}"
+            )
+        if FixtureType.SEARCH_RESULTS not in self.manifest.supported_discovery_fixture_types:
+            raise ValueError("Discovery fixtures are not supported by this adapter.")
+        if fixture.raw_html is None:
+            raise ValueError("Barchetta discovery fixture requires raw_html")
+        return self._extract_detail_links(fixture.raw_html)
+
+    def parse_record_fixture(self, fixture: FixtureInput) -> ScrapedCarRecord:
+        if fixture.source_key != self.source_key:
+            raise ValueError(f"Expected source_key={self.source_key}, got {fixture.source_key}")
+        if fixture.fixture_type == FixtureType.SEARCH_RESULTS:
+            raise ValueError("SEARCH_RESULTS fixtures must be parsed with parse_discovery_page()")
+        if fixture.fixture_type not in self.manifest.supported_detail_fixture_types:
+            raise ValueError(f"Unsupported fixture_type for record parsing: {fixture.fixture_type.value}")
+        if fixture.raw_html is None:
+            raise ValueError("Barchetta fixture requires raw_html")
+
+        record = self.parse_detail_html(fixture.raw_html, fixture.source_url)
+        auxiliary_media = self._media_from_auxiliary_payloads(fixture.auxiliary_payloads)
+        self._merge_media(record.media, auxiliary_media)
         return record
 
     def parse_detail_file(self, path: str | Path) -> ScrapedCarRecord:
@@ -213,6 +278,38 @@ class BarchettaScraper(BaseScraper):
                 seen.add(resolved)
                 links.append(resolved)
         return links
+
+    def _media_from_auxiliary_payloads(
+        self,
+        auxiliary_payloads: list[dict],
+    ) -> list[dict[str, str | None]]:
+        media: list[dict[str, str | None]] = []
+        for payload in auxiliary_payloads:
+            payload_url = str(payload.get("url") or "").strip()
+            if not payload_url:
+                continue
+
+            raw_xml = payload.get("raw_xml")
+            raw_html = payload.get("raw_html")
+            if isinstance(raw_xml, str) and raw_xml.strip():
+                try:
+                    root = ET.fromstring(raw_xml.strip())
+                except ET.ParseError:
+                    continue
+                self._merge_media(
+                    media,
+                    self._extract_mediacenter_media_from_response(root, payload_url),
+                )
+                continue
+
+            if isinstance(raw_html, str) and raw_html.strip():
+                soup = BeautifulSoup(raw_html, "html.parser")
+                self._merge_media(
+                    media,
+                    self._parse_media(soup, payload_url, payload_url),
+                )
+
+        return media
 
     def _extract_serial(self, url: str, title: str, heading: str | None) -> str:
         decoded_url = unquote(url)
@@ -411,6 +508,8 @@ class BarchettaScraper(BaseScraper):
                 continue
 
             if len(cells) >= 2 and _is_narrative_row(cells):
+                if _is_custody_row(cells):
+                    continue
                 main_text = _normalize_whitespace(cells[0].get_text(" ", strip=True))
                 source_reference = _normalize_whitespace(cells[-1].get_text(" ", strip=True)) or None
                 parsed_date, precision, year = _parse_barchetta_date(main_text)
@@ -533,13 +632,60 @@ class BarchettaScraper(BaseScraper):
             ) or None
             if _is_generic_registry_image(url, caption):
                 continue
-                media.append(
-                    {
-                        "media_type": "photo",
-                        "url": url,
-                        "caption": caption,
-                    }
-                )
+            media.append(
+                {
+                    "media_type": "photo",
+                    "url": url,
+                    "caption": caption,
+                }
+            )
+
+    def _extract_mediacenter_media_from_response(
+        self,
+        root: ET.Element,
+        payload_url: str,
+        *,
+        default_dir_id: int | None = None,
+    ) -> list[dict[str, str | None]]:
+        parsed = urlparse(payload_url)
+        mediacenter_host = parsed.netloc.replace(".pro", ".plus")
+        media: list[dict[str, str | None]] = []
+
+        for image in root.findall("Image"):
+            image_id = image.attrib.get("ID")
+            image_dir_id = image.attrib.get("dirID") or (
+                str(default_dir_id) if default_dir_id is not None else None
+            )
+            version = image.attrib.get("Vs", "1")
+            orig_width = _int_or_zero(image.attrib.get("OrigWidth"))
+            orig_height = _int_or_zero(image.attrib.get("OrigHeight"))
+            if not image_id or not image_dir_id:
+                continue
+
+            portrait = orig_height > orig_width if orig_width and orig_height else False
+            width = min(orig_width or 1200, 1200)
+            thumb_query = urlencode({"w": width, "f": "p" if portrait else "l"})
+            url = (
+                f"{parsed.scheme}://{mediacenter_host}/"
+                f"SLOAIMGTMB_{image_id}_{image_dir_id}_{version}.jpg?{thumb_query}"
+            )
+            caption = _normalize_whitespace(
+                image.attrib.get("HoverTitle")
+                or image.attrib.get("HoverDescription")
+                or image.attrib.get("AltText")
+                or ""
+            ) or None
+            if _is_generic_registry_image(url, caption):
+                continue
+            media.append(
+                {
+                    "media_type": "photo",
+                    "url": url,
+                    "caption": caption,
+                }
+            )
+
+        return media
 
     def _query_mediacenter_images(self, iframe_url: str) -> list[dict[str, str | None]]:
         parsed = urlparse(iframe_url)
@@ -612,38 +758,17 @@ class BarchettaScraper(BaseScraper):
             if not images:
                 break
 
-            for image in images:
-                image_id = image.attrib.get("ID")
-                image_dir_id = image.attrib.get("dirID") or str(dir_id)
-                version = image.attrib.get("Vs", "1")
-                orig_width = _int_or_zero(image.attrib.get("OrigWidth"))
-                orig_height = _int_or_zero(image.attrib.get("OrigHeight"))
-                if not image_id or not image_dir_id:
-                    continue
-
-                portrait = orig_height > orig_width if orig_width and orig_height else False
-                width = min(orig_width or 1200, 1200)
-                thumb_query = urlencode({"w": width, "f": "p" if portrait else "l"})
-                url = (
-                    f"{parsed.scheme}://{mediacenter_host}/"
-                    f"SLOAIMGTMB_{image_id}_{image_dir_id}_{version}.jpg?{thumb_query}"
-                )
-                caption = _normalize_whitespace(
-                    image.attrib.get("HoverTitle")
-                    or image.attrib.get("HoverDescription")
-                    or image.attrib.get("AltText")
-                    or ""
-                ) or None
-                if _is_generic_registry_image(url, caption) or url in seen:
+            page_media = self._extract_mediacenter_media_from_response(
+                root,
+                iframe_url,
+                default_dir_id=dir_id,
+            )
+            for item in page_media:
+                url = str(item.get("url") or "")
+                if not url or url in seen:
                     continue
                 seen.add(url)
-                media.append(
-                    {
-                        "media_type": "photo",
-                        "url": url,
-                        "caption": caption,
-                    }
-                )
+                media.append(item)
                 if len(media) >= self.max_media_per_car:
                     break
 
@@ -664,7 +789,7 @@ class BarchettaScraper(BaseScraper):
                 if attempt == self.max_attempts:
                     break
                 sleep_seconds = max(self.delay_seconds, 1.0) * attempt
-                print(
+                self._log(
                     f"BarchettaScraper retrying {method} {url} "
                     f"(attempt {attempt + 1}/{self.max_attempts}) after {exc}"
                 )

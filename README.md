@@ -115,6 +115,36 @@ PYTHONPATH=src python -m digital_barn_finds.cli test-scrape --from-files --limit
 PYTHONPATH=src python -m digital_barn_finds.cli score
 ```
 
+## Adapter runner
+
+The adapter contract runner lives in `apps/api/tests/adapter_runner.py`.
+It validates adapter conformance without the API server, database, or network
+unless you opt into `--live`.
+
+GitHub Actions runs this contract suite automatically on pushes and pull
+requests that touch `apps/api`.
+
+```bash
+cd apps/api
+source .venv/bin/activate
+python tests/adapter_runner.py --adapter barchetta
+python tests/adapter_runner.py --all --output json
+```
+
+Source fixtures live in `apps/api/fixtures/<source_key>/` and are tracked by
+`_manifest.json`.
+
+To build a new JSON fixture from saved HTML:
+
+```bash
+python tests/adapter_runner.py --build-fixture \
+  --adapter barchetta \
+  --html fixtures/barchetta/250\ GTO\ s_n\ 3909GT.html \
+  --url http://www.barchetta.cc/english/all.ferraris/Detail/3909GT.250GTO.htm \
+  --description "Ferrari 250 GTO 3909GT" \
+  --output fixtures/barchetta/3909GT.json
+```
+
 ## Environment variables
 
 The key settings are documented in:
