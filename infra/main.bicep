@@ -115,6 +115,7 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
     httpsOnly: true
     siteConfig: {
       linuxFxVersion: 'NODE|20-lts'
+      appCommandLine: 'node apps/web/server.js'
       appSettings: [
         {
           name: 'WEBSITES_PORT'
