@@ -1,0 +1,18 @@
+{
+  "fixture_type": "search_results",
+  "source_key": "rm_sothebys",
+  "source_url": "https://rmsothebys.com/auctions/pa25/lots/",
+  "description": "RM Sotheby's Paris 2025 discovery page",
+  "raw_html": "<!DOCTYPE html><html><head><title>Paris 2025 | View Results | RM Sotheby's</title></head><body><a href=\"/auctions/pa25/lots/r0010-2015-ferrari-laferrari/\">Lot 252</a><a href=\"/auctions/pa25/lots/r0016-1972-ferrari-dino-246-gt-by-scaglietti/\">Lot 231</a></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "discovery_url_count": 2,
+    "discovery_urls": [
+      "https://rmsothebys.com/auctions/pa25/lots/r0010-2015-ferrari-laferrari/",
+      "https://rmsothebys.com/auctions/pa25/lots/r0016-1972-ferrari-dino-246-gt-by-scaglietti/"
+    ]
+  }
+}

@@ -37,7 +37,7 @@ from digital_barn_finds.services.scrapers.base import (
 
 LOT_PATH_PATTERN = re.compile(r"^/lots/(?P<lot_id>\d+)/(?P<slug>[^/?#]+)/?$", re.IGNORECASE)
 CHASSIS_PATTERN = re.compile(
-    r"(?:Chassis(?:\s+No\.?|\s+Number)?|Serial(?:\s+No\.?|\s+Number)?|VIN(?:/Serial)?)\s*:?\s*(?P<value>[A-Za-z0-9./-]+)",
+    r"(?:Chassis(?:\s+No\.?|\s+Number)?|Serial(?:\s+No\.?|\s+Number)?|VIN(?:\s*/\s*Serial)?)\s*:?\s*(?P<value>[A-Za-z0-9./-]+)",
     re.IGNORECASE,
 )
 ENGINE_PATTERN = re.compile(r"Engine(?:\s+No\.?|\s+Number)?\s*:?\s*(?P<value>[A-Za-z0-9./-]+)", re.IGNORECASE)
@@ -166,7 +166,7 @@ class MecumScraper(BaseScraper):
             model = normalize_space(str(schema_car["model"]))
 
         chassis_number = choose_serial(
-            extract_first_match(CHASSIS_PATTERN, page_text) or payload_vin,
+            extract_first_match(CHASSIS_PATTERN, page_text) or payload_vin or self._extract_schema_serial(schema_car),
             self._fallback_serial_number(source_url),
         )
         engine_number = extract_first_match(ENGINE_PATTERN, page_text)
@@ -371,6 +371,28 @@ class MecumScraper(BaseScraper):
             if isinstance(payload, dict) and payload.get("@type") == "Car":
                 return payload
         return {}
+
+    def _extract_schema_serial(self, schema_car: dict[str, object]) -> str | None:
+        candidates: list[str] = []
+        for key in ("vehicleIdentificationNumber", "serialNumber"):
+            value = normalize_space(str(schema_car.get(key) or ""))
+            if value:
+                candidates.append(value)
+
+        identifier = schema_car.get("identifier")
+        if isinstance(identifier, str):
+            value = normalize_space(identifier)
+            if value:
+                candidates.append(value)
+        elif isinstance(identifier, dict):
+            value = normalize_space(str(identifier.get("value") or identifier.get("@value") or ""))
+            if value:
+                candidates.append(value)
+
+        for candidate in candidates:
+            if re.fullmatch(r"[A-Za-z0-9./-]{4,}", candidate):
+                return candidate
+        return None
 
     def _extract_header_lot_number(self, soup: BeautifulSoup) -> str | None:
         for span in soup.find_all("span"):

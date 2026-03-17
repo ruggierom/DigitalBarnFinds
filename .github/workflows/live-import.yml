@@ -38,6 +38,15 @@ jobs:
             -H "x-admin-token: ${API_ADMIN_TOKEN}" \
             "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/seed"
 
+      - name: Reset production content
+        env:
+          API_ADMIN_TOKEN: ${{ secrets.API_ADMIN_TOKEN }}
+        run: |
+          curl -f --max-time 180 \
+            -X POST \
+            -H "x-admin-token: ${API_ADMIN_TOKEN}" \
+            "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/reset-content?include_watchlist=true"
+
   import:
     needs: prepare
     runs-on: ubuntu-latest
@@ -49,10 +58,12 @@ jobs:
           - artcurial
           - bat
           - barchetta
+          - gooding
           - historics
           - iconic
           - mecum
           - osenat
+          - rm_sothebys
     steps:
       - name: Import 5 cars with images for ${{ matrix.scraper_key }}
         env:

@@ -18,6 +18,7 @@ from digital_barn_finds.models import (
 )
 from digital_barn_finds.services.darkness import compute_score_for_car
 from digital_barn_finds.services.media_storage import persist_media_items
+from digital_barn_finds.services.scrapers.auction_helpers import extract_drive_side, infer_body_style
 from digital_barn_finds.services.scrapers.base import NormalizedCar, ScrapedCarRecord
 
 SOURCE_PRIORITY = {
@@ -29,6 +30,8 @@ SOURCE_PRIORITY = {
     "iconic": 70,
     "mecum": 70,
     "osenat": 70,
+    "gooding": 70,
+    "rm_sothebys": 70,
     "current": 35,
 }
 
@@ -319,22 +322,59 @@ def _recompute_canonical_car(db: Session, car: Car) -> None:
     car.notes = _string_value(selected["notes"])
 
 
+def recompute_all_canonical_cars(db: Session, *, limit: int | None = None) -> int:
+    query = db.query(Car).order_by(Car.updated_at.desc())
+    if limit is not None:
+        query = query.limit(limit)
+
+    cars = query.all()
+    for car in cars:
+        _recompute_canonical_car(db, car)
+        car.source_count = db.query(CarSource).filter(CarSource.car_id == car.id).count()
+        compute_score_for_car(db, car, commit=False)
+
+    db.commit()
+    return len(cars)
+
+
 def _candidate_from_source_record(source_record: CarSource) -> SourceCanonicalCandidate:
     payload = source_record.source_payload or {}
+    attributes = _source_attribute_map(source_record)
+    source_heading = _string_value(attributes.get("source_heading"))
+    highlights = _string_value(attributes.get("highlights"))
+    coachwork = _string_value(attributes.get("coachwork"))
+    notes = _string_value(payload.get("notes")) or highlights
+    model = _string_value(payload.get("model")) or _string_value(source_record.source_model)
+    variant = _string_value(payload.get("variant")) or _string_value(source_record.source_variant)
+    descriptor_text = " ".join(part for part in [model, variant, source_heading, notes, highlights] if part)
+    body_style = _string_value(payload.get("body_style")) or infer_body_style(
+        model,
+        variant,
+        source_heading,
+        coachwork,
+        notes,
+    )
+    drive_side = _trim(payload.get("drive_side"), 3) or extract_drive_side(descriptor_text)
+    original_color = (
+        _string_value(payload.get("original_color"))
+        or _string_value(attributes.get("exterior_color"))
+        or _extract_color_from_notes(descriptor_text)
+    )
+
     return SourceCanonicalCandidate(
         source_key=(source_record.source.scraper_key if source_record.source else "unknown"),
         display_serial_number=_trim(payload.get("display_serial_number"), 80)
         or _trim(source_record.source_serial_number, 80),
         make=_trim(payload.get("make"), 50) or _trim(source_record.source_make, 50),
-        model=_string_value(payload.get("model")) or _string_value(source_record.source_model),
-        variant=_string_value(payload.get("variant")) or _string_value(source_record.source_variant),
+        model=model,
+        variant=variant,
         year_built=_int_value(payload.get("year_built")),
         build_date=_parse_payload_date(payload.get("build_date")),
         build_date_precision=_string_value(payload.get("build_date_precision")),
-        body_style=_string_value(payload.get("body_style")),
-        drive_side=_trim(payload.get("drive_side"), 3),
-        original_color=_string_value(payload.get("original_color")),
-        notes=_string_value(payload.get("notes")),
+        body_style=body_style,
+        drive_side=drive_side,
+        original_color=original_color,
+        notes=notes,
     )
 
 
@@ -588,6 +628,37 @@ def _string_value(value: object) -> str | None:
         return None
     text = html.unescape(str(value)).strip()
     return text or None
+
+
+def _source_attribute_map(source_record: CarSource) -> dict[str, str]:
+    attributes: dict[str, str] = {}
+    for attribute in source_record.attributes:
+        if attribute.attr_key not in attributes and attribute.attr_value:
+            attributes[attribute.attr_key] = attribute.attr_value
+    return attributes
+
+
+def _extract_color_from_notes(notes: str | None) -> str | None:
+    if not notes:
+        return None
+
+    patterns = (
+        re.compile(r"finished in (?:bespoke )?(?P<color>[A-Z][A-Za-zÀ-ÿ' -]{2,40}?)(?: with| over|,|;|\.|$)", re.IGNORECASE),
+        re.compile(r"presented in (?:as-delivered )?(?P<color>[A-Z][A-Za-zÀ-ÿ' -]{2,40}?)(?: with| over|,|;|\.|$)", re.IGNORECASE),
+        re.compile(r"painted (?P<color>[A-Z][A-Za-zÀ-ÿ' -]{2,40}?)(?: with| over|,|;|\.|$)", re.IGNORECASE),
+        re.compile(r"colour \"(?P<color>[A-Za-zÀ-ÿ' -]{2,40})\"", re.IGNORECASE),
+        re.compile(r"color \"(?P<color>[A-Za-zÀ-ÿ' -]{2,40})\"", re.IGNORECASE),
+        re.compile(r"as-delivered (?P<color>[A-Z][A-Za-zÀ-ÿ' -]{2,40}?) over", re.IGNORECASE),
+    )
+
+    for pattern in patterns:
+        match = pattern.search(notes)
+        if not match:
+            continue
+        value = _string_value(match.group("color"))
+        if value and not _looks_like_sentence(value):
+            return value
+    return None
 
 
 def _fit_car_fields(car: NormalizedCar) -> dict[str, str | None]:

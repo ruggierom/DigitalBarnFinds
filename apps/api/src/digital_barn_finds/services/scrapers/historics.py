@@ -209,7 +209,7 @@ class HistoricsScraper(BaseScraper):
             media=collect_image_media(
                 soup,
                 base_url=self.base_url,
-                allow_substrings=("/images/", "/uploads/", "/media/"),
+                allow_substrings=("/images/", "/uploads/", "/media/", "/stock/"),
                 deny_substrings=("logo", "icon", "placeholder", "arrow", "avatar"),
             ),
         )

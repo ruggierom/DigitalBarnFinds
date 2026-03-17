@@ -15,6 +15,7 @@ from digital_barn_finds.services.scrapers.auction_helpers import (
     dedupe_preserving_order,
     extract_drive_side,
     extract_first_match,
+    extract_labeled_value,
     extract_semantic_value,
     extract_year,
     infer_body_style,
@@ -36,15 +37,40 @@ from digital_barn_finds.services.scrapers.base import (
 
 LOT_PATH_PATTERN = re.compile(r"^/lot/(?P<sale_id>\d+)/(?P<lot_id>\d+)(?:-[^/?#]+)?/?$", re.IGNORECASE)
 CHASSIS_PATTERN = re.compile(
-    r"(?:Num[ée]ro de s[ée]rie|Chassis(?:\s+No\.?)?|VIN)\s*:?\s*(?P<value>[A-Za-z0-9./-]+)",
+    r"\b(?:Num[ée]ro de s[ée]rie|N(?:°|\.)\s*de s[ée]rie|Ch[âa]ssis(?:\s+(?:No\.?|num[ée]ro|number))?|Chassis(?:\s+(?:No\.?|number))?|Serial number|VIN)\b\s*:?\s*(?P<value>[A-Za-z0-9./ -]+)",
     re.IGNORECASE,
 )
-ENGINE_PATTERN = re.compile(r"Moteur(?:\s+No\.?)?\s*:?\s*(?P<value>[A-Za-z0-9./-]+)", re.IGNORECASE)
+ENGINE_PATTERN = re.compile(
+    r"\b(?:Moteur\s+(?:No\.?|num[ée]ro)|Engine number)\b\s*:?\s*(?P<value>[A-Za-z0-9./ -]+)",
+    re.IGNORECASE,
+)
 REGISTRATION_PATTERN = re.compile(
     r"(?:Carte grise [^\n]+|Titre de circulation [^\n]+|French registration [^\n]+)",
     re.IGNORECASE,
 )
 LOT_NUMBER_PATTERN = re.compile(r"\bLot\s+(?P<value>\d+)\b", re.IGNORECASE)
+CHASSIS_LABELS = (
+    "Numéro de série",
+    "N° de série",
+    "N. de série",
+    "Châssis numéro",
+    "Châssis numero",
+    "Châssis No",
+    "Châssis No.",
+    "Châssis",
+    "Chassis",
+    "Chassis number",
+    "Chassis No",
+    "Chassis No.",
+    "Serial number",
+)
+ENGINE_LABELS = (
+    "Moteur numéro",
+    "Moteur numero",
+    "Moteur No",
+    "Moteur No.",
+    "Engine number",
+)
 
 
 class OsenatScraper(BaseScraper):
@@ -146,11 +172,8 @@ class OsenatScraper(BaseScraper):
 
         raw_title = self._extract_title(soup)
         year_built, make, model = split_title(self._clean_title(raw_title))
-        chassis_number = choose_serial(
-            extract_first_match(CHASSIS_PATTERN, page_text),
-            self._fallback_serial_number(source_url),
-        )
-        engine_number = extract_first_match(ENGINE_PATTERN, page_text)
+        chassis_number = self._extract_chassis_number(page_text, source_url)
+        engine_number = self._extract_engine_number(page_text)
         registration_match = REGISTRATION_PATTERN.search(page_text)
         registration = normalize_space(registration_match.group(0)) if registration_match else None
         sold = self._extract_result(page_text)
@@ -310,3 +333,106 @@ class OsenatScraper(BaseScraper):
         if not match:
             return f"osenat-{urlparse(source_url).path.strip('/').replace('/', '-') or 'unknown'}"
         return f"osenat-sale-{match.group('sale_id')}-item-{match.group('lot_id')}"
+
+    def _extract_chassis_number(self, page_text: str, source_url: str) -> str:
+        for candidate in (
+            extract_labeled_value(page_text, CHASSIS_LABELS),
+            extract_first_match(CHASSIS_PATTERN, page_text),
+            self._extract_slug_serial_number(source_url),
+        ):
+            normalized = self._normalize_identifier_candidate(candidate, allow_short=True)
+            if normalized:
+                if candidate == self._extract_slug_serial_number(source_url):
+                    return choose_serial(normalized, self._fallback_serial_number(source_url))
+                return normalized
+        return self._fallback_serial_number(source_url)
+
+    def _extract_engine_number(self, page_text: str) -> str | None:
+        for candidate in (
+            extract_labeled_value(page_text, ENGINE_LABELS),
+            extract_first_match(ENGINE_PATTERN, page_text),
+        ):
+            normalized = self._normalize_identifier_candidate(
+                candidate,
+                allow_short=True,
+                require_digit=True,
+            )
+            if normalized:
+                return normalized
+        return None
+
+    def _extract_slug_serial_number(self, source_url: str) -> str | None:
+        path = urlparse(source_url).path
+        slug = path.rsplit("/", 1)[-1].lower()
+        if not slug:
+            return None
+
+        stop_tokens = {
+            "allemand",
+            "allemande",
+            "appartenant",
+            "belge",
+            "belgique",
+            "carte",
+            "collection",
+            "depuis",
+            "etranger",
+            "famille",
+            "french",
+            "francais",
+            "francaise",
+            "français",
+            "française",
+            "immatriculation",
+            "meme",
+            "moteur",
+            "numero",
+            "sur",
+            "titre",
+            "type",
+            "vendu",
+            "vendue",
+        }
+        markers = ("chassis-numero", "chassis-ndeg", "chassis", "numero-de-serie", "ndeg-de-serie")
+
+        for marker in markers:
+            marker_token = f"-{marker}-"
+            index = slug.find(marker_token)
+            if index == -1:
+                continue
+            tail = slug[index + len(marker_token) :]
+            parts = [part for part in tail.split("-") if part]
+            candidate_parts: list[str] = []
+            for part in parts:
+                if part in stop_tokens:
+                    break
+                if not re.fullmatch(r"[a-z0-9]{1,20}", part):
+                    break
+                candidate_parts.append(part)
+            candidate = "-".join(candidate_parts).strip("-")
+            normalized = "".join(character for character in candidate if character.isalnum())
+            if len(normalized) >= 4:
+                return candidate.upper()
+        return None
+
+    def _normalize_identifier_candidate(
+        self,
+        value: str | None,
+        *,
+        allow_short: bool = False,
+        require_digit: bool = False,
+    ) -> str | None:
+        cleaned = normalize_space(value or "").strip(" ,;:/-")
+        cleaned = re.sub(r"^(?:n(?:°|o|\.?)|num[ée]ro)\s+", "", cleaned, flags=re.IGNORECASE)
+        normalized = "".join(character for character in cleaned if character.isalnum()).lower()
+        if not normalized:
+            return None
+        if require_digit and not any(character.isdigit() for character in normalized):
+            return None
+        if len(normalized) < 4 and not allow_short:
+            return None
+        if len(normalized) < 4 and allow_short and not any(character.isdigit() for character in normalized):
+            return None
+        if normalized in {"num", "numero", "ndeg", "serie", "serial", "number", "vin"}:
+            return None
+        return cleaned

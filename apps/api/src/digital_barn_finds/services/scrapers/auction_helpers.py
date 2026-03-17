@@ -263,27 +263,39 @@ def collect_image_media(
     media: list[dict[str, str | None]] = []
     seen: set[str] = set()
 
+    def add_candidate(source: str | None) -> None:
+        if not source:
+            return
+        source = source.strip()
+        if not source:
+            return
+        cleaned = source.split("?", 1)[0].strip() if strip_query else source.strip()
+        if not source:
+            return
+        if not cleaned:
+            return
+        if allow_substrings and not any(token in cleaned for token in allow_substrings):
+            return
+        if any(token in cleaned for token in deny_substrings):
+            return
+        absolute = urljoin(f"{base_url}/", cleaned)
+        if absolute in seen:
+            return
+        seen.add(absolute)
+        media.append({"url": absolute, "media_type": "image/jpeg", "caption": None})
+
     for image in soup.find_all("img"):
-        source = (
+        add_candidate(
             image.get("src")
             or image.get("data-src")
             or image.get("data-original")
             or image.get("data-lazy")
-            or ""
-        ).strip()
-        if not source:
-            continue
-        cleaned = source.split("?", 1)[0].strip() if strip_query else source.strip()
-        if not cleaned:
-            continue
-        if allow_substrings and not any(token in cleaned for token in allow_substrings):
-            continue
-        if any(token in cleaned for token in deny_substrings):
-            continue
-        absolute = urljoin(f"{base_url}/", cleaned)
-        if absolute in seen:
-            continue
-        seen.add(absolute)
-        media.append({"url": absolute, "media_type": "image/jpeg", "caption": None})
+        )
+
+    for node in soup.find_all(attrs={"data-img-src": True}):
+        add_candidate(node.get("data-high-res-src") or node.get("data-img-src"))
+
+    for meta in soup.find_all("meta", attrs={"property": "og:image"}):
+        add_candidate(meta.get("content"))
 
     return media

@@ -89,26 +89,3 @@ jobs:
 
           echo "API smoke test failed."
           exit 1
-      - name: Backfill managed media
-        env:
-          API_BASE: https://${{ secrets.AZURE_API_APP_NAME }}.azurewebsites.net
-          API_ADMIN_TOKEN: ${{ secrets.API_ADMIN_TOKEN }}
-        run: |
-          set -eu
-
-          for batch in $(seq 1 30); do
-            echo "Backfill batch ${batch}"
-            response="$(curl -fsS --max-time 600 -X POST -H "x-admin-token: ${API_ADMIN_TOKEN}" "${API_BASE}/admin/jobs/cache-media?limit=100")"
-            echo "${response}"
-
-            updated="$(python -c 'import json,sys; print(json.loads(sys.stdin.read())["updated"])' <<< "${response}")"
-            remaining="$(python -c 'import json,sys; print(json.loads(sys.stdin.read())["remaining_remote"])' <<< "${response}")"
-
-            if [ "${remaining}" = "0" ] || [ "${updated}" = "0" ]; then
-              echo "Backfill complete or stalled after batch ${batch}."
-              exit 0
-            fi
-          done
-
-          echo "Backfill loop hit the safety cap with remote media still remaining."
-          exit 1

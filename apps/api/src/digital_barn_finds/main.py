@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import csv
 import html
+import re
+import unicodedata
 from datetime import date, datetime
 from io import BytesIO, StringIO
 from pathlib import Path
@@ -62,6 +64,7 @@ from digital_barn_finds.services.import_by_url import import_car_from_url
 from digital_barn_finds.services.media_backfill import cache_existing_media
 from digital_barn_finds.services.media_storage import read_blob_media
 from digital_barn_finds.services.research import build_research_links
+from digital_barn_finds.services.reset_content import reset_content
 from digital_barn_finds.seed import seed_sources
 
 settings = get_settings()
@@ -70,7 +73,7 @@ FIXTURE_ROOT = Path(__file__).resolve().parents[2] / "fixtures"
 LOCAL_MEDIA_ROOT = settings.media_local_root_path
 RENDERABLE_EXTENSIONS = ("jpg", "jpeg", "png", "webp", "gif", "avif", "bmp", "jfif")
 EXPORT_COLUMNS = [
-    ("serial_number", "Serial Number"),
+    ("serial_number", "Vehicle ID"),
     ("make", "Make"),
     ("model", "Model"),
     ("variant", "Variant"),
@@ -95,6 +98,105 @@ EXPORT_COLUMNS = [
     ("lead_image_url", "Lead Image URL"),
     ("notes", "Notes"),
 ]
+COUNTRY_LABELS = {
+    "AE": "United Arab Emirates",
+    "AT": "Austria",
+    "AU": "Australia",
+    "BE": "Belgium",
+    "CA": "Canada",
+    "CH": "Switzerland",
+    "DE": "Germany",
+    "DK": "Denmark",
+    "ES": "Spain",
+    "FR": "France",
+    "GB": "United Kingdom",
+    "IT": "Italy",
+    "JP": "Japan",
+    "LU": "Luxembourg",
+    "MC": "Monaco",
+    "MX": "Mexico",
+    "NL": "Netherlands",
+    "NO": "Norway",
+    "NZ": "New Zealand",
+    "PT": "Portugal",
+    "SE": "Sweden",
+    "US": "United States",
+    "ZA": "South Africa",
+}
+COUNTRY_ALIASES = {
+    "AE": (
+        "united arab emirates",
+        "uae",
+        "dubai",
+        "abu dhabi",
+    ),
+    "AT": ("austria", "vienna"),
+    "AU": ("australia", "sydney", "melbourne"),
+    "BE": ("belgium", "brussels", "bruxelles"),
+    "CA": ("canada", "toronto", "montreal", "vancouver"),
+    "CH": ("switzerland", "geneva", "genève", "zurich"),
+    "DE": ("germany", "deutschland", "duesseldorf", "dusseldorf", "nurburgring", "nürburgring"),
+    "DK": ("denmark", "copenhagen"),
+    "ES": ("spain", "madrid", "barcelona"),
+    "FR": ("france", "paris", "bagatelle", "retromobile"),
+    "GB": (
+        "united kingdom",
+        "great britain",
+        "britain",
+        "england",
+        "london",
+        "goodwood",
+        "silverstone",
+        "bicester",
+        "ascot",
+        "scotland",
+        "wales",
+    ),
+    "IT": ("italy", "torino", "turin", "modena", "milan", "milano", "verona", "monza", "rome", "maranello"),
+    "JP": ("japan", "tokyo", "osaka", "yokohama"),
+    "LU": ("luxembourg",),
+    "MC": ("monaco", "monte carlo"),
+    "MX": ("mexico", "culiacan", "culiacán", "mexico city"),
+    "NL": ("netherlands", "dutch", "amsterdam", "rotterdam"),
+    "NO": ("norway", "oslo"),
+    "NZ": ("new zealand", "auckland"),
+    "PT": ("portugal", "lisbon"),
+    "SE": ("sweden", "stockholm"),
+    "US": (
+        "united states",
+        "usa",
+        "u s a",
+        "america",
+        "washington dc",
+        "fort lauderdale",
+        "homestead",
+        "sebring",
+        "amelia island",
+        "pebble beach",
+        "monterey",
+        "scottsdale",
+        "florida",
+        "california",
+        "new york",
+        "los angeles",
+        "miami",
+    ),
+    "ZA": ("south africa", "johannesburg", "cape town"),
+}
+SHORT_COUNTRY_LOCATION_TOKENS = {
+    "b": "BE",
+    "ch": "CH",
+    "d": "DE",
+    "f": "FR",
+    "gb": "GB",
+    "i": "IT",
+    "j": "JP",
+    "jp": "JP",
+    "nl": "NL",
+    "uk": "GB",
+    "us": "US",
+    "usa": "US",
+}
 
 app.add_middleware(
     CORSMiddleware,
@@ -547,6 +649,7 @@ def _run_car_query(
 
 
 def _serialize_car(car: Car, request: Request | None = None) -> CarListItem:
+    last_seen_location, last_seen_country_code, last_seen_country_name = _resolve_last_seen_place(car)
     timeline = sorted(
         [
             CarTimelineItem(
@@ -611,6 +714,9 @@ def _serialize_car(car: Car, request: Request | None = None) -> CarListItem:
         last_known_year=car.darkness_score.last_known_year if car.darkness_score else None,
         gap_years=car.darkness_score.gap_years if car.darkness_score else None,
         years_since_last_seen=car.darkness_score.years_since_last_seen if car.darkness_score else None,
+        last_seen_location=last_seen_location,
+        last_seen_country_code=last_seen_country_code,
+        last_seen_country_name=last_seen_country_name,
         is_currently_dark=car.darkness_score.is_currently_dark if car.darkness_score else False,
         qualifies_primary=car.darkness_score.qualifies_primary if car.darkness_score else False,
         qualifies_secondary=car.darkness_score.qualifies_secondary if car.darkness_score else False,
@@ -692,6 +798,127 @@ def _clean_text(value: str | None) -> str | None:
 
     cleaned = html.unescape(value).replace("\xa0", " ").strip()
     return cleaned or None
+
+
+def _resolve_last_seen_place(car: Car) -> tuple[str | None, str | None, str | None]:
+    candidates: list[tuple[int, str, str | None, str | None, str | None]] = []
+
+    for event in car.custody_events:
+        location = _clean_text(event.location)
+        context = " | ".join(
+            part
+            for part in [
+                location,
+                _clean_text(event.owner_name),
+                _clean_text(event.transaction_notes),
+                _clean_text(event.source_reference),
+            ]
+            if part
+        )
+        country_code, country_name = _extract_country_marker(location, context)
+        candidates.append(
+            (
+                event.event_year or (event.event_date.year if event.event_date else 0),
+                event.event_date.isoformat() if event.event_date else "",
+                location,
+                country_code,
+                country_name,
+            )
+        )
+
+    for event in car.car_events:
+        location = _clean_text(event.location)
+        context = " | ".join(
+            part
+            for part in [
+                location,
+                _clean_text(event.event_name),
+                _clean_text(event.result),
+                _clean_text(event.source_reference),
+            ]
+            if part
+        )
+        country_code, country_name = _extract_country_marker(location, context)
+        candidates.append(
+            (
+                event.event_year or (event.event_date.year if event.event_date else 0),
+                event.event_date.isoformat() if event.event_date else "",
+                location,
+                country_code,
+                country_name,
+            )
+        )
+
+    for _, _, location, country_code, country_name in sorted(
+        candidates,
+        key=lambda item: (item[0], item[1]),
+        reverse=True,
+    ):
+        if not location and not country_code:
+            continue
+        cleaned_location = _normalize_last_seen_location(location, country_code, country_name)
+        if cleaned_location or country_code:
+            return cleaned_location, country_code, country_name
+
+    return None, None, None
+
+
+def _extract_country_marker(location: str | None, context: str | None) -> tuple[str | None, str | None]:
+    normalized_location = _normalize_country_text(location)
+    normalized_context = _normalize_country_text(context)
+    haystacks = [normalized_location, normalized_context]
+
+    for haystack in haystacks:
+        if not haystack:
+            continue
+        padded = f" {haystack} "
+        for country_code, aliases in COUNTRY_ALIASES.items():
+            if any(f" {alias} " in padded for alias in aliases):
+                return country_code, COUNTRY_LABELS[country_code]
+
+    if normalized_location:
+        for token in normalized_location.split():
+            if token in SHORT_COUNTRY_LOCATION_TOKENS:
+                country_code = SHORT_COUNTRY_LOCATION_TOKENS[token]
+                return country_code, COUNTRY_LABELS[country_code]
+
+    return None, None
+
+
+def _normalize_last_seen_location(
+    location: str | None,
+    country_code: str | None,
+    country_name: str | None,
+) -> str | None:
+    cleaned = _clean_text(location)
+    if cleaned is None:
+        return country_name
+
+    normalized = _normalize_country_text(cleaned)
+    if not normalized or re.fullmatch(r"0+([.\-]+0+)*", normalized):
+        return country_name
+
+    if country_name:
+        lowered = cleaned.lower()
+        if lowered == country_name.lower() or lowered == (country_code or "").lower():
+            return country_name
+        if " asking " in lowered or "advertised" in lowered:
+            return country_name
+        if normalized.startswith("000") or "not sold" in normalized:
+            return country_name
+
+    return cleaned
+
+
+def _normalize_country_text(value: str | None) -> str:
+    if not value:
+        return ""
+    ascii_text = (
+        unicodedata.normalize("NFKD", value)
+        .encode("ascii", "ignore")
+        .decode("ascii")
+    )
+    return re.sub(r"[^a-z0-9]+", " ", ascii_text.lower()).strip()
 
 
 @app.get("/watchlist", response_model=list[WatchlistItem], dependencies=[Depends(require_admin_token)])
@@ -839,6 +1066,28 @@ def run_cache_media(
         "remaining_remote": result.remaining_remote,
         "scraper_key": result.scraper_key,
         "errors": result.errors or [],
+    }
+
+
+@app.post("/admin/jobs/reset-content", dependencies=[Depends(require_admin_token)])
+def run_reset_content(
+    include_watchlist: bool = Query(default=True),
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    result = reset_content(db, include_watchlist=include_watchlist)
+    return {
+        "status": "ok",
+        "deleted_car_media": result.deleted_car_media,
+        "deleted_car_events": result.deleted_car_events,
+        "deleted_custody_events": result.deleted_custody_events,
+        "deleted_car_attributes": result.deleted_car_attributes,
+        "deleted_watchlist": result.deleted_watchlist,
+        "deleted_darkness_scores": result.deleted_darkness_scores,
+        "deleted_car_sources": result.deleted_car_sources,
+        "deleted_cars": result.deleted_cars,
+        "deleted_scrape_logs": result.deleted_scrape_logs,
+        "reset_sources": result.reset_sources,
+        "include_watchlist": include_watchlist,
     }
 
 

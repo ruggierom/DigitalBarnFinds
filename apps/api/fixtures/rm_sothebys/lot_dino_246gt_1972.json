@@ -1,0 +1,32 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "rm_sothebys",
+  "source_url": "https://rmsothebys.com/auctions/pa25/lots/r0016-1972-ferrari-dino-246-gt-by-scaglietti/",
+  "description": "RM Sotheby's 1972 Ferrari Dino 246 GT by Scaglietti lot",
+  "raw_html": "<!DOCTYPE html><html><head><title>1972 Ferrari Dino 246 GT by Scaglietti | Paris 2025 | RM Sotheby's</title></head><body><div class=\"ids p-20px\"><div class=\"row\"><div class=\"body-text--copy col-lg-4 ff-trade-gothic-next pb-6px\"><div class=\"idlabel\">Chassis No.</div>03266</div><div class=\"body-text--copy col-lg-4 ff-trade-gothic-next pb-6px\"><div class=\"idlabel\">Engine No.</div>9289</div><div class=\"body-text--copy col-lg-4 ff-trade-gothic-next pb-6px\"><div class=\"idlabel\">Gearbox No.</div>600E</div><div class=\"body-text--copy col-lg-4 ff-trade-gothic-next pb-6px\"><div class=\"idlabel\">Body No.</div>468</div><div class=\"body-text--copy col-lg-4 ff-trade-gothic-next pb-6px\"><div class=\"idlabel\">Registration</div>French Certificat d'Immatriculation</div><div class=\"body-text--copy col-lg-4 ff-trade-gothic-next pb-6px\"><div class=\"idlabel\">Location</div>| Paris, France</div></div></div><div class=\"lot-header--detail-container\"><h1>1972 Ferrari Dino 246 GT by Scaglietti</h1><div><p class=\"body-text--copy ff-adapt mt-5px\">&#8364;342,500 EUR | Sold</p></div><div class=\"auctiondetails pb-15px hidden-md hidden-lg pb-15px\">Paris 2025 <span class=\"lotnumber ff-trade-gothic-next w-100\">, Lot 231</span></div><ul class=\"list-bullets ff-adapt\"><li>Offered from nearly 40 years of single ownership.</li><li>Retains its matching-numbers engine and gearbox.</li><li>Delivered new through the famed Charles Pozzi SA of Paris.</li></ul></div><img data-ngsrc=\"https://cdn.rmsothebys.com/8/c/4/e/b/9/8c4eb90200ff391457d328d98c6961f65045be2c.webp\"/><img data-ngsrc=\"https://cdn.rmsothebys.com/a/9/e/f/e/9/a9efe9099a25edd906bcacd02cec15c8f35447ec.webp\"/></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {
+    "sale_code": "pa25",
+    "sale_title": "Paris 2025",
+    "sale_date": "2025-02-04",
+    "sale_location": "Paris, FR"
+  },
+  "expected": {
+    "car": {
+      "serial_number": "03266",
+      "make": "Ferrari",
+      "model": "Dino 246 GT by Scaglietti"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 2,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "year"
+    ]
+  }
+}

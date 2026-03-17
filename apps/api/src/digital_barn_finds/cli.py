@@ -9,7 +9,7 @@ from digital_barn_finds.seed import seed_sources
 from digital_barn_finds.services.darkness import compute_scores
 from digital_barn_finds.services.enrichment import enrich_cars
 from digital_barn_finds.services.fetch_more import fetch_random_cars
-from digital_barn_finds.services.ingest import upsert_scraped_car
+from digital_barn_finds.services.ingest import recompute_all_canonical_cars, upsert_scraped_car
 from digital_barn_finds.services.media_backfill import cache_existing_media
 from digital_barn_finds.services.research import build_research_links
 from digital_barn_finds.services.scrapers.fixtures import (
@@ -25,6 +25,8 @@ def parse_args() -> argparse.Namespace:
 
     subparsers.add_parser("seed")
     subparsers.add_parser("score")
+    backfill_parser = subparsers.add_parser("backfill-canonical")
+    backfill_parser.add_argument("--limit", type=int)
     cache_media_parser = subparsers.add_parser("cache-media")
     cache_media_parser.add_argument("--limit", type=int, default=100)
     cache_media_parser.add_argument("--scraper-key")
@@ -79,6 +81,15 @@ def run_score() -> None:
     try:
         processed = compute_scores(db)
         print(f"Computed darkness scores for {processed} cars.")
+    finally:
+        db.close()
+
+
+def run_backfill_canonical(limit: int | None) -> None:
+    db = SessionLocal()
+    try:
+        processed = recompute_all_canonical_cars(db, limit=limit)
+        print(f"Recomputed canonical fields for {processed} cars.")
     finally:
         db.close()
 
@@ -230,6 +241,8 @@ def main() -> None:
         run_seed()
     elif args.command == "score":
         run_score()
+    elif args.command == "backfill-canonical":
+        run_backfill_canonical(limit=args.limit)
     elif args.command == "cache-media":
         run_cache_media(limit=args.limit, scraper_key=args.scraper_key)
     elif args.command == "enrich":

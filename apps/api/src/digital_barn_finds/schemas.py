@@ -45,6 +45,9 @@ class CarListItem(BaseModel):
     last_known_year: int | None
     gap_years: int | None = None
     years_since_last_seen: int | None = None
+    last_seen_location: str | None = None
+    last_seen_country_code: str | None = None
+    last_seen_country_name: str | None = None
     is_currently_dark: bool = False
     qualifies_primary: bool = False
     qualifies_secondary: bool = False

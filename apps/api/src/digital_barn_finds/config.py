@@ -52,6 +52,18 @@ class Settings(BaseSettings):
     )
     bat_request_timeout_seconds: float = 20.0
     bat_max_attempts: int = 2
+    gooding_base_url: str = "https://www.goodingco.com"
+    gooding_discovery_paths: str = "/auction/european-sporting-historic-collection/"
+    gooding_fallback_detail_urls: str = (
+        "https://www.goodingco.com/lot/1934-packard-eight-1101-convertible-sedan,"
+        "https://www.goodingco.com/lot/1967-ferrari-275-gtb-4/,"
+        "https://www.goodingco.com/lot/1963-aston-martin-db5-convertible/,"
+        "https://www.goodingco.com/lot/1961-aston-martin-db4-gt/,"
+        "https://www.goodingco.com/lot/1963-mercedes-benz-300-sl-roadster/,"
+        "https://www.goodingco.com/lot/1930-bentley-4-1-2-litre-sports-tourer/"
+    )
+    gooding_request_timeout_seconds: float = 20.0
+    gooding_max_attempts: int = 2
     historics_base_url: str = "https://www.historics.co.uk"
     historics_discovery_paths: str = "/auction/search/?au=55&g=1&pn=5&pp=24&sd=1&so=0&st=&sto=0"
     historics_fallback_detail_urls: str = (
@@ -88,6 +100,17 @@ class Settings(BaseSettings):
     )
     osenat_request_timeout_seconds: float = 20.0
     osenat_max_attempts: int = 2
+    rm_sothebys_base_url: str = "https://rmsothebys.com"
+    rm_sothebys_discovery_paths: str = "/auctions/pa25/,/auctions/pa25/lots/"
+    rm_sothebys_fallback_detail_urls: str = (
+        "https://rmsothebys.com/auctions/pa25/lots/r0010-2015-ferrari-laferrari/,"
+        "https://rmsothebys.com/auctions/pa25/lots/r0016-1972-ferrari-dino-246-gt-by-scaglietti/,"
+        "https://rmsothebys.com/auctions/pa25/lots/r0008-1964-ferrari-250-lm-by-scaglietti/,"
+        "https://rmsothebys.com/auctions/pa25/lots/r0033-2010-ferrari-599-gto/,"
+        "https://rmsothebys.com/auctions/pa25/lots/r0027-1981-ferrari-512-bblm/"
+    )
+    rm_sothebys_request_timeout_seconds: float = 20.0
+    rm_sothebys_max_attempts: int = 2
     barchetta_base_url: str = "http://www.barchetta.cc"
     barchetta_discovery_paths: str = (
         "/all.ferraris/by-serial-number/ferrari-by-serial-number/model-index/"
@@ -215,6 +238,14 @@ class Settings(BaseSettings):
         return [url.strip() for url in self.bat_fallback_detail_urls.split(",") if url.strip()]
 
     @property
+    def gooding_seed_paths(self) -> list[str]:
+        return [path.strip() for path in self.gooding_discovery_paths.split(",") if path.strip()]
+
+    @property
+    def gooding_fallback_urls(self) -> list[str]:
+        return [url.strip() for url in self.gooding_fallback_detail_urls.split(",") if url.strip()]
+
+    @property
     def iconic_seed_paths(self) -> list[str]:
         return [path.strip() for path in self.iconic_discovery_paths.split(",") if path.strip()]
 
@@ -237,6 +268,14 @@ class Settings(BaseSettings):
     @property
     def osenat_fallback_urls(self) -> list[str]:
         return [url.strip() for url in self.osenat_fallback_detail_urls.split(",") if url.strip()]
+
+    @property
+    def rm_sothebys_seed_paths(self) -> list[str]:
+        return [path.strip() for path in self.rm_sothebys_discovery_paths.split(",") if path.strip()]
+
+    @property
+    def rm_sothebys_fallback_urls(self) -> list[str]:
+        return [url.strip() for url in self.rm_sothebys_fallback_detail_urls.split(",") if url.strip()]
 
     @property
     def barchetta_fallback_urls(self) -> list[str]:

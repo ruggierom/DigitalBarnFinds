@@ -133,6 +133,7 @@ class IconicScraper(BaseScraper):
     ) -> ScrapedCarRecord:
         soup = BeautifulSoup(html, "html.parser")
         page_text = soup.get_text("\n", strip=True).replace("\xa0", " ")
+        detail_fields = self._extract_detail_fields(soup)
         context = self._extract_context(soup, page_text)
         if sale_context:
             context.update({key: value for key, value in sale_context.items() if value})
@@ -140,18 +141,43 @@ class IconicScraper(BaseScraper):
         raw_title = self._extract_title(soup)
         year_built, make, model = split_title(self._clean_title(raw_title))
         chassis_number = choose_serial(
-            extract_first_match(CHASSIS_PATTERN, page_text),
+            detail_fields.get("chassis number")
+            or detail_fields.get("chassis no")
+            or detail_fields.get("vin")
+            or extract_first_match(CHASSIS_PATTERN, page_text),
             self._fallback_serial_number(source_url),
         )
-        engine_number = extract_first_match(ENGINE_PATTERN, page_text)
-        registration = extract_first_match(REGISTRATION_PATTERN, page_text)
+        engine_number = (
+            detail_fields.get("engine number")
+            or detail_fields.get("engine no")
+            or extract_first_match(ENGINE_PATTERN, page_text)
+        )
+        registration = (
+            detail_fields.get("registration number")
+            or detail_fields.get("registration")
+            or extract_first_match(REGISTRATION_PATTERN, page_text)
+        )
         sold = self._extract_sold(page_text)
         estimate = self._extract_estimate(page_text)
-        lot_number = extract_first_match(LOT_NUMBER_PATTERN, page_text)
-        transmission = extract_semantic_value(page_text, "transmission")
-        interior_color = extract_semantic_value(page_text, "interior_color")
-        exterior_color = extract_semantic_value(page_text, "exterior_color")
-        odometer = extract_semantic_value(page_text, "odometer")
+        lot_number = detail_fields.get("lot number") or extract_first_match(LOT_NUMBER_PATTERN, page_text)
+        transmission = detail_fields.get("transmission") or extract_semantic_value(page_text, "transmission")
+        interior_color = detail_fields.get("interior colour") or detail_fields.get("interior color") or extract_semantic_value(
+            page_text,
+            "interior_color",
+        )
+        exterior_color = (
+            detail_fields.get("body colour")
+            or detail_fields.get("body color")
+            or detail_fields.get("exterior colour")
+            or detail_fields.get("exterior color")
+            or extract_semantic_value(page_text, "exterior_color", extra_labels=("Body Colour", "Body Color"))
+        )
+        odometer = (
+            detail_fields.get("recorded mileage")
+            or detail_fields.get("mileage")
+            or detail_fields.get("odometer")
+            or extract_semantic_value(page_text, "odometer", extra_labels=("Recorded Mileage",))
+        )
         drive_side = extract_drive_side(page_text)
         body_style = infer_body_style(raw_title, model, source_url)
         event_name = context.get("sale_title") or "Iconic auction appearance"
@@ -301,6 +327,21 @@ class IconicScraper(BaseScraper):
 
     def _fallback_serial_number(self, source_url: str) -> str:
         return urlparse(source_url).path.strip("/").replace("/", "-") or "iconic-unknown"
+
+    def _extract_detail_fields(self, soup: BeautifulSoup) -> dict[str, str]:
+        fields: dict[str, str] = {}
+        for label_node in soup.find_all("dt"):
+            label = normalize_space(label_node.get_text(" ", strip=True)).rstrip(":")
+            if not label:
+                continue
+            value_node = label_node.find_next_sibling("dd")
+            if value_node is None:
+                continue
+            value = normalize_space(value_node.get_text(" ", strip=True))
+            if not value:
+                continue
+            fields[label.lower()] = value
+        return fields
 
     def _extract_media(self, soup: BeautifulSoup) -> list[dict[str, str | None]]:
         media: list[dict[str, str | None]] = []

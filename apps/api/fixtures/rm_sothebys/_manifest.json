@@ -1,0 +1,18 @@
+{
+  "source_key": "rm_sothebys",
+  "display_name": "RM Sotheby's",
+  "fixtures": [
+    {
+      "file": "paris_2025_discovery.json",
+      "description": "RM Sotheby's Paris 2025 discovery page"
+    },
+    {
+      "file": "lot_laferrari_2015.json",
+      "description": "RM Sotheby's 2015 Ferrari LaFerrari lot"
+    },
+    {
+      "file": "lot_dino_246gt_1972.json",
+      "description": "RM Sotheby's 1972 Ferrari Dino 246 GT by Scaglietti lot"
+    }
+  ]
+}

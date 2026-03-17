@@ -184,6 +184,8 @@ def _get_fallback_urls(scraper_key: str) -> list[str]:
         return get_settings().bat_fallback_urls
     if scraper_key == "barchetta":
         return get_settings().barchetta_fallback_urls
+    if scraper_key == "gooding":
+        return get_settings().gooding_fallback_urls
     if scraper_key == "historics":
         return get_settings().historics_fallback_urls
     if scraper_key == "iconic":
@@ -192,6 +194,8 @@ def _get_fallback_urls(scraper_key: str) -> list[str]:
         return get_settings().mecum_fallback_urls
     if scraper_key == "osenat":
         return get_settings().osenat_fallback_urls
+    if scraper_key == "rm_sothebys":
+        return get_settings().rm_sothebys_fallback_urls
     return []
 
 

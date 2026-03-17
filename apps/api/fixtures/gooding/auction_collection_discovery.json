@@ -1,0 +1,22 @@
+{
+  "fixture_type": "search_results",
+  "source_key": "gooding",
+  "source_url": "https://www.goodingco.com/auction/european-sporting-historic-collection/",
+  "description": "Gooding European Sporting & Historic Collection discovery page",
+  "raw_html": "<!DOCTYPE html><html><head><title>European Sporting &amp; Historic Collection | Auction Details | Gooding Christie's</title></head><body><a href=\"/lot/1963-aston-martin-db5-convertible/\">Lot A</a><a href=\"/lot/1934-rolls-royce-phantom-ii-continental-drophead-coupe/\">Lot B</a><a href=\"/lot/1967-ferrari-275-gtb-4/\">Lot C</a><a href=\"/lot/1961-aston-martin-db4-gt/\">Lot D</a><a href=\"/lot/1930-bentley-4-1-2-litre-sports-tourer/\">Lot E</a><a href=\"/lot/1963-mercedes-benz-300-sl-roadster/\">Lot F</a></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "discovery_url_count": 6,
+    "discovery_urls": [
+      "https://www.goodingco.com/lot/1963-aston-martin-db5-convertible/",
+      "https://www.goodingco.com/lot/1934-rolls-royce-phantom-ii-continental-drophead-coupe/",
+      "https://www.goodingco.com/lot/1967-ferrari-275-gtb-4/",
+      "https://www.goodingco.com/lot/1961-aston-martin-db4-gt/",
+      "https://www.goodingco.com/lot/1930-bentley-4-1-2-litre-sports-tourer/",
+      "https://www.goodingco.com/lot/1963-mercedes-benz-300-sl-roadster/"
+    ]
+  }
+}

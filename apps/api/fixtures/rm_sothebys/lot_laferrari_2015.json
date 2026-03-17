@@ -1,0 +1,32 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "rm_sothebys",
+  "source_url": "https://rmsothebys.com/auctions/pa25/lots/r0010-2015-ferrari-laferrari/",
+  "description": "RM Sotheby's 2015 Ferrari LaFerrari lot",
+  "raw_html": "<!DOCTYPE html><html><head><title>2015 Ferrari LaFerrari | Paris 2025 | RM Sotheby's</title></head><body><div class=\"ids p-20px\"><div class=\"row\"><div class=\"body-text--copy col-lg-4 ff-trade-gothic-next pb-6px\"><div class=\"idlabel\">Chassis No.</div>ZFF76ZHB000208219</div><div class=\"body-text--copy col-lg-4 ff-trade-gothic-next pb-6px\"><div class=\"idlabel\">Registration</div>French Certificat d'Immatriculation</div><div class=\"body-text--copy col-lg-4 ff-trade-gothic-next pb-6px\"><div class=\"idlabel\">Location</div>| Paris, France</div></div></div><div class=\"lot-header--detail-container\"><h1>2015 Ferrari LaFerrari</h1><div><p class=\"body-text--copy ff-adapt mt-5px\">&#8364;3,548,750 EUR | Sold</p></div><div class=\"auctiondetails pb-15px hidden-md hidden-lg pb-15px\">Paris 2025 <span class=\"lotnumber ff-trade-gothic-next w-100\">, Lot 252</span></div><ul class=\"list-bullets ff-adapt\"><li>One of 499 examples of the LaFerrari in coupe form.</li><li>Specified to celebrate Ferrari's logo and home city of Modena.</li></ul></div><img data-ngsrc=\"https://cdn.rmsothebys.com/4/a/7/e/2/9/4a7e291b526ed3a61c11540d5acca5fd6812a7dd.webp\"/><img data-ngsrc=\"https://cdn.rmsothebys.com/2/d/6/b/6/f/2d6b6f3ef41923c722721f6e9a1a1496f10b1f4b.webp\"/></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {
+    "sale_code": "pa25",
+    "sale_title": "Paris 2025",
+    "sale_date": "2025-02-04",
+    "sale_location": "Paris, FR"
+  },
+  "expected": {
+    "car": {
+      "serial_number": "ZFF76ZHB000208219",
+      "make": "Ferrari",
+      "model": "LaFerrari"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 2,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "year"
+    ]
+  }
+}

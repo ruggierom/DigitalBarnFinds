@@ -1,0 +1,18 @@
+{
+  "source_key": "gooding",
+  "display_name": "Gooding Christie's",
+  "fixtures": [
+    {
+      "file": "auction_collection_discovery.json",
+      "description": "Gooding European Sporting & Historic Collection discovery page"
+    },
+    {
+      "file": "lot_packard_1934.json",
+      "description": "Gooding 1934 Packard Eight 1101 Convertible Sedan lot"
+    },
+    {
+      "file": "lot_ferrari_275_gtb4.json",
+      "description": "Gooding 1967 Ferrari 275 GTB/4 lot"
+    }
+  ]
+}

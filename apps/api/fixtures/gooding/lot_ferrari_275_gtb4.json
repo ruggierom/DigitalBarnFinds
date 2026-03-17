@@ -1,0 +1,27 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "gooding",
+  "source_url": "https://www.goodingco.com/lot/1967-ferrari-275-gtb-4/",
+  "description": "Gooding 1967 Ferrari 275 GTB/4 lot",
+  "raw_html": "<!DOCTYPE html><html><head><title>1967 Ferrari 275 GTB/4 | Gooding Christie's</title></head><body><div class=\"vehicleDetails-module--modal--demo\"><h2>2021 |</h2><a>European Sporting &amp; Historic Collection</a></div><div class=\"vehicleDetails-module--documentation--demo\"><h2>Lot 7</h2></div><h1 class=\"vehicleDetails-module--mainHeading--demo\">1967 Ferrari 275 GTB/4</h1><div class=\"vehicleDetails-module--owner--demo\"><p>Coachwork by Scaglietti</p></div><div class=\"vehicleDetails-module--specification--demo\"><h2>SOLD £1,870,000</h2></div><div class=\"vehicleDetails-module--specification--demo\"><p>Estimate</p><h2>£1,750,000 - £2,000,000</h2></div><div class=\"vehicleDetails-module--specification--demo\"><p>Chassis</p><h2>09389</h2></div><div class=\"vehicleDetails-module--specification--demo\"><p>Engine</p><h2>09389</h2></div><div class=\"vehicleDetails-module--details--demo\"><h3>Car Highlights</h3><p>Displayed by Jacques Swaters' Garage Francorchamps at the 1967 Brussels Motor Show.</p><p>Exceptional integrity confirmed by Ferrari Classiche certification and Red Book.</p></div><img src=\"https://media.goodingco.com/image/upload/c_fill,g_auto,q_10,w_10/v1/Prod/Ferrari/Hero/ferrari-275-1\"/><img src=\"https://media.goodingco.com/image/upload/c_fill,g_auto,q_88,w_1590/v1/Prod/Ferrari/Hero/ferrari-275-1\"/><img src=\"https://media.goodingco.com/image/upload/c_fill,g_auto,q_88,w_1590/v1/Prod/Ferrari/Hero/ferrari-275-2\"/></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "car": {
+      "serial_number": "09389",
+      "make": "Ferrari",
+      "model": "275 GTB/4"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 2,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "year"
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "gooding",
+  "source_url": "https://www.goodingco.com/lot/1934-packard-eight-1101-convertible-sedan",
+  "description": "Gooding 1934 Packard Eight 1101 Convertible Sedan lot",
+  "raw_html": "<!DOCTYPE html><html><head><title>1934 Packard Eight 1101 Convertible Sedan | Gooding Christie's</title></head><body><div class=\"vehicleDetails-module--modal--demo\"><h2>2017 |</h2><a>Amelia Island Auctions 2017</a></div><div class=\"vehicleDetails-module--documentation--demo\"><h2>Lot 34</h2></div><h1 class=\"vehicleDetails-module--mainHeading--demo\">1934 Packard Eight 1101 Convertible Sedan</h1><div class=\"vehicleDetails-module--specification--demo\"><h2>SOLD $121,000</h2></div><div class=\"vehicleDetails-module--specification--demo\"><p>Estimate</p><h2>$140,000 - $180,000 | Without Reserve</h2></div><div class=\"vehicleDetails-module--specification--demo\"><p>Chassis</p><h2>375707 (VIN)</h2></div><div class=\"vehicleDetails-module--details--demo\"><h3>Car Highlights</h3><p>One of Seven 1101 Convertible Sedans listed in the rosters of Packard Automobile Classics and the CCCA.</p><p>*Please note that this vehicle is titled by its engine number.</p></div><img src=\"https://media.goodingco.com/image/upload/c_fill,g_auto,q_88,w_1590/v1/Prod/Packard/Hero/packard-1\"/><img src=\"https://media.goodingco.com/image/upload/c_fill,g_auto,q_88,w_1590/v1/Prod/Packard/Hero/packard-2\"/></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "car": {
+      "serial_number": "375707",
+      "make": "Packard",
+      "model": "Eight 1101 Convertible Sedan"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 2,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "year"
+    ]
+  }
+}

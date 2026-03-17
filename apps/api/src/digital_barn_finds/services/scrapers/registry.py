@@ -8,10 +8,12 @@ from digital_barn_finds.services.scrapers.artcurial import ArtcurialScraper
 from digital_barn_finds.services.scrapers.bat import BringATrailerScraper
 from digital_barn_finds.services.scrapers.barchetta import BarchettaScraper
 from digital_barn_finds.services.scrapers.base import BaseScraper
+from digital_barn_finds.services.scrapers.gooding import GoodingScraper
 from digital_barn_finds.services.scrapers.historics import HistoricsScraper
 from digital_barn_finds.services.scrapers.iconic import IconicScraper
 from digital_barn_finds.services.scrapers.mecum import MecumScraper
 from digital_barn_finds.services.scrapers.osenat import OsenatScraper
+from digital_barn_finds.services.scrapers.rm_sothebys import RMSothebysScraper
 
 
 ScraperFactory = Callable[..., BaseScraper]
@@ -22,10 +24,12 @@ SCRAPER_REGISTRY: dict[str, ScraperFactory] = {
     "artcurial": ArtcurialScraper,
     "bat": BringATrailerScraper,
     "barchetta": BarchettaScraper,
+    "gooding": GoodingScraper,
     "historics": HistoricsScraper,
     "iconic": IconicScraper,
     "mecum": MecumScraper,
     "osenat": OsenatScraper,
+    "rm_sothebys": RMSothebysScraper,
 }
 
 
