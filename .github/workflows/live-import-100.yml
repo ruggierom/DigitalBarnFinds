@@ -20,13 +20,14 @@ jobs:
       - name: Import 100 cars with images in 20 batches
         env:
           API_ADMIN_TOKEN: ${{ secrets.API_ADMIN_TOKEN }}
+          SCRAPER_KEY: barchetta
         run: |
           for batch in $(seq 1 20); do
             echo "Starting batch ${batch}/20"
             curl -f --max-time 180 \
               -X POST \
               -H "x-admin-token: ${API_ADMIN_TOKEN}" \
-              "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/fetch?limit=5&ignore_without_images=true"
+              "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/fetch?limit=5&ignore_without_images=true&scraper_key=${SCRAPER_KEY}"
             echo
           done
 
