@@ -113,3 +113,56 @@ export async function fetchMoreCarsAction(formData: FormData) {
 
   redirect(`/settings?${params.toString()}`);
 }
+
+export async function importCarByUrlAction(formData: FormData) {
+  const url = String(formData.get("url") ?? "").trim();
+
+  if (!url) {
+    redirect("/settings?import_error=URL%20is%20required.");
+  }
+
+  try {
+    const result = (await apiFetch("/admin/jobs/import-url", {
+      method: "POST",
+      body: JSON.stringify({ url })
+    })) as {
+      scraper_key: string;
+      source_name: string;
+      source_url: string;
+      car_id: string;
+      serial_number: string;
+      make: string;
+      model: string;
+      source_count: number;
+      media_count: number;
+      already_known_url: boolean;
+    };
+
+    revalidatePath("/cars");
+    revalidatePath("/dashboard");
+    revalidatePath("/sources");
+    revalidatePath("/settings");
+
+    const params = new URLSearchParams({
+      import_url: result.source_url,
+      import_scraper_key: result.scraper_key,
+      import_source_name: result.source_name,
+      import_car_id: result.car_id,
+      import_serial_number: result.serial_number,
+      import_make: result.make,
+      import_model: result.model,
+      import_source_count: String(result.source_count),
+      import_media_count: String(result.media_count),
+      import_already_known_url: result.already_known_url ? "1" : "0"
+    });
+
+    redirect(`/settings?${params.toString()}`);
+  } catch (error) {
+    const message = error instanceof Error ? error.message.replace(/^API request failed:\s*/, "") : "Import failed.";
+    const params = new URLSearchParams({
+      import_url: url,
+      import_error: message
+    });
+    redirect(`/settings?${params.toString()}`);
+  }
+}

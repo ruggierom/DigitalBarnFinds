@@ -79,6 +79,13 @@ class CarMediaItem(BaseModel):
     caption: str | None = None
 
 
+class ResearchLinkItem(BaseModel):
+    label: str
+    category: str
+    query: str
+    url: str
+
+
 class WatchlistItem(BaseModel):
     car_id: UUID
     serial_number: str
@@ -163,3 +170,53 @@ class RequestLabInput(BaseModel):
 class RequestLabResult(BaseModel):
     request: RequestPreview
     response: ResponsePreview
+
+
+class ImportUrlRequest(BaseModel):
+    url: str
+
+
+class ImportUrlResultItem(BaseModel):
+    scraper_key: str
+    source_name: str
+    source_url: str
+    car_id: UUID
+    serial_number: str
+    make: str
+    model: str
+    source_count: int
+    media_count: int
+    already_known_url: bool
+
+
+class SearchCandidateItem(BaseModel):
+    scraper_key: str
+    query: str
+    url: str
+    title: str
+    description: str
+
+
+class CarEnrichmentResultItem(BaseModel):
+    car_id: UUID
+    serial_number: str
+    queries_attempted: int
+    candidate_count: int
+    imported_count: int
+    skipped_known_urls: int
+    skipped_serial_mismatch: int
+    imported: list[ImportUrlResultItem]
+    candidates: list[SearchCandidateItem]
+    errors: list[str]
+
+
+class EnrichmentRunResultItem(BaseModel):
+    requested: int
+    processed: int
+    queries_attempted: int
+    candidate_count: int
+    imported_count: int
+    skipped_known_urls: int
+    skipped_serial_mismatch: int
+    cars: list[CarEnrichmentResultItem]
+    errors: list[str]

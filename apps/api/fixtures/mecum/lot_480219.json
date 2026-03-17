@@ -1,0 +1,31 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "mecum",
+  "source_url": "https://www.mecum.com/lots/480219/2002-ferrari-360-spider/",
+  "description": "Mecum lot 480219 Ferrari 360 Spider",
+  "raw_html": "<!DOCTYPE html><html><head><title>2002 Ferrari 360 Spider | F145AB</title></head><body><a href=\"/auctions/orlando-2021/\">Orlando Summer Special 2021</a><h1>2002 Ferrari 360 Spider</h1><div>Auction Date: Saturday July 31 2021</div><div>Location: Orlando, Florida</div><div>Lot S41</div><div>Sold For: $110,000</div><div>Estimate: $100,000 - $120,000</div><div>VIN/Serial: ZFFYT53A620127086</div><div>Engine No: 44867</div><div>Registration: Florida title</div><img src=\"https://images.mecum.com/image/upload/c_fill,f_auto,g_center,q_auto,w_1280/v1/auctions/fl21/480219_1.jpg\"/><img src=\"https://images.mecum.com/image/upload/c_fill,f_auto,g_center,q_auto,w_1280/v1/auctions/fl21/480219_2.jpg\"/></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {
+    "sale_title": "Orlando Summer Special 2021",
+    "sale_date": "Saturday July 31 2021",
+    "sale_location": "Orlando, Florida"
+  },
+  "expected": {
+    "car": {
+      "serial_number": "ZFFYT53A620127086",
+      "make": "Ferrari",
+      "model": "360 Spider"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 2,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "day"
+    ]
+  }
+}

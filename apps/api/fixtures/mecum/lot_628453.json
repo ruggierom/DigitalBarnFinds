@@ -1,0 +1,31 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "mecum",
+  "source_url": "https://www.mecum.com/lots/628453/2021-lamborghini-urus/",
+  "description": "Mecum lot 628453 Lamborghini Urus",
+  "raw_html": "<!DOCTYPE html><html><head><title>2021 Lamborghini Urus | Mecum</title></head><body><a href=\"/auctions/houston-2024/\">Houston 2024</a><h1>2021 Lamborghini Urus</h1><div>Date: Friday April 5 2024</div><div>Location: Houston, Texas</div><div>Lot F182</div><div>Sold For: $205,000</div><div>Estimate: $190,000 - $220,000</div><div>VIN/Serial: ZPBUA1ZL7MLA12345</div><img src=\"https://images.mecum.com/image/upload/c_fill,f_auto,g_center,q_auto,w_1280/v1/auctions/ht24/628453_1.jpg\"/><img src=\"https://images.mecum.com/image/upload/c_fill,f_auto,g_center,q_auto,w_1280/v1/auctions/ht24/628453_2.jpg\"/></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {
+    "sale_title": "Houston 2024",
+    "sale_date": "Friday April 5 2024",
+    "sale_location": "Houston, Texas"
+  },
+  "expected": {
+    "car": {
+      "serial_number": "ZPBUA1ZL7MLA12345",
+      "make": "Lamborghini",
+      "model": "Urus"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 2,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "day"
+    ]
+  }
+}

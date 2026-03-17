@@ -1,0 +1,31 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "osenat",
+  "source_url": "https://www.osenat.com/lot/155250/26974415-1956-jaguar-type-c-replica-numero-de-serie-5940780-numero",
+  "description": "Osenat Jaguar Type C Replica lot",
+  "raw_html": "<!DOCTYPE html><html><head><title>1956 Jaguar Type C Replica - Lot 228</title></head><body><h1>1956 Jaguar Type C Replica - Lot 228</h1><a href=\"/vente/155250-epoqu-auto-automobiles-de-collection-la-vente-officielle\">Epoqu'auto - Automobiles de collection - La vente officielle</a><div>Vente le 10 novembre 2024</div><div>Lieu: Parc des Expositions Eurexpo Lyon</div><div>Résultat: 205 000 EUR</div><div>Estimation: 180 000 - 220 000 EUR</div><div>Numéro de série: 5940780</div><div>Titre de circulation française</div><img src=\"https://www.osenat.com/uploads/lot/26974415-1.jpg\"/><img src=\"https://www.osenat.com/uploads/lot/26974415-2.jpg\"/></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {
+    "sale_title": "Epoqu'auto - Automobiles de collection - La vente officielle",
+    "sale_date": "10 novembre 2024",
+    "sale_location": "Parc des Expositions Eurexpo Lyon"
+  },
+  "expected": {
+    "car": {
+      "serial_number": "5940780",
+      "make": "Jaguar",
+      "model": "Type C Replica"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 2,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "day"
+    ]
+  }
+}

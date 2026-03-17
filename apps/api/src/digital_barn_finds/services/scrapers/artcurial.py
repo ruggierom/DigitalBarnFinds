@@ -8,6 +8,11 @@ import httpx
 from bs4 import BeautifulSoup
 
 from digital_barn_finds.config import get_settings
+from digital_barn_finds.services.scrapers.auction_helpers import (
+    build_attribute_map,
+    extract_drive_side,
+    infer_body_style,
+)
 from digital_barn_finds.services.scrapers.base import (
     AdapterManifest,
     BaseScraper,
@@ -151,6 +156,8 @@ class ArtcurialScraper(BaseScraper):
         sold = self._extract_labeled_value(soup, "Sold :")
         engine_number = self._extract_first_match(ENGINE_PATTERN, description_text)
         lot_number = self._extract_lot_number_from_url(source_url)
+        drive_side = extract_drive_side(description_text)
+        body_style = infer_body_style(cleaned_title, model, description_text, source_url)
         event_year = self._extract_event_year(context.get("sale_title"), source_url)
         event_name = context.get("sale_title") or self._fallback_event_name(context.get("sale_number"))
         result = "; ".join(part for part in [f"Sold {sold}" if sold else None, f"Estimate {estimate}" if estimate else None] if part) or None
@@ -170,22 +177,17 @@ class ArtcurialScraper(BaseScraper):
             source_reference=self._build_source_reference(context.get("sale_number"), lot_number),
         )
 
-        attributes = {
-            "auction_house": "Artcurial",
-            "source_heading": cleaned_title,
-        }
-        for key, value in {
-            "sale_number": context.get("sale_number"),
-            "sale_title": context.get("sale_title"),
-            "sale_location": context.get("sale_location"),
-            "estimate": estimate,
-            "sold_price": sold,
-            "engine_number": engine_number,
-            "lot_number": lot_number,
-            "reserve_status": "No reserve" if "no reserve" in raw_title.lower() else None,
-        }.items():
-            if value:
-                attributes[key] = value
+        attributes = build_attribute_map(
+            {"auction_house": "Artcurial", "source_heading": cleaned_title},
+            sale_number=context.get("sale_number"),
+            sale_title=context.get("sale_title"),
+            sale_location=context.get("sale_location"),
+            estimate=estimate,
+            sold_price=sold,
+            engine_number=engine_number,
+            lot_number=lot_number,
+            reserve_status="No reserve" if "no reserve" in raw_title.lower() else None,
+        )
 
         return ScrapedCarRecord(
             source_url=source_url,
@@ -194,6 +196,8 @@ class ArtcurialScraper(BaseScraper):
                 make=make,
                 model=model,
                 year_built=year_built,
+                body_style=body_style,
+                drive_side=drive_side,
                 notes="Parsed from saved Artcurial lot page.",
                 attributes=attributes,
             ),

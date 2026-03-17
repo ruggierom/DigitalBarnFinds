@@ -1,0 +1,19 @@
+{
+  "fixture_type": "search_results",
+  "source_key": "bat",
+  "source_url": "https://bringatrailer.com/auctions/results/?q=ferrari+348",
+  "description": "BaT results discovery sample",
+  "raw_html": "<!DOCTYPE html><html><body><script>var BAT_MODEL_LISTINGS_COMPLETED_TOOLBAR = {\"items\":[{\"url\":\"https://bringatrailer.com/listing/1991-ferrari-348-27/\",\"sold_text\":\"Sold for USD $85,500 <span> on 8/5/25 </span>\"},{\"url\":\"https://bringatrailer.com/listing/1994-ferrari-348-38/\",\"sold_text\":\"Sold for USD $65,500 <span> on 5/6/25 </span>\"},{\"url\":\"https://bringatrailer.com/listing/2006-ferrari-f430-spider-24/\",\"sold_text\":\"Sold for USD $90,000 <span> on 4/2/25 </span>\"}]};</script></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "discovery_url_count": 3,
+    "discovery_urls": [
+      "https://bringatrailer.com/listing/1991-ferrari-348-27/",
+      "https://bringatrailer.com/listing/1994-ferrari-348-38/",
+      "https://bringatrailer.com/listing/2006-ferrari-f430-spider-24/"
+    ]
+  }
+}

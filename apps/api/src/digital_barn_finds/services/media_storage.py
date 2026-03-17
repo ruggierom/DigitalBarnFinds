@@ -109,10 +109,13 @@ def persist_media_items(
     serial_number: str,
 ) -> list[dict[str, object]]:
     settings = get_settings()
+    max_media_items = max(0, settings.max_media_per_car)
     if settings.media_storage_mode.strip().lower() == "remote":
         deduped_remote: list[dict[str, object]] = []
         seen_remote_urls: set[str] = set()
         for item in media_items:
+            if len(deduped_remote) >= max_media_items:
+                break
             persisted = dict(item)
             raw_url = str(item.get("url") or "").strip()
             if raw_url and raw_url in seen_remote_urls:
@@ -127,6 +130,8 @@ def persist_media_items(
     client: httpx.Client | None = None
     try:
         for item in media_items:
+            if len(persisted_items) >= max_media_items:
+                break
             persisted = dict(item)
             raw_url = str(item.get("url") or "").strip()
             if not raw_url or _is_managed_media_reference(raw_url):

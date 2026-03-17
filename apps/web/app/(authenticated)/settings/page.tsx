@@ -1,4 +1,5 @@
 import { FetchMorePanel } from "@/components/fetch-more-panel";
+import { ImportUrlPanel } from "@/components/import-url-panel";
 import { RequestDiagnosticsPanel } from "@/components/request-diagnostics-panel";
 import { SettingsEditor } from "@/components/settings-editor";
 import { getBarchettaRequestDiagnostics, getSettings } from "@/lib/api";
@@ -35,6 +36,22 @@ export default async function SettingsPage({
         errors: searchParams.fetch_errors ? String(searchParams.fetch_errors) : undefined
       }
     : undefined;
+  const importResult = searchParams?.import_car_id
+    ? {
+        sourceUrl: String(searchParams.import_url ?? ""),
+        scraperKey: String(searchParams.import_scraper_key ?? ""),
+        sourceName: String(searchParams.import_source_name ?? ""),
+        carId: String(searchParams.import_car_id ?? ""),
+        serialNumber: String(searchParams.import_serial_number ?? ""),
+        make: String(searchParams.import_make ?? ""),
+        model: String(searchParams.import_model ?? ""),
+        sourceCount: Number(searchParams.import_source_count ?? 0),
+        mediaCount: Number(searchParams.import_media_count ?? 0),
+        alreadyKnownUrl: String(searchParams.import_already_known_url ?? "0") === "1"
+      }
+    : undefined;
+  const importUrl = queryValue(searchParams?.import_url) ?? "";
+  const importError = queryValue(searchParams?.import_error) ?? undefined;
 
   return (
     <>
@@ -47,6 +64,7 @@ export default async function SettingsPage({
         </p>
       </section>
       {showFetchMorePanel ? <FetchMorePanel result={fetchResult} /> : null}
+      <ImportUrlPanel defaultUrl={importUrl} error={importError} result={importResult} />
       <RequestDiagnosticsPanel
         currentPath={diagnosticsPath}
         currentUserAgentOverride={diagnosticsUserAgent}

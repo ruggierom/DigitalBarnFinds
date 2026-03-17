@@ -1,0 +1,31 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "iconic",
+  "source_url": "https://www.iconicauctioneers.com/1980-datsun-280-zx-rec15176-1-bicester-0625",
+  "description": "Iconic Datsun 280 ZX lot",
+  "raw_html": "<!DOCTYPE html><html><head><title>1980 Datsun 280 ZX | Iconic Auctioneers</title></head><body><h1>1980 Datsun 280 ZX</h1><div>The Classic Sale at Wheeler Dealer Live 2025</div><div>Lot Number: 271</div><div>Sold For: £11,250</div><div>Estimate: £10,000 - £15,000</div><div>Chassis Number: HGS13020280</div><div>Engine Number: L28-123456</div><div>Registration Number: OPW 623V</div><div>LIVE AUCTION: This lot was auctioned on Sunday 1st June 2025 at 11.00am local time at Bicester Motion, OX26 5HA.</div><img src=\"https://images.ctfassets.net/iconic/280zx-1.jpg\"/><img src=\"https://images.ctfassets.net/iconic/280zx-2.jpg\"/></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {
+    "sale_title": "The Classic Sale at Wheeler Dealer Live 2025",
+    "sale_date": "Sunday 1st June 2025",
+    "sale_location": "Bicester Motion, OX26 5HA"
+  },
+  "expected": {
+    "car": {
+      "serial_number": "HGS13020280",
+      "make": "Datsun",
+      "model": "280 ZX"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 2,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "day"
+    ]
+  }
+}

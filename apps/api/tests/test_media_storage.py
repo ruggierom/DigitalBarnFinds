@@ -115,3 +115,35 @@ def test_persist_media_items_dedupes_identical_stored_assets(tmp_path, monkeypat
 
     assert len(items) == 1
     assert str(items[0]["url"]).startswith("file://")
+
+
+def test_persist_media_items_limits_result_count(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("DBF_DATABASE_URL", "postgresql://test")
+    monkeypatch.setenv("DBF_ADMIN_TOKEN", "test-token")
+    monkeypatch.setenv("DBF_MEDIA_STORAGE_MODE", "filesystem")
+    monkeypatch.setenv("DBF_MEDIA_LOCAL_ROOT", str(tmp_path))
+    monkeypatch.setenv("DBF_MAX_MEDIA_PER_CAR", "10")
+    get_settings.cache_clear()
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        body = b"\xff\xd8\xff" + request.url.path.encode("utf-8")
+        return httpx.Response(
+            200,
+            headers={"content-type": "image/jpeg"},
+            content=body,
+        )
+
+    class MockClient(httpx.Client):
+        def __init__(self, *args, **kwargs) -> None:
+            kwargs["transport"] = httpx.MockTransport(handler)
+            super().__init__(*args, **kwargs)
+
+    monkeypatch.setattr(httpx, "Client", MockClient)
+    items = persist_media_items(
+        [{"url": f"https://example.com/{index}.jpg"} for index in range(25)],
+        source_key="bat",
+        serial_number="SCFRMHAV2PGR10465",
+    )
+    get_settings.cache_clear()
+
+    assert len(items) == 10

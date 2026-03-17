@@ -1,0 +1,31 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "historics",
+  "source_url": "https://www.historics.co.uk/auction/lot/lot-197---1967-volkswagen--samba-split-screen-t1-21-window-camper/?lot=6522&sd=1",
+  "description": "Historics Volkswagen Samba lot",
+  "raw_html": "<!DOCTYPE html><html><head><title>Lot 197 - 1967 Volkswagen Samba Split-Screen T1 21-Window Camper</title></head><body><a href=\"/auction/details/-ascot-racecourse--26th-september-2020-sale-ascot-racecourse-26th-september-2020-sale/?au=55\">Ascot Racecourse, 26th September 2020</a><h1>Lot 197 - 1967 Volkswagen Samba Split-Screen T1 21-Window Camper</h1><div>Sold For £64,120</div><div>Estimate £50,000 - £60,000</div><div>Registration: MYY 764E</div><div>Chassis Number: 247092312</div><div>Engine Number: H1209483</div><img src=\"https://www.historics.co.uk/images/lots/6522_1.jpg\"/><img src=\"https://www.historics.co.uk/images/lots/6522_2.jpg\"/></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {
+    "sale_title": "Ascot Racecourse, 26th September 2020",
+    "sale_date": "26th September 2020",
+    "sale_location": "Ascot Racecourse"
+  },
+  "expected": {
+    "car": {
+      "serial_number": "247092312",
+      "make": "Volkswagen",
+      "model": "Samba Split-Screen T1 21-Window Camper"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 2,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "day"
+    ]
+  }
+}

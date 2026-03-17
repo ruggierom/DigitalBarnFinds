@@ -35,6 +35,12 @@ from digital_barn_finds.schemas import (
     CarSourceItem,
     CarTimelineItem,
     CarListItem,
+    CarEnrichmentResultItem,
+    EnrichmentRunResultItem,
+    ImportUrlRequest,
+    ImportUrlResultItem,
+    ResearchLinkItem,
+    SearchCandidateItem,
     DashboardSnapshot,
     BarchettaRequestDiagnostics,
     RegistryStats,
@@ -50,9 +56,12 @@ from digital_barn_finds.schemas import (
     WatchlistUpdate,
 )
 from digital_barn_finds.services.darkness import compute_scores
+from digital_barn_finds.services.enrichment import enrich_cars
 from digital_barn_finds.services.fetch_more import fetch_random_cars
+from digital_barn_finds.services.import_by_url import import_car_from_url
 from digital_barn_finds.services.media_backfill import cache_existing_media
 from digital_barn_finds.services.media_storage import read_blob_media
+from digital_barn_finds.services.research import build_research_links
 from digital_barn_finds.seed import seed_sources
 
 settings = get_settings()
@@ -320,6 +329,16 @@ def export_cars(
         media_type="text/csv; charset=utf-8",
         headers={"Content-Disposition": f'attachment; filename="digital-barn-finds-{timestamp}.csv"'},
     )
+
+
+@app.get("/cars/{car_id}/research-links", response_model=list[ResearchLinkItem], dependencies=[Depends(require_admin_token)])
+def get_car_research_links(car_id: str, db: Session = Depends(get_db)) -> list[ResearchLinkItem]:
+    car = db.query(Car).filter(Car.id == car_id).one_or_none()
+    if car is None:
+        raise HTTPException(status_code=404, detail="Car not found.")
+    return [ResearchLinkItem(**link.__dict__) for link in build_research_links(car, car.sources)]
+
+
 def _is_renderable_media_item(media_type: str | None, url: str | None) -> bool:
     normalized_type = (media_type or "").lower()
     normalized_url = (url or "").lower()
@@ -823,6 +842,75 @@ def run_cache_media(
     }
 
 
+@app.post(
+    "/admin/jobs/enrich",
+    response_model=EnrichmentRunResultItem,
+    dependencies=[Depends(require_admin_token)],
+)
+def run_enrichment(
+    car_id: str | None = Query(default=None),
+    serial_number: str | None = Query(default=None),
+    limit: int = Query(default=1, ge=1, le=100),
+    max_imports_per_car: int = Query(default=5, ge=1, le=20),
+    db: Session = Depends(get_db),
+) -> EnrichmentRunResultItem:
+    result = enrich_cars(
+        db,
+        car_id=car_id,
+        serial_number=serial_number,
+        limit=limit,
+        max_imports_per_car=max_imports_per_car,
+    )
+    return EnrichmentRunResultItem(
+        requested=result.requested,
+        processed=result.processed,
+        queries_attempted=result.queries_attempted,
+        candidate_count=result.candidate_count,
+        imported_count=result.imported_count,
+        skipped_known_urls=result.skipped_known_urls,
+        skipped_serial_mismatch=result.skipped_serial_mismatch,
+        cars=[
+            CarEnrichmentResultItem(
+                car_id=car_result.car_id,
+                serial_number=car_result.serial_number,
+                queries_attempted=car_result.queries_attempted,
+                candidate_count=car_result.candidate_count,
+                imported_count=car_result.imported_count,
+                skipped_known_urls=car_result.skipped_known_urls,
+                skipped_serial_mismatch=car_result.skipped_serial_mismatch,
+                imported=[
+                    ImportUrlResultItem(
+                        scraper_key=item.scraper_key,
+                        source_name=item.source_name,
+                        source_url=item.source_url,
+                        car_id=item.car_id,
+                        serial_number=item.serial_number,
+                        make=item.make,
+                        model=item.model,
+                        source_count=item.source_count,
+                        media_count=item.media_count,
+                        already_known_url=item.already_known_url,
+                    )
+                    for item in car_result.imported
+                ],
+                candidates=[
+                    SearchCandidateItem(
+                        scraper_key=item.scraper_key,
+                        query=item.query,
+                        url=item.url,
+                        title=item.title,
+                        description=item.description,
+                    )
+                    for item in car_result.candidates
+                ],
+                errors=car_result.errors,
+            )
+            for car_result in result.cars
+        ],
+        errors=result.errors,
+    )
+
+
 @app.post("/admin/jobs/upsert", dependencies=[Depends(require_admin_token)])
 def run_upsert(db: Session = Depends(get_db)) -> dict[str, str]:
     source_count = db.query(func.count(Source.id)).filter(Source.enabled.is_(True)).scalar() or 0
@@ -856,6 +944,36 @@ def run_fetch_more(
         "mode_used": result.mode_used,
         "errors": result.errors,
     }
+
+
+@app.post(
+    "/admin/jobs/import-url",
+    response_model=ImportUrlResultItem,
+    dependencies=[Depends(require_admin_token)],
+)
+def run_import_url(
+    payload: ImportUrlRequest,
+    db: Session = Depends(get_db),
+) -> ImportUrlResultItem:
+    try:
+        result = import_car_from_url(db, payload.url)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail=f"Import failed: {exc}") from exc
+
+    return ImportUrlResultItem(
+        scraper_key=result.scraper_key,
+        source_name=result.source_name,
+        source_url=result.source_url,
+        car_id=result.car_id,
+        serial_number=result.serial_number,
+        make=result.make,
+        model=result.model,
+        source_count=result.source_count,
+        media_count=result.media_count,
+        already_known_url=result.already_known_url,
+    )
 
 
 @app.get(

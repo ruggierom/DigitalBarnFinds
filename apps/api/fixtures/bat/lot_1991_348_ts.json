@@ -1,0 +1,27 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "bat",
+  "source_url": "https://bringatrailer.com/listing/1991-ferrari-348-27/",
+  "description": "BaT Ferrari 348 TS lot",
+  "raw_html": "<!DOCTYPE html><html><head><title>1991 Ferrari 348 TS for sale on BaT Auctions - sold for $85,500 on August 5, 2025 (Lot #203,823) | Bring a Trailer</title></head><body><h1 class='listing-post-title'>1991 Ferrari 348 TS</h1><div class='listing-available'><div class='listing-available-info'>Sold for <strong>USD $85,500</strong> <span class='date'>on 8/5/25</span></div></div><div class='listing-intro-image'><img src='https://bringatrailer.com/wp-content/uploads/2025/06/1991_ferrari_348_img_4226-92478.jpeg?fit=940%2C627' alt='1991 Ferrari 348 TS' /></div><div class='post-excerpt'><p>This 1991 Ferrari 348 TS is powered by a 3.4-liter DOHC V8 linked with a dogleg five-speed manual transaxle and a limited-slip differential, and it is finished in Rosso Corsa over Nero Connolly leather.</p></div><div class='essentials'><h2 class='title'>BaT Essentials</h2><div class='item item-seller'><strong>Seller</strong>: <a href='https://bringatrailer.com/member/dcovelli52/' target='_blank'>Dcovelli52</a></div><div class='item item-location'><strong>Location</strong>: <a href='https://www.google.com/maps/place/Caneadea,%20New%20York%2014717' target='_blank'>Caneadea, New York 14717</a></div><div class='item'><strong>Listing Details</strong><ul><li>Chassis: ZFFRG36A5M0090094</li><li>12k Miles Shown</li><li>3.4-Liter DOHC V8</li><li>Five-Speed Manual Transaxle</li><li>Limited-Slip Differential</li><li>Rosso Corsa Paint</li><li>Nero Connolly Leather Upholstery</li><li>17-inch Five-Spoke Alloy Wheels</li><li>Removable Roof Panel</li><li>Clean Carfax Report</li></ul></div><div class='item additional'><strong>Private Party or Dealer</strong>: Private Party</div><div class='item'><strong>Lot</strong> #203823</div></div><div data-gallery-items='[{&quot;large&quot;:{&quot;url&quot;:&quot;https://bringatrailer.com/wp-content/uploads/2025/06/1991_ferrari_348_img_4226-92478.jpeg?fit=1915%2C1277&quot;},&quot;small&quot;:{&quot;url&quot;:&quot;https://bringatrailer.com/wp-content/uploads/2025/06/1991_ferrari_348_img_4226-92478.jpeg?resize=155%2C105&quot;},&quot;title&quot;:&quot;1991 Ferrari 348 TS&quot;},{&quot;large&quot;:{&quot;url&quot;:&quot;https://bringatrailer.com/wp-content/uploads/2025/06/1991_ferrari_348_IMG_4225-85462-scaled.jpeg?fit=2048%2C1536&quot;},&quot;small&quot;:{&quot;url&quot;:&quot;https://bringatrailer.com/wp-content/uploads/2025/06/1991_ferrari_348_IMG_4225-85462-scaled.jpeg?resize=155%2C105&quot;},&quot;title&quot;:&quot;1991 Ferrari 348 TS&quot;},{&quot;large&quot;:{&quot;url&quot;:&quot;https://bringatrailer.com/wp-content/uploads/2025/06/1991_ferrari_348_img_4221-92512.jpeg?fit=1912%2C1274&quot;},&quot;small&quot;:{&quot;url&quot;:&quot;https://bringatrailer.com/wp-content/uploads/2025/06/1991_ferrari_348_img_4221-92512.jpeg?resize=155%2C105&quot;},&quot;title&quot;:&quot;1991 Ferrari 348 TS&quot;}]' data-gallery-limit='60' data-gallery-named='item_97001869'></div><table class='listing-stats ended' id='listing-bid'><tbody><tr class='listing-stats-stat'><td class='listing-stats-label'>Winning Bid</td><td class='listing-stats-value'><span>USD <strong>$85,500</strong></span><span>by Porchetarga</span></td></tr><tr class='listing-stats-stat'><td class='listing-stats-label'>Auction Ended</td><td class='listing-stats-value'><span data-ends='1754426962'>August 5, 2025 at 1:49PM PT</span></td></tr><tr class='listing-stats-stat'><td class='listing-stats-label'>Bids</td><td class='listing-stats-value number-bids-value'>2</td></tr></tbody></table></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "car": {
+      "serial_number": "ZFFRG36A5M0090094",
+      "make": "Ferrari",
+      "model": "348 TS"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 3,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "day"
+    ]
+  }
+}

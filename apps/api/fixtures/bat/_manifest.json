@@ -1,0 +1,18 @@
+{
+  "source_key": "bat",
+  "display_name": "Bring a Trailer",
+  "fixtures": [
+    {
+      "file": "results_ferrari_348.json",
+      "description": "BaT results discovery sample"
+    },
+    {
+      "file": "lot_1991_348_ts.json",
+      "description": "BaT Ferrari 348 TS lot"
+    },
+    {
+      "file": "lot_1994_348_spider.json",
+      "description": "BaT Ferrari 348 Spider lot"
+    }
+  ]
+}

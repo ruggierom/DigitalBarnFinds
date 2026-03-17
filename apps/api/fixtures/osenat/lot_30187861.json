@@ -1,0 +1,31 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "osenat",
+  "source_url": "https://www.osenat.com/lot/168038/30187861-ferrari-testarossa-coupE-1992",
+  "description": "Osenat Ferrari Testarossa lot",
+  "raw_html": "<!DOCTYPE html><html><head><title>Ferrari Testarossa Coupé 1992 - Lot 39</title></head><body><h1>1992 Ferrari Testarossa</h1><a href=\"/vente/168038-automobiles-de-collection\">Automobiles de collection</a><div>Vente le 23 June 2025</div><div>Lieu: Fontainebleau</div><div>Résultat: 145 000 EUR</div><div>Estimation: 135 000 - 155 000 EUR</div><div>Lot 39</div><div>Numéro de série: ZFFSG17B000091234</div><img src=\"https://www.osenat.com/uploads/lot/30187861-1.jpg\"/><img src=\"https://www.osenat.com/uploads/lot/30187861-2.jpg\"/></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {
+    "sale_title": "Automobiles de collection",
+    "sale_date": "23 June 2025",
+    "sale_location": "Fontainebleau"
+  },
+  "expected": {
+    "car": {
+      "serial_number": "ZFFSG17B000091234",
+      "make": "Ferrari",
+      "model": "Testarossa"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 2,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "day"
+    ]
+  }
+}

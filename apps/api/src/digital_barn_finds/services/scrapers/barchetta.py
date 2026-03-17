@@ -23,6 +23,45 @@ from digital_barn_finds.services.scrapers.base import (
     ScrapedCarRecord,
 )
 
+BARCHETTA_COLOR_HINTS = {
+    "argento",
+    "beige",
+    "bianco",
+    "black",
+    "bleu",
+    "blue",
+    "blu",
+    "brown",
+    "cream",
+    "gold",
+    "giallo",
+    "grigio",
+    "green",
+    "grey",
+    "ivory",
+    "nero",
+    "red",
+    "rosso",
+    "silver",
+    "tan",
+    "verde",
+    "white",
+    "yellow",
+}
+
+BARCHETTA_NON_COLOR_HINTS = {
+    "chassis",
+    "engine",
+    "job",
+    "louvers",
+    "louvres",
+    "note",
+    "number",
+    "pf",
+    "renumbered",
+    "tipo",
+}
+
 
 class BarchettaScraper(BaseScraper):
     source_key = "barchetta"
@@ -416,7 +455,7 @@ class BarchettaScraper(BaseScraper):
                 drive_side = line_parts[-1].upper()
         summary["drive_side"] = drive_side
 
-        if color_line and color_line.upper() not in {"LHD", "RHD"}:
+        if color_line and color_line.upper() not in {"LHD", "RHD"} and _looks_like_color_line(color_line):
             summary["original_color"] = color_line
 
         return summary
@@ -819,6 +858,21 @@ def _resolve_media_src(src: str, canonical_url: str, source_url: str) -> str:
 
 def _normalize_whitespace(value: str) -> str:
     return re.sub(r"\s+", " ", html.unescape(value).replace("\xa0", " ")).strip()
+
+
+def _looks_like_color_line(value: str) -> bool:
+    normalized = _normalize_whitespace(value)
+    if not normalized:
+        return False
+    if any(character.isdigit() for character in normalized):
+        return False
+
+    tokens = re.findall(r"[A-Za-zÀ-ÿ]+", normalized.lower())
+    if not tokens or len(tokens) > 5:
+        return False
+    if any(token in BARCHETTA_NON_COLOR_HINTS for token in tokens):
+        return False
+    return any(token in BARCHETTA_COLOR_HINTS for token in tokens)
 
 
 def _string_or_none(value: object) -> str | None:

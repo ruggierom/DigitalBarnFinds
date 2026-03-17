@@ -10,6 +10,11 @@ import httpx
 from bs4 import BeautifulSoup
 
 from digital_barn_finds.config import get_settings
+from digital_barn_finds.services.scrapers.auction_helpers import (
+    build_attribute_map,
+    extract_drive_side,
+    infer_body_style,
+)
 from digital_barn_finds.services.scrapers.base import (
     AdapterManifest,
     BaseScraper,
@@ -197,6 +202,8 @@ class AguttesScraper(BaseScraper):
         engine_number = self._extract_first_match(ENGINE_PATTERN, description_text)
         registration = self._extract_registration(description_text)
         lot_number = self._extract_lot_number(raw_title, soup)
+        drive_side = extract_drive_side(description_text)
+        body_style = infer_body_style(cleaned_title, model, description_text, source_url)
         event_date, event_date_precision, event_year = self._extract_event_date(context.get("sale_date"))
         event_name = context.get("sale_title") or self._fallback_event_name(context.get("sale_id"))
 
@@ -225,24 +232,19 @@ class AguttesScraper(BaseScraper):
             source_reference=self._build_source_reference(context.get("sale_id"), lot_number),
         )
 
-        attributes = {
-            "auction_house": "Aguttes",
-            "source_heading": cleaned_title,
-        }
-        for key, value in {
-            "sale_id": context.get("sale_id"),
-            "sale_title": context.get("sale_title"),
-            "sale_date": context.get("sale_date"),
-            "sale_location": context.get("sale_location"),
-            "estimate": estimate,
-            "sold_price": sold,
-            "result_basis": result_basis,
-            "engine_number": engine_number,
-            "lot_number": lot_number,
-            "registration": registration,
-        }.items():
-            if value:
-                attributes[key] = value
+        attributes = build_attribute_map(
+            {"auction_house": "Aguttes", "source_heading": cleaned_title},
+            sale_id=context.get("sale_id"),
+            sale_title=context.get("sale_title"),
+            sale_date=context.get("sale_date"),
+            sale_location=context.get("sale_location"),
+            estimate=estimate,
+            sold_price=sold,
+            result_basis=result_basis,
+            engine_number=engine_number,
+            lot_number=lot_number,
+            registration=registration,
+        )
 
         return ScrapedCarRecord(
             source_url=source_url,
@@ -251,6 +253,8 @@ class AguttesScraper(BaseScraper):
                 make=make,
                 model=model,
                 year_built=year_built,
+                body_style=body_style,
+                drive_side=drive_side,
                 notes="Parsed from Aguttes auction lot page.",
                 attributes=attributes,
             ),

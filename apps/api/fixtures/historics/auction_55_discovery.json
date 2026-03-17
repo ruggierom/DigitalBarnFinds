@@ -1,0 +1,18 @@
+{
+  "fixture_type": "search_results",
+  "source_key": "historics",
+  "source_url": "https://www.historics.co.uk/auction/search/?au=55&g=1&pn=5&pp=24&sd=1&so=0&st=&sto=0",
+  "description": "Historics Ascot sale discovery sample",
+  "raw_html": "<!DOCTYPE html><html><body><a href=\"/auction/lot/lot-197---1967-volkswagen--samba-split-screen-t1-21-window-camper/?lot=6522&sd=1\">Volkswagen Samba</a><a href=\"https://www.historics.co.uk/auction/lot/lot-57---1964-oldsmobile-ninety-eight-custom-sports-coupe/?lot=14833&sd=1\">Oldsmobile Ninety-Eight</a></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "discovery_url_count": 2,
+    "discovery_urls": [
+      "https://www.historics.co.uk/auction/lot/lot-197---1967-volkswagen--samba-split-screen-t1-21-window-camper/?lot=6522&sd=1",
+      "https://www.historics.co.uk/auction/lot/lot-57---1964-oldsmobile-ninety-eight-custom-sports-coupe/?lot=14833&sd=1"
+    ]
+  }
+}

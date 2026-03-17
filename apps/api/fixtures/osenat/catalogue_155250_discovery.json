@@ -1,0 +1,18 @@
+{
+  "fixture_type": "search_results",
+  "source_key": "osenat",
+  "source_url": "https://www.osenat.com/catalogue/155250",
+  "description": "Osenat catalogue 155250 discovery sample",
+  "raw_html": "<!DOCTYPE html><html><body><a href=\"/lot/155250/26974415-1956-jaguar-type-c-replica-numero-de-serie-5940780-numero\">Jaguar Type C Replica</a><a href=\"https://www.osenat.com/lot/168038/30187861-ferrari-testarossa-coupE-1992\">Ferrari Testarossa</a></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "discovery_url_count": 2,
+    "discovery_urls": [
+      "https://www.osenat.com/lot/155250/26974415-1956-jaguar-type-c-replica-numero-de-serie-5940780-numero",
+      "https://www.osenat.com/lot/168038/30187861-ferrari-testarossa-coupE-1992"
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "source_key": "historics",
+  "display_name": "Historics Auctioneers",
+  "fixtures": [
+    {
+      "file": "auction_55_discovery.json",
+      "description": "Historics Ascot sale discovery sample"
+    },
+    {
+      "file": "lot_6522.json",
+      "description": "Historics Volkswagen Samba lot"
+    },
+    {
+      "file": "lot_14833.json",
+      "description": "Historics Oldsmobile Ninety-Eight lot"
+    }
+  ]
+}

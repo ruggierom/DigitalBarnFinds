@@ -1,0 +1,27 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "bat",
+  "source_url": "https://bringatrailer.com/listing/1994-ferrari-348-38/",
+  "description": "BaT Ferrari 348 Spider lot",
+  "raw_html": "<!DOCTYPE html><html><head><title>1994 Ferrari 348 Spider for sale on BaT Auctions - sold for $65,500 on May 6, 2025 (Lot #190,533) | Bring a Trailer</title></head><body><h1 class='listing-post-title'>1994 Ferrari 348 Spider</h1><div class='listing-available'><div class='listing-available-info'>Sold for <strong>USD $65,500</strong> <span class='date'>on 5/6/25</span></div></div><div class='listing-intro-image'><img src='https://bringatrailer.com/wp-content/uploads/2025/04/1994_ferrari_348_348-32857.jpg?fit=940%2C627' alt='1994 Ferrari 348 Spider' /></div><div class='post-excerpt'><p>This 1994 Ferrari 348 Spider is finished in Blu Sera over Beige Connolly leather and is powered by a 3.4-liter DOHC V8 linked with a five-speed manual transaxle.</p></div><div class='essentials'><h2 class='title'>BaT Essentials</h2><div class='item item-seller'><strong>Seller</strong>: <a href='https://bringatrailer.com/member/stevenaj/' target='_blank'>StevenAJ</a></div><div class='item item-location'><strong>Location</strong>: <a href='https://www.google.com/maps/place/Sykesville,%20Maryland%2021784' target='_blank'>Sykesville, Maryland 21784</a></div><div class='item'><strong>Listing Details</strong><ul><li>Chassis: ZFFRG43AXR0097821</li><li>43k Miles Shown</li><li>3.4-Liter DOHC V8</li><li>Five-Speed Manual Transaxle</li><li>Limited-Slip Differential</li><li>Blu Sera Paint</li><li>Blue Convertible Soft Top</li><li>Beige Connolly Leather Upholstery</li><li>18-inch Multi-Piece Five-Spoke Wheels</li><li>Dogleg-Pattern Gated Shifter</li><li>Air Conditioning</li><li>Clean Carfax Report</li></ul></div><div class='item additional'><strong>Private Party or Dealer</strong>: Dealer</div><div class='item'><strong>Lot</strong> #190533</div></div><div data-gallery-items='[{&quot;large&quot;:{&quot;url&quot;:&quot;https://bringatrailer.com/wp-content/uploads/2025/04/1994_ferrari_348_348-32857.jpg?fit=1914%2C1277&quot;},&quot;small&quot;:{&quot;url&quot;:&quot;https://bringatrailer.com/wp-content/uploads/2025/04/1994_ferrari_348_348-32857.jpg?resize=155%2C105&quot;},&quot;title&quot;:&quot;1994 Ferrari 348 Spider&quot;},{&quot;large&quot;:{&quot;url&quot;:&quot;https://bringatrailer.com/wp-content/uploads/2025/04/1994_ferrari_348_348-32860.jpg?fit=1914%2C1277&quot;},&quot;small&quot;:{&quot;url&quot;:&quot;https://bringatrailer.com/wp-content/uploads/2025/04/1994_ferrari_348_348-32860.jpg?resize=155%2C105&quot;},&quot;title&quot;:&quot;1994 Ferrari 348 Spider&quot;},{&quot;large&quot;:{&quot;url&quot;:&quot;https://bringatrailer.com/wp-content/uploads/2025/04/1994_ferrari_348_348-32861.jpg?fit=1914%2C1277&quot;},&quot;small&quot;:{&quot;url&quot;:&quot;https://bringatrailer.com/wp-content/uploads/2025/04/1994_ferrari_348_348-32861.jpg?resize=155%2C105&quot;},&quot;title&quot;:&quot;1994 Ferrari 348 Spider&quot;}]' data-gallery-limit='60' data-gallery-named='item_91234567'></div><table class='listing-stats ended' id='listing-bid'><tbody><tr class='listing-stats-stat'><td class='listing-stats-label'>Winning Bid</td><td class='listing-stats-value'><span>USD <strong>$65,500</strong></span><span>by ezglobal</span></td></tr><tr class='listing-stats-stat'><td class='listing-stats-label'>Auction Ended</td><td class='listing-stats-value'><span data-ends='1746563100'>May 6, 2025 at 1:25PM PT</span></td></tr><tr class='listing-stats-stat'><td class='listing-stats-label'>Bids</td><td class='listing-stats-value number-bids-value'>31</td></tr></tbody></table></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "car": {
+      "serial_number": "ZFFRG43AXR0097821",
+      "make": "Ferrari",
+      "model": "348 Spider"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 3,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "day"
+    ]
+  }
+}

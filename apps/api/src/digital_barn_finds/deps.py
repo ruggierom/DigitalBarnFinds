@@ -1,8 +1,6 @@
 from __future__ import annotations
 
 from fastapi import Depends, Header, HTTPException, status
-from sqlalchemy.orm import Session
-
 from digital_barn_finds.config import get_settings
 from digital_barn_finds.database import get_db
 

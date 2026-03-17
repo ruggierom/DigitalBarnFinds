@@ -1,0 +1,18 @@
+{
+  "source_key": "mecum",
+  "display_name": "Mecum Auctions",
+  "fixtures": [
+    {
+      "file": "auction_orlando_2021_discovery.json",
+      "description": "Mecum Orlando Summer Special 2021 discovery sample"
+    },
+    {
+      "file": "lot_480219.json",
+      "description": "Mecum lot 480219 Ferrari 360 Spider"
+    },
+    {
+      "file": "lot_628453.json",
+      "description": "Mecum lot 628453 Lamborghini Urus"
+    }
+  ]
+}

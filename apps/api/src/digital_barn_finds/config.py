@@ -25,6 +25,9 @@ class Settings(BaseSettings):
     media_storage_container: str = "car-media"
     media_download_timeout_seconds: float = 20.0
     media_download_max_bytes: int = 15_000_000
+    max_media_per_car: int = 10
+    search_request_timeout_seconds: float = 20.0
+    enrichment_candidate_limit_per_query: int = 5
     aguttes_base_url: str = "https://www.aguttes.com"
     aguttes_discovery_paths: str = "/catalogue/134922"
     aguttes_fallback_detail_urls: str = (
@@ -41,6 +44,50 @@ class Settings(BaseSettings):
     )
     artcurial_request_timeout_seconds: float = 20.0
     artcurial_max_attempts: int = 2
+    bat_base_url: str = "https://bringatrailer.com"
+    bat_discovery_paths: str = "/auctions/results/"
+    bat_fallback_detail_urls: str = (
+        "https://bringatrailer.com/listing/1991-ferrari-348-27/,"
+        "https://bringatrailer.com/listing/1994-ferrari-348-38/"
+    )
+    bat_request_timeout_seconds: float = 20.0
+    bat_max_attempts: int = 2
+    historics_base_url: str = "https://www.historics.co.uk"
+    historics_discovery_paths: str = "/auction/search/?au=55&g=1&pn=5&pp=24&sd=1&so=0&st=&sto=0"
+    historics_fallback_detail_urls: str = (
+        "https://www.historics.co.uk/auction/lot/lot-197---1967-volkswagen--samba-split-screen-t1-21-window-camper/?lot=6522&sd=1,"
+        "https://www.historics.co.uk/auction/lot/lot-57---1964-oldsmobile-ninety-eight-custom-sports-coupe/?lot=14833&sd=1"
+    )
+    historics_request_timeout_seconds: float = 20.0
+    historics_max_attempts: int = 2
+    iconic_base_url: str = "https://www.iconicauctioneers.com"
+    iconic_discovery_paths: str = "/the-classic-sale-at-wheeler-dealer-live-2025/2025-06-01/page-7/session-219/ipp-2"
+    iconic_fallback_detail_urls: str = (
+        "https://www.iconicauctioneers.com/1980-datsun-280-zx-rec15176-1-bicester-0625,"
+        "https://www.iconicauctioneers.com/1971-bond-bug-700es-rec14985-1-nec-1124"
+    )
+    iconic_request_timeout_seconds: float = 20.0
+    iconic_max_attempts: int = 2
+    mecum_base_url: str = "https://www.mecum.com"
+    mecum_discovery_paths: str = "/auctions/orlando-2021/lots/?auction%5B0%5D=Orlando+Summer+Special+2021%7C1627430400%7C1627689600&configure%5Bfilters%5D=&configure%5BruleContexts%5D%5B0%5D=pin_items&page=3"
+    mecum_fallback_detail_urls: str = (
+        "https://www.mecum.com/lots/480219/2002-ferrari-360-spider/,"
+        "https://www.mecum.com/lots/1144807/2024-chevrolet-corvette-z06-3lz-convertible/,"
+        "https://www.mecum.com/lots/1127243/2005-ferrari-360-spider/,"
+        "https://www.mecum.com/lots/1138757/2001-ferrari-360-spider/,"
+        "https://www.mecum.com/lots/1148960/2003-ferrari-360-spider/,"
+        "https://www.mecum.com/lots/1151340/2002-ferrari-360-spider/"
+    )
+    mecum_request_timeout_seconds: float = 20.0
+    mecum_max_attempts: int = 2
+    osenat_base_url: str = "https://www.osenat.com"
+    osenat_discovery_paths: str = "/catalogue/155250"
+    osenat_fallback_detail_urls: str = (
+        "https://www.osenat.com/lot/155250/26974415-1956-jaguar-type-c-replica-numero-de-serie-5940780-numero,"
+        "https://www.osenat.com/lot/168038/30187861-ferrari-testarossa-coupE-1992"
+    )
+    osenat_request_timeout_seconds: float = 20.0
+    osenat_max_attempts: int = 2
     barchetta_base_url: str = "http://www.barchetta.cc"
     barchetta_discovery_paths: str = (
         "/all.ferraris/by-serial-number/ferrari-by-serial-number/model-index/"
@@ -150,6 +197,46 @@ class Settings(BaseSettings):
     @property
     def artcurial_fallback_urls(self) -> list[str]:
         return [url.strip() for url in self.artcurial_fallback_detail_urls.split(",") if url.strip()]
+
+    @property
+    def historics_seed_paths(self) -> list[str]:
+        return [path.strip() for path in self.historics_discovery_paths.split(",") if path.strip()]
+
+    @property
+    def historics_fallback_urls(self) -> list[str]:
+        return [url.strip() for url in self.historics_fallback_detail_urls.split(",") if url.strip()]
+
+    @property
+    def bat_seed_paths(self) -> list[str]:
+        return [path.strip() for path in self.bat_discovery_paths.split(",") if path.strip()]
+
+    @property
+    def bat_fallback_urls(self) -> list[str]:
+        return [url.strip() for url in self.bat_fallback_detail_urls.split(",") if url.strip()]
+
+    @property
+    def iconic_seed_paths(self) -> list[str]:
+        return [path.strip() for path in self.iconic_discovery_paths.split(",") if path.strip()]
+
+    @property
+    def iconic_fallback_urls(self) -> list[str]:
+        return [url.strip() for url in self.iconic_fallback_detail_urls.split(",") if url.strip()]
+
+    @property
+    def mecum_seed_paths(self) -> list[str]:
+        return [path.strip() for path in self.mecum_discovery_paths.split(",") if path.strip()]
+
+    @property
+    def mecum_fallback_urls(self) -> list[str]:
+        return [url.strip() for url in self.mecum_fallback_detail_urls.split(",") if url.strip()]
+
+    @property
+    def osenat_seed_paths(self) -> list[str]:
+        return [path.strip() for path in self.osenat_discovery_paths.split(",") if path.strip()]
+
+    @property
+    def osenat_fallback_urls(self) -> list[str]:
+        return [url.strip() for url in self.osenat_fallback_detail_urls.split(",") if url.strip()]
 
     @property
     def barchetta_fallback_urls(self) -> list[str]:

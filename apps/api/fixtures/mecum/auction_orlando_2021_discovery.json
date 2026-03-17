@@ -1,0 +1,18 @@
+{
+  "fixture_type": "search_results",
+  "source_key": "mecum",
+  "source_url": "https://www.mecum.com/auctions/orlando-2021/lots/?page=3",
+  "description": "Mecum Orlando Summer Special 2021 discovery sample",
+  "raw_html": "<!DOCTYPE html><html><body><a href=\"/lots/480219/2002-ferrari-360-spider/\">Ferrari 360 Spider</a><a href=\"https://www.mecum.com/lots/628453/2021-lamborghini-urus/\">Lamborghini Urus</a><a href=\"/lots/480219/2002-ferrari-360-spider/\">duplicate</a></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "discovery_url_count": 2,
+    "discovery_urls": [
+      "https://www.mecum.com/lots/480219/2002-ferrari-360-spider/",
+      "https://www.mecum.com/lots/628453/2021-lamborghini-urus/"
+    ]
+  }
+}

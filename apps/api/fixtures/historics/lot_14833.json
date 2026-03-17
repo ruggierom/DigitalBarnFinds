@@ -1,0 +1,31 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "historics",
+  "source_url": "https://www.historics.co.uk/auction/lot/lot-57---1964-oldsmobile-ninety-eight-custom-sports-coupe/?lot=14833&sd=1",
+  "description": "Historics Oldsmobile Ninety-Eight lot",
+  "raw_html": "<!DOCTYPE html><html><head><title>Lot 57 - 1964 Oldsmobile Ninety-Eight Custom Sports Coupe</title></head><body><a href=\"/auction/details/windsorview-lakes-20th-july-2024/\">Windsorview Lakes, 20th July 2024</a><h1>Lot 57 - 1964 Oldsmobile Ninety-Eight Custom Sports Coupe</h1><div>Sold For £18,480</div><div>Estimate £16,000 - £20,000</div><div>Registration: ABH 648B</div><div>Chassis No: 884M12345</div><img src=\"https://www.historics.co.uk/images/lots/14833_1.jpg\"/><img src=\"https://www.historics.co.uk/images/lots/14833_2.jpg\"/></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {
+    "sale_title": "Windsorview Lakes, 20th July 2024",
+    "sale_date": "20th July 2024",
+    "sale_location": "Windsorview Lakes"
+  },
+  "expected": {
+    "car": {
+      "serial_number": "884M12345",
+      "make": "Oldsmobile",
+      "model": "Ninety-Eight Custom Sports Coupe"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 2,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "day"
+    ]
+  }
+}

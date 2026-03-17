@@ -1,0 +1,18 @@
+{
+  "source_key": "osenat",
+  "display_name": "Osenat Automobiles",
+  "fixtures": [
+    {
+      "file": "catalogue_155250_discovery.json",
+      "description": "Osenat catalogue 155250 discovery sample"
+    },
+    {
+      "file": "lot_26974415.json",
+      "description": "Osenat Jaguar Type C Replica lot"
+    },
+    {
+      "file": "lot_30187861.json",
+      "description": "Osenat Ferrari Testarossa lot"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "source_key": "iconic",
+  "display_name": "Iconic Auctioneers",
+  "fixtures": [
+    {
+      "file": "sale_wdl_2025_discovery.json",
+      "description": "Iconic sale discovery sample"
+    },
+    {
+      "file": "lot_280zx.json",
+      "description": "Iconic Datsun 280 ZX lot"
+    },
+    {
+      "file": "lot_bond_bug.json",
+      "description": "Iconic Bond Bug 700ES lot"
+    }
+  ]
+}

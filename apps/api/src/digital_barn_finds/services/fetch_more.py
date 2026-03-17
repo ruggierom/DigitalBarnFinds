@@ -180,8 +180,18 @@ def _get_fallback_urls(scraper_key: str) -> list[str]:
         return get_settings().aguttes_fallback_urls
     if scraper_key == "artcurial":
         return get_settings().artcurial_fallback_urls
+    if scraper_key == "bat":
+        return get_settings().bat_fallback_urls
     if scraper_key == "barchetta":
         return get_settings().barchetta_fallback_urls
+    if scraper_key == "historics":
+        return get_settings().historics_fallback_urls
+    if scraper_key == "iconic":
+        return get_settings().iconic_fallback_urls
+    if scraper_key == "mecum":
+        return get_settings().mecum_fallback_urls
+    if scraper_key == "osenat":
+        return get_settings().osenat_fallback_urls
     return []
 
 

@@ -1,0 +1,31 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "iconic",
+  "source_url": "https://www.iconicauctioneers.com/1971-bond-bug-700es-rec14985-1-nec-1124",
+  "description": "Iconic Bond Bug 700ES lot",
+  "raw_html": "<!DOCTYPE html><html><head><title>1971 Bond Bug 700ES | Iconic Auctioneers</title></head><body><h1>1971 Bond Bug 700ES</h1><div>Classic Motor Show Sale 2024</div><div>Lot Number: 184</div><div>Sold For: NOT SOLD</div><div>Estimate: £8,000 - £12,000</div><div>Chassis No: BB700ES12345</div><div>Registration: ORA 197K</div><div>LIVE AUCTION: This lot was auctioned on Sunday 10th November 2024 at 2.00pm local time at NEC Birmingham.</div><img src=\"https://images.ctfassets.net/iconic/bondbug-1.jpg\"/><img src=\"https://images.ctfassets.net/iconic/bondbug-2.jpg\"/></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {
+    "sale_title": "Classic Motor Show Sale 2024",
+    "sale_date": "Sunday 10th November 2024",
+    "sale_location": "NEC Birmingham"
+  },
+  "expected": {
+    "car": {
+      "serial_number": "BB700ES12345",
+      "make": "Bond",
+      "model": "Bug 700ES"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 2,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "day"
+    ]
+  }
+}

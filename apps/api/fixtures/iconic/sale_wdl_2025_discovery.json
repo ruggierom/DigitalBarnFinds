@@ -1,0 +1,18 @@
+{
+  "fixture_type": "search_results",
+  "source_key": "iconic",
+  "source_url": "https://www.iconicauctioneers.com/the-classic-sale-at-wheeler-dealer-live-2025/2025-06-01/page-7/session-219/ipp-2",
+  "description": "Iconic sale discovery sample",
+  "raw_html": "<!DOCTYPE html><html><body><a href=\"/1980-datsun-280-zx-rec15176-1-bicester-0625\">1980 Datsun 280 ZX</a><a href=\"https://www.iconicauctioneers.com/1971-bond-bug-700es-rec14985-1-nec-1124\">1971 Bond Bug 700ES</a></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "discovery_url_count": 2,
+    "discovery_urls": [
+      "https://www.iconicauctioneers.com/1980-datsun-280-zx-rec15176-1-bicester-0625",
+      "https://www.iconicauctioneers.com/1971-bond-bug-700es-rec14985-1-nec-1124"
+    ]
+  }
+}
