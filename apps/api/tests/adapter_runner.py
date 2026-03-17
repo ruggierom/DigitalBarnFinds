@@ -30,7 +30,7 @@ from digital_barn_finds.services.scrapers.fixtures import (  # noqa: E402
     load_fixture_definition,
     load_source_fixture_definitions,
 )
-from digital_barn_finds.services.scrapers.registry import get_scraper  # noqa: E402
+from digital_barn_finds.services.scrapers.registry import get_scraper, list_scraper_keys  # noqa: E402
 
 VALID_EVENT_KINDS = {"custody", "event"}
 VALID_DATE_PRECISIONS = {"day", "month", "year", "decade", "unknown"}
@@ -120,10 +120,10 @@ def main() -> int:
 
 def discover_all_source_keys() -> list[str]:
     fixture_root = get_fixture_root()
-    source_keys = []
+    source_keys = set(list_scraper_keys())
     for manifest_path in sorted(fixture_root.glob("*/_manifest.json")):
-        source_keys.append(manifest_path.parent.name)
-    return source_keys
+        source_keys.add(manifest_path.parent.name)
+    return sorted(source_keys)
 
 
 def prime_placeholder_settings() -> None:

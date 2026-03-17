@@ -81,6 +81,7 @@ PYTHONPATH=src python -m digital_barn_finds.cli test-scrape --limit 3
 ```
 
 That performs a non-persisted test scrape and prints the discovered cars.
+Use `--scraper-key <source_key>` to run a different registered adapter.
 
 If you want to save them locally:
 
@@ -105,13 +106,13 @@ Then run:
 ```bash
 cd apps/api
 source .venv/bin/activate
-PYTHONPATH=src python -m digital_barn_finds.cli test-scrape --from-files --limit 3
+PYTHONPATH=src python -m digital_barn_finds.cli test-scrape --scraper-key barchetta --from-files --limit 3
 ```
 
 To persist those local fixture parses:
 
 ```bash
-PYTHONPATH=src python -m digital_barn_finds.cli test-scrape --from-files --limit 3 --commit
+PYTHONPATH=src python -m digital_barn_finds.cli test-scrape --scraper-key barchetta --from-files --limit 3 --commit
 PYTHONPATH=src python -m digital_barn_finds.cli score
 ```
 
@@ -144,6 +145,21 @@ python tests/adapter_runner.py --build-fixture \
   --description "Ferrari 250 GTO 3909GT" \
   --output fixtures/barchetta/3909GT.json
 ```
+
+## Adding a source adapter
+
+The registry, seed flow, CLI, and adapter runner now all key off the registered
+scraper key, so onboarding the next source is mostly a matter of wiring one new
+adapter cleanly.
+
+1. Add a scraper module in `apps/api/src/digital_barn_finds/services/scrapers/`.
+2. Register it in `apps/api/src/digital_barn_finds/services/scrapers/registry.py`.
+3. Create `apps/api/fixtures/<source_key>/_manifest.json` plus at least one detail fixture.
+4. Run `python tests/adapter_runner.py --adapter <source_key>`.
+5. Run `PYTHONPATH=src python -m digital_barn_finds.cli seed` so the source row is upserted locally.
+
+`python tests/adapter_runner.py --all` now includes both registered adapters and
+fixture manifests, which helps catch half-wired sources before they reach CI.
 
 ## Environment variables
 

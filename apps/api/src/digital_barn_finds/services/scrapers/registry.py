@@ -14,6 +14,10 @@ SCRAPER_REGISTRY: dict[str, ScraperFactory] = {
 }
 
 
+def list_scraper_keys() -> list[str]:
+    return sorted(SCRAPER_REGISTRY)
+
+
 def get_scraper(source_key: str, **config_kwargs: object) -> BaseScraper:
     factory = SCRAPER_REGISTRY.get(source_key)
     if factory is None:

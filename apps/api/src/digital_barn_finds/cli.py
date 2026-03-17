@@ -2,16 +2,18 @@ from __future__ import annotations
 
 import argparse
 from pprint import pprint
-from pathlib import Path
 
 from digital_barn_finds.database import SessionLocal
 from digital_barn_finds.models import Source
 from digital_barn_finds.seed import seed_sources
 from digital_barn_finds.services.darkness import compute_scores
 from digital_barn_finds.services.fetch_more import fetch_random_cars
-from digital_barn_finds.services.fixture_pool import discover_barchetta_fixture_pages
 from digital_barn_finds.services.ingest import upsert_scraped_car
-from digital_barn_finds.services.scrapers.barchetta import BarchettaScraper
+from digital_barn_finds.services.scrapers.fixtures import (
+    get_source_fixture_dir,
+    load_source_fixture_definitions,
+)
+from digital_barn_finds.services.scrapers.registry import get_scraper
 
 
 def parse_args() -> argparse.Namespace:
@@ -36,6 +38,11 @@ def parse_args() -> argparse.Namespace:
     scrape_parser = subparsers.add_parser("test-scrape")
     scrape_parser.add_argument("--limit", type=int, default=3)
     scrape_parser.add_argument(
+        "--scraper-key",
+        default="barchetta",
+        help="Registered scraper key to run, for example 'barchetta'.",
+    )
+    scrape_parser.add_argument(
         "--commit",
         action="store_true",
         help="Persist scraped cars into the local database.",
@@ -43,7 +50,7 @@ def parse_args() -> argparse.Namespace:
     scrape_parser.add_argument(
         "--from-files",
         action="store_true",
-        help="Read saved detail pages from apps/api/fixtures/barchetta instead of fetching live.",
+        help="Read saved adapter fixtures from apps/api/fixtures/<source_key> instead of fetching live.",
     )
 
     return parser.parse_args()
@@ -63,22 +70,29 @@ def run_score() -> None:
         db.close()
 
 
-def run_test_scrape(limit: int, commit: bool, from_files: bool) -> None:
+def run_test_scrape(limit: int, commit: bool, from_files: bool, scraper_key: str) -> None:
     db = SessionLocal()
     try:
-        source = db.query(Source).filter(Source.scraper_key == "barchetta").one()
-        scraper = BarchettaScraper()
+        source = db.query(Source).filter(Source.scraper_key == scraper_key).one_or_none()
+        if source is None:
+            raise SystemExit(f"No seeded source found for scraper_key={scraper_key!r}. Run `seed` first.")
+
+        scraper = get_scraper(scraper_key)
         if from_files:
-            fixture_dir = discover_barchetta_fixture_pages()
-            files = fixture_dir[:limit]
+            fixture_definitions = [
+                definition
+                for definition in load_source_fixture_definitions(scraper_key)
+                if definition.fixture.fixture_type in scraper.manifest.supported_detail_fixture_types
+            ]
+            selected_fixtures = fixture_definitions[:limit]
             print(
-                f"Found {len(files)} local fixture pages in "
-                f"{Path(__file__).resolve().parents[2] / 'fixtures' / 'barchetta'}."
+                f"Found {len(selected_fixtures)} saved adapter fixtures in "
+                f"{get_source_fixture_dir(scraper_key)}."
             )
-            records = [scraper.parse_detail_file(path) for path in files]
+            records = [scraper.parse_record_fixture(definition.fixture) for definition in selected_fixtures]
         else:
             urls = scraper.crawl(full=True)[:limit]
-            print(f"Discovered {len(urls)} detail pages for test scrape.")
+            print(f"Discovered {len(urls)} detail pages for scraper {scraper_key}.")
             records = [scraper.parse_detail_page(url) for url in urls]
 
         total = len(records)
@@ -135,7 +149,12 @@ def main() -> None:
             ignore_without_images=args.ignore_without_images,
         )
     elif args.command == "test-scrape":
-        run_test_scrape(limit=args.limit, commit=args.commit, from_files=args.from_files)
+        run_test_scrape(
+            limit=args.limit,
+            commit=args.commit,
+            from_files=args.from_files,
+            scraper_key=args.scraper_key,
+        )
 
 
 if __name__ == "__main__":

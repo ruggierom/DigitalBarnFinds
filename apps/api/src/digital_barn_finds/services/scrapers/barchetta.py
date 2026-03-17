@@ -33,6 +33,7 @@ class BarchettaScraper(BaseScraper):
         supported_detail_fixture_types=[FixtureType.DETAIL_PAGE],
         supported_discovery_fixture_types=[FixtureType.SEARCH_RESULTS],
         language="en",
+        notes="Initial registry source for Ferrari, Maserati, Alfa Romeo, and Fiat histories.",
     )
 
     def __init__(
