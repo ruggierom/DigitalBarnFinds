@@ -80,6 +80,15 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
+      - name: Persist imported media into managed storage
+        env:
+          API_ADMIN_TOKEN: ${{ secrets.API_ADMIN_TOKEN }}
+        run: |
+          curl -f --max-time 600 \
+            -X POST \
+            -H "x-admin-token: ${API_ADMIN_TOKEN}" \
+            "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/cache-media?limit=1000"
+
       - name: Recompute darkness scores
         env:
           API_ADMIN_TOKEN: ${{ secrets.API_ADMIN_TOKEN }}
