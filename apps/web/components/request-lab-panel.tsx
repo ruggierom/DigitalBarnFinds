@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/page-header";
+
 type HeaderRow = {
   name: string;
   value: string;
@@ -42,14 +44,11 @@ export function RequestLabPanel({
 }: RequestLabPanelProps) {
   return (
     <>
-      <section className="hero">
-        <div className="hero__eyebrow">Internal request lab</div>
-        <h1 className="section-title">Inspect every request detail safely.</h1>
-        <p className="hero__copy">
-          This lab is restricted to localhost and env-allowlisted internal hosts. Use it to tweak headers, method,
-          and body, then inspect the exact request your backend sent and the raw response that came back.
-        </p>
-      </section>
+      <PageHeader
+        eyebrow="Request lab"
+        title="Raw request inspector"
+        description="Inspect outbound requests and responses."
+      />
 
       <section className="card diagnostics-card">
         <form action="/request-lab" className="request-lab-form" method="get">

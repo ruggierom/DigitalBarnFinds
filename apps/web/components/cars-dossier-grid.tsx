@@ -19,7 +19,7 @@ export function CarsDossierGrid({ rows }: CarsDossierGridProps) {
                 <div>
                   <div className="dossier-card__eyebrow">{row.make}</div>
                   <h2 className="dossier-card__title">{row.model}</h2>
-                  <div className="dossier-card__serial">s/n {row.serial_number}</div>
+                  <div className="dossier-card__serial">Vehicle ID {row.serial_number}</div>
                 </div>
                 <div className="badge-row">
                   <span className={`badge ${row.is_currently_dark ? "badge--alert" : ""}`}>
@@ -97,7 +97,7 @@ export function CarsDossierGrid({ rows }: CarsDossierGridProps) {
                     >
                       <span className="source-link__name">{source.source_name}</span>
                       <span className="source-link__meta">
-                        {source.source_serial_number} · scraped{" "}
+                        Vehicle ID {source.source_serial_number} · scraped{" "}
                         {new Date(source.scraped_at).toLocaleDateString()}
                       </span>
                     </a>

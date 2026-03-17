@@ -1,6 +1,7 @@
 import { RouteAutoRefresh } from "@/components/cars-auto-refresh";
 import { DashboardMetrics } from "@/components/dashboard-metrics";
 import { DataTable } from "@/components/data-table";
+import { PageHeader } from "@/components/page-header";
 import { getDashboardSnapshot, getWatchlist } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
@@ -14,14 +15,11 @@ export default async function DashboardPage() {
   return (
     <>
       <RouteAutoRefresh />
-      <section className="hero">
-        <div className="hero__eyebrow">Research Dashboard</div>
-        <h1 className="section-title">Surface the cars that went dark.</h1>
-        <p className="hero__copy">
-          Surface the most interesting gaps, review provenance quickly, and
-          keep your active leads in one working watchlist.
-        </p>
-      </section>
+      <PageHeader
+        eyebrow="Dashboard"
+        title="Research dashboard"
+        description="Coverage, watchlist movement, and dark-car counts."
+      />
       <DashboardMetrics
         metrics={[
           {

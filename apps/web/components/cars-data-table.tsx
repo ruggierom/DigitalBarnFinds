@@ -42,7 +42,7 @@ type ColumnDefinition = {
 const columns: ColumnDefinition[] = [
   {
     key: "serial_number",
-    label: "Serial",
+    label: "Vehicle ID",
     render: (row) => (
       <Link
         className="data-table__link"
@@ -171,7 +171,13 @@ const columns: ColumnDefinition[] = [
   {
     key: "notes",
     label: "Notes",
-    render: (row) => row.notes ?? "",
+    render: (row) => {
+      const notes = row.notes ?? "";
+      if (notes.length <= 255) {
+        return notes;
+      }
+      return `${notes.slice(0, 255).trimEnd()}...`;
+    },
     value: (row) => row.notes ?? "",
     filterValue: (row) => row.notes ?? "",
     className: "data-table__notes",

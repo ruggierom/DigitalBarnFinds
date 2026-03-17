@@ -41,7 +41,8 @@ export function ImportUrlPanel({ defaultUrl, result, error }: ImportUrlPanelProp
       {result ? (
         <div className="fetch-result">
           <strong>
-            {result.alreadyKnownUrl ? "Refreshed" : "Imported"} {result.serialNumber} from {result.sourceName}.
+            {result.alreadyKnownUrl ? "Refreshed" : "Imported"} vehicle ID {result.serialNumber} from{" "}
+            {result.sourceName}.
           </strong>
           <div className="empty">
             {result.make} {result.model}. Scraper: {result.scraperKey}. Media: {result.mediaCount}. Sources on car:{" "}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CarsAutoRefresh } from "@/components/cars-auto-refresh";
 import { CarsDataTable } from "@/components/cars-data-table";
 import { CarsDossierGrid } from "@/components/cars-dossier-grid";
+import { PageHeader } from "@/components/page-header";
 import { getCars, toSearchParams } from "@/lib/api";
 import type { CarSearchParams } from "@/lib/api";
 
@@ -56,7 +57,7 @@ export default async function CarsPage({
     params.drive_side ? `Drive: ${params.drive_side}` : null,
     params.original_color ? `Color: ${params.original_color}` : null,
     params.source ? `Source: ${params.source}` : null,
-    params.serial_number ? `Serial: ${params.serial_number}` : null,
+    params.serial_number ? `Vehicle ID: ${params.serial_number}` : null,
     params.build_date ? `Build date: ${params.build_date}` : null,
     params.score_min !== undefined ? `Score >= ${params.score_min}` : null,
     params.last_seen_before !== undefined ? `Last seen <= ${params.last_seen_before}` : null
@@ -74,197 +75,219 @@ export default async function CarsPage({
   ]
     .filter(Boolean)
     .join(" · ");
+  const resultsLabel = `Page ${page} · ${visibleRows.length} result${visibleRows.length === 1 ? "" : "s"}`;
+
+  const viewToolbar = (
+    <div className="car-search__toolbar">
+      <div className="view-switcher" aria-label="View mode">
+        <Link
+          className={`view-switcher__option${view === "cards" ? " view-switcher__option--active" : ""}`}
+          href={buildCarsHref({ ...params, view: undefined, page: 1, page_size: undefined }) as any}
+        >
+          <span className="view-switcher__label">Web view</span>
+          <span className="view-switcher__hint">cards and dossier layout</span>
+        </Link>
+        <Link
+          className={`view-switcher__option${view === "data" ? " view-switcher__option--active" : ""}`}
+          href={buildCarsHref({ ...params, view: "data", page: 1, page_size: undefined }) as any}
+        >
+          <span className="view-switcher__label">Data view</span>
+          <span className="view-switcher__hint">table and export workflow</span>
+        </Link>
+      </div>
+      {view === "data" ? (
+        <div className="car-search__exports">
+          <a className="button button--secondary" href={exportCsvHref}>
+            Export CSV
+          </a>
+          <a className="button button--secondary" href={exportXlsxHref}>
+            Export Excel
+          </a>
+        </div>
+      ) : null}
+    </div>
+  );
+
+  const searchControlsBody = (
+    <>
+      <div className="car-search__presets">
+        <Link className={`filter-pill${presetKey === "all" ? " filter-pill--active" : ""}`} href={browseHref as any}>
+          All
+        </Link>
+        <Link className={`filter-pill${presetKey === "dark" ? " filter-pill--active" : ""}`} href={buildCarsHref({ dark_now: true, sort: "darkness_score_desc" }) as any}>
+          Dark
+        </Link>
+        <Link
+          className={`filter-pill${presetKey === "candidate" ? " filter-pill--active" : ""}`}
+          href={buildCarsHref({ candidates_only: true, sort: "darkness_score_desc" }) as any}
+        >
+          Candidates
+        </Link>
+        <Link
+          className={`filter-pill${presetKey === "images" ? " filter-pill--active" : ""}`}
+          href={buildCarsHref({ has_images: true, sort: "recently_imported_desc" }) as any}
+        >
+          With images
+        </Link>
+      </div>
+      <form className="car-search__form" method="GET">
+        <input name="search" type="hidden" value="true" />
+        <input name="page" type="hidden" value="1" />
+        <input
+          className="field car-search__query"
+          defaultValue={params.q ?? ""}
+          name="q"
+          placeholder="Search vehicle ID, model, owner, event, source reference..."
+          type="search"
+        />
+        <select className="field car-search__sort" defaultValue={params.sort} name="sort">
+          <option value="relevance">Relevance</option>
+          <option value="darkness_score_desc">Darkness score</option>
+          <option value="last_known_year_asc">Oldest last seen</option>
+          <option value="recently_imported_desc">Recently imported</option>
+        </select>
+        <div className="car-search__actions">
+          <button className="button" type="submit">
+            Apply
+          </button>
+          {hasFilters ? (
+            <Link className="button button--secondary" href="/cars">
+              Clear
+            </Link>
+          ) : null}
+        </div>
+        <details className="car-search__advanced" open={hasFilters}>
+          <summary>Advanced filters</summary>
+          <div className="car-search__advanced-grid">
+            <input className="field" defaultValue={params.make ?? ""} name="make" placeholder="Make" type="text" />
+            <input className="field" defaultValue={params.model ?? ""} name="model" placeholder="Model" type="text" />
+            <input
+              className="field"
+              defaultValue={params.drive_side ?? ""}
+              name="drive_side"
+              placeholder="Drive side"
+              type="text"
+            />
+            <input
+              className="field"
+              defaultValue={params.original_color ?? ""}
+              name="original_color"
+              placeholder="Original color"
+              type="text"
+            />
+            <input
+              className="field"
+              defaultValue={params.source ?? ""}
+              name="source"
+              placeholder="Source or URL"
+              type="text"
+            />
+            <input
+              className="field"
+              defaultValue={params.serial_number ?? ""}
+              name="serial_number"
+              placeholder="Vehicle ID"
+              type="text"
+            />
+            <input
+              className="field"
+              defaultValue={params.build_date ?? ""}
+              name="build_date"
+              placeholder="Build date"
+              type="date"
+            />
+            <input
+              className="field"
+              defaultValue={params.score_min ?? ""}
+              min="0"
+              max="100"
+              name="score_min"
+              placeholder="Min darkness score"
+              type="number"
+            />
+            <input
+              className="field"
+              defaultValue={params.last_seen_before ?? ""}
+              min="1800"
+              max="2100"
+              name="last_seen_before"
+              placeholder="Last seen before year"
+              type="number"
+            />
+            <label className="toggle-chip">
+              <input defaultChecked={params.dark_now === true} name="dark_now" type="checkbox" value="true" />
+              <span>Currently dark only</span>
+            </label>
+            <label className="toggle-chip">
+              <input defaultChecked={params.has_images === true} name="has_images" type="checkbox" value="true" />
+              <span>Only cars with images</span>
+            </label>
+          </div>
+        </details>
+      </form>
+      {activeFilters.length > 0 ? (
+        <div className="car-search__active">
+          {activeFilters.map((filter) => (
+            <span className="active-filter" key={filter}>
+              {filter}
+            </span>
+          ))}
+        </div>
+      ) : null}
+    </>
+  );
 
   return (
     <>
       <CarsAutoRefresh />
-      <section className={`hero${isSearchMode ? " hero--compact" : ""}`}>
-        <div className="hero__eyebrow">Canonical registry</div>
-        <h1 className="section-title">Read every chassis like a case file.</h1>
-        {!isSearchMode ? (
-          <p className="hero__copy">
-            Every car now surfaces its darkness stats, every source page we
-            scraped, and the merged provenance timeline that drives the watchlist.
-          </p>
-        ) : null}
-      </section>
-      <section className="car-search">
-        <div className="car-search__heading">
-          <div>
-            <div className="hero__eyebrow">{isSearchMode ? "Search" : "Browse"}</div>
-            <h2 className="section-title">
-              {isSearchMode ? "Query chassis, owners, events, and source pages." : "Browse in web or data view."}
-            </h2>
-          </div>
-          <div className="car-search__meta">
-            Page {page} · {visibleRows.length} result{visibleRows.length === 1 ? "" : "s"}
-          </div>
-        </div>
-        <div className="car-search__toolbar">
-          <div className="view-switcher" aria-label="View mode">
-            <Link
-              className={`view-switcher__option${view === "cards" ? " view-switcher__option--active" : ""}`}
-              href={buildCarsHref({ ...params, view: undefined, page: 1, page_size: undefined }) as any}
-            >
-              <span className="view-switcher__label">Web view</span>
-              <span className="view-switcher__hint">cards and dossier layout</span>
-            </Link>
-            <Link
-              className={`view-switcher__option${view === "data" ? " view-switcher__option--active" : ""}`}
-              href={buildCarsHref({ ...params, view: "data", page: 1, page_size: undefined }) as any}
-            >
-              <span className="view-switcher__label">Data view</span>
-              <span className="view-switcher__hint">table and export workflow</span>
-            </Link>
-          </div>
-          {view === "data" ? (
-            <div className="car-search__exports">
-              <a className="button button--secondary" href={exportCsvHref}>
-                Export CSV
-              </a>
-              <a className="button button--secondary" href={exportXlsxHref}>
-                Export Excel
-              </a>
-            </div>
+      {isSearchMode ? (
+        <section className="car-search car-search--spotlight">
+          <PageHeader
+            compact
+            eyebrow="Cars"
+            title="Search"
+            description="Filter by vehicle ID, source, body, year, and score."
+            meta={<div className="car-search__meta">{resultsLabel}</div>}
+          />
+          {searchSummary ? (
+            <div className="car-search__summary">{searchSummary}</div>
           ) : null}
-        </div>
-        {view === "cards" ? (
-          <details className="car-search__controls" open={!isSearchMode}>
-            <summary className="car-search__controls-summary">
-              <span className="car-search__controls-title">Search and filters</span>
-              <span className="car-search__controls-meta">
-                {searchSummary || "Open controls"}
-              </span>
-            </summary>
-            <div className="car-search__controls-body">
-              <div className="car-search__presets">
-                <Link className={`filter-pill${presetKey === "all" ? " filter-pill--active" : ""}`} href={browseHref as any}>
-                  All
-                </Link>
-                <Link className={`filter-pill${presetKey === "dark" ? " filter-pill--active" : ""}`} href={buildCarsHref({ dark_now: true, sort: "darkness_score_desc" }) as any}>
-                  Dark
-                </Link>
-                <Link
-                  className={`filter-pill${presetKey === "candidate" ? " filter-pill--active" : ""}`}
-                  href={buildCarsHref({ candidates_only: true, sort: "darkness_score_desc" }) as any}
-                >
-                  Candidates
-                </Link>
-                <Link
-                  className={`filter-pill${presetKey === "images" ? " filter-pill--active" : ""}`}
-                  href={buildCarsHref({ has_images: true, sort: "recently_imported_desc" }) as any}
-                >
-                  With images
-                </Link>
-              </div>
-              <form className="car-search__form" method="GET">
-                <input name="search" type="hidden" value="true" />
-                <input name="page" type="hidden" value="1" />
-                <input
-                  className="field car-search__query"
-                  defaultValue={params.q ?? ""}
-                  name="q"
-                  placeholder="Search serial, model, owner, event, source reference..."
-                  type="search"
-                />
-                <select className="field car-search__sort" defaultValue={params.sort} name="sort">
-                  <option value="relevance">Relevance</option>
-                  <option value="darkness_score_desc">Darkness score</option>
-                  <option value="last_known_year_asc">Oldest last seen</option>
-                  <option value="recently_imported_desc">Recently imported</option>
-                </select>
-                <div className="car-search__actions">
-                  <button className="button" type="submit">
-                    Apply
-                  </button>
-                  {hasFilters ? (
-                    <Link className="button button--secondary" href="/cars">
-                      Clear
-                    </Link>
-                  ) : null}
-                </div>
-                <details className="car-search__advanced" open={hasFilters}>
-                  <summary>Advanced filters</summary>
-                  <div className="car-search__advanced-grid">
-                    <input className="field" defaultValue={params.make ?? ""} name="make" placeholder="Make" type="text" />
-                    <input className="field" defaultValue={params.model ?? ""} name="model" placeholder="Model" type="text" />
-                    <input
-                      className="field"
-                      defaultValue={params.drive_side ?? ""}
-                      name="drive_side"
-                      placeholder="Drive side"
-                      type="text"
-                    />
-                    <input
-                      className="field"
-                      defaultValue={params.original_color ?? ""}
-                      name="original_color"
-                      placeholder="Original color"
-                      type="text"
-                    />
-                    <input
-                      className="field"
-                      defaultValue={params.source ?? ""}
-                      name="source"
-                      placeholder="Source or URL"
-                      type="text"
-                    />
-                    <input
-                      className="field"
-                      defaultValue={params.serial_number ?? ""}
-                      name="serial_number"
-                      placeholder="Serial number"
-                      type="text"
-                    />
-                    <input
-                      className="field"
-                      defaultValue={params.build_date ?? ""}
-                      name="build_date"
-                      placeholder="Build date"
-                      type="date"
-                    />
-                    <input
-                      className="field"
-                      defaultValue={params.score_min ?? ""}
-                      min="0"
-                      max="100"
-                      name="score_min"
-                      placeholder="Min darkness score"
-                      type="number"
-                    />
-                    <input
-                      className="field"
-                      defaultValue={params.last_seen_before ?? ""}
-                      min="1800"
-                      max="2100"
-                      name="last_seen_before"
-                      placeholder="Last seen before year"
-                      type="number"
-                    />
-                    <label className="toggle-chip">
-                      <input defaultChecked={params.dark_now === true} name="dark_now" type="checkbox" value="true" />
-                      <span>Currently dark only</span>
-                    </label>
-                    <label className="toggle-chip">
-                      <input defaultChecked={params.has_images === true} name="has_images" type="checkbox" value="true" />
-                      <span>Only cars with images</span>
-                    </label>
-                  </div>
-                </details>
-              </form>
-              {activeFilters.length > 0 ? (
-                <div className="car-search__active">
-                  {activeFilters.map((filter) => (
-                    <span className="active-filter" key={filter}>
-                      {filter}
-                    </span>
-                  ))}
-                </div>
-              ) : null}
-            </div>
-          </details>
-        ) : null}
-      </section>
+          {viewToolbar}
+          <div className="car-search__controls car-search__controls--inline">
+            <div className="car-search__controls-body car-search__controls-body--inline">{searchControlsBody}</div>
+          </div>
+        </section>
+      ) : (
+        <>
+          <PageHeader
+            eyebrow="Cars"
+            title="Registry"
+            description="Merged vehicle records."
+          />
+          <section className="car-search">
+            <PageHeader
+              compact
+              eyebrow="Browse"
+              level="h2"
+              title="Filters"
+              description="Views, presets, and export."
+              meta={<div className="car-search__meta">{resultsLabel}</div>}
+            />
+            {viewToolbar}
+            {view === "cards" ? (
+              <details className="car-search__controls" open>
+                <summary className="car-search__controls-summary">
+                  <span className="car-search__controls-title">Search and filters</span>
+                  <span className="car-search__controls-meta">
+                    {searchSummary || "Open controls"}
+                  </span>
+                </summary>
+                <div className="car-search__controls-body">{searchControlsBody}</div>
+              </details>
+            ) : null}
+          </section>
+        </>
+      )}
       <div className="results-toolbar">
         <div className="results-toolbar__count">
           Showing {visibleRows.length} cars on page {page}

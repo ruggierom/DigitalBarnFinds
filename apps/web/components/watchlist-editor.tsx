@@ -31,7 +31,7 @@ export function WatchlistEditor({ rows }: WatchlistEditorProps) {
           <table>
             <thead>
               <tr>
-                <th>Serial</th>
+                <th>Vehicle ID</th>
                 <th>Car</th>
                 <th>Score</th>
                 <th>Update</th>

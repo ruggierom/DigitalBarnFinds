@@ -1,5 +1,6 @@
 import { FetchMorePanel } from "@/components/fetch-more-panel";
 import { ImportUrlPanel } from "@/components/import-url-panel";
+import { PageHeader } from "@/components/page-header";
 import { RequestDiagnosticsPanel } from "@/components/request-diagnostics-panel";
 import { SettingsEditor } from "@/components/settings-editor";
 import { getBarchettaRequestDiagnostics, getSettings } from "@/lib/api";
@@ -55,14 +56,11 @@ export default async function SettingsPage({
 
   return (
     <>
-      <section className="hero">
-        <div className="hero__eyebrow">Scoring controls</div>
-        <h1 className="section-title">Tune what counts as dark.</h1>
-        <p className="hero__copy">
-          Darkness thresholds and scoring weights are editable admin settings so
-          the system can evolve as your acquisition strategy sharpens.
-        </p>
-      </section>
+      <PageHeader
+        eyebrow="Settings"
+        title="Scoring and admin tools"
+        description="Thresholds, imports, and diagnostics."
+      />
       {showFetchMorePanel ? <FetchMorePanel result={fetchResult} /> : null}
       <ImportUrlPanel defaultUrl={importUrl} error={importError} result={importResult} />
       <RequestDiagnosticsPanel
