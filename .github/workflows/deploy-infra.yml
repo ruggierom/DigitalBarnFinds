@@ -9,9 +9,35 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    env:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
     steps:
       - uses: actions/checkout@v4
+      - name: Choose Azure auth mode
+        id: azure-auth
+        run: |
+          if [ -n "${AZURE_CREDENTIALS}" ]; then
+            echo "mode=creds" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          if [ -n "${AZURE_CLIENT_ID}" ] && [ -n "${AZURE_TENANT_ID}" ] && [ -n "${AZURE_SUBSCRIPTION_ID}" ]; then
+            echo "mode=oidc" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          echo "::error::Configure either AZURE_CREDENTIALS or the OIDC secrets AZURE_CLIENT_ID, AZURE_TENANT_ID, and AZURE_SUBSCRIPTION_ID."
+          exit 1
       - name: Azure login
+        if: steps.azure-auth.outputs.mode == 'creds'
+        uses: azure/login@v2
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+      - name: Azure login with OIDC
+        if: steps.azure-auth.outputs.mode == 'oidc'
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}

@@ -163,11 +163,12 @@ model-summary pages as you confirm working paths.
 The included Bicep and GitHub Actions workflows assume:
 
 - one Azure resource group
-- OIDC-based GitHub authentication to Azure
+- GitHub authentication to Azure via either OIDC or `AZURE_CREDENTIALS`
 - separate deploys for infra, web, API, and worker
 
 ### Required GitHub secrets
 
+- Either `AZURE_CREDENTIALS` or the OIDC trio:
 - `AZURE_CLIENT_ID`
 - `AZURE_TENANT_ID`
 - `AZURE_SUBSCRIPTION_ID`
