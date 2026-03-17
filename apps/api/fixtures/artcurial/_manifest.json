@@ -1,0 +1,18 @@
+{
+  "source_key": "artcurial",
+  "display_name": "Artcurial Motorcars",
+  "fixtures": [
+    {
+      "file": "sale_6144_discovery.json",
+      "description": "Artcurial sale 6144 discovery page"
+    },
+    {
+      "file": "lot_1a.json",
+      "description": "Artcurial lot 1-a Velam Isetta"
+    },
+    {
+      "file": "lot_310a.json",
+      "description": "Artcurial lot 310-a Bugatti Type 51"
+    }
+  ]
+}

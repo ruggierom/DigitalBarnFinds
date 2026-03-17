@@ -18,6 +18,14 @@ class Settings(BaseSettings):
     admin_token: str
     public_base_url: str | None = None
     allowed_origins: str = "http://localhost:3000"
+    artcurial_base_url: str = "https://www.artcurial.com"
+    artcurial_discovery_paths: str = "/en/sales/6144"
+    artcurial_fallback_detail_urls: str = (
+        "https://www.artcurial.com/en/sales/6144/lots/1-a,"
+        "https://www.artcurial.com/en/sales/6144/lots/310-a"
+    )
+    artcurial_request_timeout_seconds: float = 20.0
+    artcurial_max_attempts: int = 2
     barchetta_base_url: str = "http://www.barchetta.cc"
     barchetta_discovery_paths: str = (
         "/all.ferraris/by-serial-number/ferrari-by-serial-number/model-index/"
@@ -104,6 +112,14 @@ class Settings(BaseSettings):
     @property
     def barchetta_seed_paths(self) -> list[str]:
         return [path.strip() for path in self.barchetta_discovery_paths.split(",") if path.strip()]
+
+    @property
+    def artcurial_seed_paths(self) -> list[str]:
+        return [path.strip() for path in self.artcurial_discovery_paths.split(",") if path.strip()]
+
+    @property
+    def artcurial_fallback_urls(self) -> list[str]:
+        return [url.strip() for url in self.artcurial_fallback_detail_urls.split(",") if url.strip()]
 
     @property
     def barchetta_fallback_urls(self) -> list[str]:
