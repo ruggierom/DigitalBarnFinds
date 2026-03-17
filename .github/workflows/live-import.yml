@@ -25,24 +25,37 @@ jobs:
     concurrency:
       group: live-import-main
       cancel-in-progress: true
+    strategy:
+      fail-fast: false
+      matrix:
+        scraper_key:
+          - aguttes
+          - artcurial
+          - bat
+          - barchetta
+          - historics
+          - iconic
+          - mecum
+          - osenat
     steps:
       - name: Health check production API
         run: curl -f --max-time 20 https://digitalbarnfinds-api.azurewebsites.net/healthz
 
-      - name: Import 5 cars with images
+      - name: Import 5 cars with images for ${{ matrix.scraper_key }}
         env:
           API_ADMIN_TOKEN: ${{ secrets.API_ADMIN_TOKEN }}
-          SCRAPER_KEY: barchetta
+          SCRAPER_KEY: ${{ matrix.scraper_key }}
         run: |
-          for batch in $(seq 1 20); do
-            echo "Starting batch ${batch}/20"
-            curl -f --max-time 180 \
-              -X POST \
-              -H "x-admin-token: ${API_ADMIN_TOKEN}" \
-              "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/fetch?limit=5&ignore_without_images=true&scraper_key=${SCRAPER_KEY}"
-            echo
-          done
+          curl -f --max-time 180 \
+            -X POST \
+            -H "x-admin-token: ${API_ADMIN_TOKEN}" \
+            "https://digitalbarnfinds-api.azurewebsites.net/admin/jobs/fetch?limit=5&ignore_without_images=true&scraper_key=${SCRAPER_KEY}"
 
+  score:
+    needs: import
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
       - name: Recompute darkness scores
         env:
           API_ADMIN_TOKEN: ${{ secrets.API_ADMIN_TOKEN }}
