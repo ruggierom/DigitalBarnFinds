@@ -205,6 +205,18 @@ resource apiApp 'Microsoft.Web/sites@2023-12-01' = {
           value: 'https://${webHostName}'
         }
         {
+          name: 'DBF_MEDIA_STORAGE_MODE'
+          value: 'azure_blob'
+        }
+        {
+          name: 'DBF_MEDIA_STORAGE_CONNECTION_STRING'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${storage.name};AccountKey=${storage.listKeys().keys[0].value};EndpointSuffix=${environment().suffixes.storage}'
+        }
+        {
+          name: 'DBF_MEDIA_STORAGE_CONTAINER'
+          value: 'car-media'
+        }
+        {
           name: 'DBF_BARCHETTA_BASE_URL'
           value: 'https://www.barchetta.cc'
         }

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from functools import lru_cache
 import os
+from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -18,6 +19,20 @@ class Settings(BaseSettings):
     admin_token: str
     public_base_url: str | None = None
     allowed_origins: str = "http://localhost:3000"
+    media_storage_mode: str = "filesystem"
+    media_local_root: str = "media"
+    media_storage_connection_string: str | None = None
+    media_storage_container: str = "car-media"
+    media_download_timeout_seconds: float = 20.0
+    media_download_max_bytes: int = 15_000_000
+    aguttes_base_url: str = "https://www.aguttes.com"
+    aguttes_discovery_paths: str = "/catalogue/134922"
+    aguttes_fallback_detail_urls: str = (
+        "https://www.aguttes.com/lot/147038/24510161,"
+        "https://www.aguttes.com/lot/134922/21969237-1953-jaguar-xk-120-cabriolet-carte-grise-francaise-chassis"
+    )
+    aguttes_request_timeout_seconds: float = 20.0
+    aguttes_max_attempts: int = 2
     artcurial_base_url: str = "https://www.artcurial.com"
     artcurial_discovery_paths: str = "/en/sales/6144"
     artcurial_fallback_detail_urls: str = (
@@ -110,8 +125,23 @@ class Settings(BaseSettings):
         return self.user_agent_override or self.respectful_user_agent
 
     @property
+    def media_local_root_path(self) -> Path:
+        candidate = Path(self.media_local_root)
+        if candidate.is_absolute():
+            return candidate
+        return (Path(__file__).resolve().parents[2] / candidate).resolve()
+
+    @property
     def barchetta_seed_paths(self) -> list[str]:
         return [path.strip() for path in self.barchetta_discovery_paths.split(",") if path.strip()]
+
+    @property
+    def aguttes_seed_paths(self) -> list[str]:
+        return [path.strip() for path in self.aguttes_discovery_paths.split(",") if path.strip()]
+
+    @property
+    def aguttes_fallback_urls(self) -> list[str]:
+        return [url.strip() for url in self.aguttes_fallback_detail_urls.split(",") if url.strip()]
 
     @property
     def artcurial_seed_paths(self) -> list[str]:

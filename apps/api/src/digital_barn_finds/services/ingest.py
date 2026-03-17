@@ -14,7 +14,8 @@ from digital_barn_finds.models import (
     CustodyEvent,
     Source,
 )
-from digital_barn_finds.services.scrapers.base import ScrapedCarRecord
+from digital_barn_finds.services.media_storage import persist_media_items
+from digital_barn_finds.services.scrapers.base import NormalizedCar, ScrapedCarRecord
 
 
 def normalize_serial(serial_number: str) -> str:
@@ -121,7 +122,12 @@ def upsert_scraped_car(db: Session, source: Source, record: ScrapedCarRecord) ->
             )
         )
 
-    for media in record.media:
+    persisted_media = persist_media_items(
+        record.media,
+        source_key=source.scraper_key,
+        serial_number=record.car.serial_number,
+    )
+    for media in persisted_media:
         if not media.get("url"):
             continue
         db.add(

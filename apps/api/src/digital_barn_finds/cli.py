@@ -9,6 +9,7 @@ from digital_barn_finds.seed import seed_sources
 from digital_barn_finds.services.darkness import compute_scores
 from digital_barn_finds.services.fetch_more import fetch_random_cars
 from digital_barn_finds.services.ingest import upsert_scraped_car
+from digital_barn_finds.services.media_backfill import cache_existing_media
 from digital_barn_finds.services.scrapers.fixtures import (
     get_source_fixture_dir,
     load_source_fixture_definitions,
@@ -22,6 +23,9 @@ def parse_args() -> argparse.Namespace:
 
     subparsers.add_parser("seed")
     subparsers.add_parser("score")
+    cache_media_parser = subparsers.add_parser("cache-media")
+    cache_media_parser.add_argument("--limit", type=int, default=100)
+    cache_media_parser.add_argument("--scraper-key")
     fetch_parser = subparsers.add_parser("fetch-random")
     fetch_parser.add_argument("--limit", type=int, default=25)
     fetch_parser.add_argument(
@@ -66,6 +70,22 @@ def run_score() -> None:
     try:
         processed = compute_scores(db)
         print(f"Computed darkness scores for {processed} cars.")
+    finally:
+        db.close()
+
+
+def run_cache_media(limit: int, scraper_key: str | None) -> None:
+    db = SessionLocal()
+    try:
+        result = cache_existing_media(db, limit=limit, scraper_key=scraper_key)
+        print(
+            f"Requested {result.requested}, cached {result.updated}, deduped {result.deduped}, skipped {result.skipped}, "
+            f"remaining remote {result.remaining_remote}."
+        )
+        if result.errors:
+            print("Errors:")
+            for error in result.errors:
+                print(f"- {error}")
     finally:
         db.close()
 
@@ -134,14 +154,14 @@ def run_fetch_random(limit: int, scraper_key: str, ignore_without_images: bool) 
                 print(f"- {error}")
     finally:
         db.close()
-
-
 def main() -> None:
     args = parse_args()
     if args.command == "seed":
         run_seed()
     elif args.command == "score":
         run_score()
+    elif args.command == "cache-media":
+        run_cache_media(limit=args.limit, scraper_key=args.scraper_key)
     elif args.command == "fetch-random":
         run_fetch_random(
             limit=args.limit,

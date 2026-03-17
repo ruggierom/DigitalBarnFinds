@@ -12,4 +12,4 @@ coverage
 .env
 .env.local
 apps/worker/.python_packages
-
+apps/api/media

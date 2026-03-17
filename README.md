@@ -46,6 +46,10 @@ PYTHONPATH=src uvicorn digital_barn_finds.main:app --reload
 
 The API will be available at `http://localhost:8000`.
 
+By default, committed scrapes now persist downloaded images into
+`apps/api/media/` instead of hotlinking remote image URLs. The API serves those
+stored files back out through `/media/local`.
+
 ### 3. Start the web app
 
 In a second terminal:
@@ -88,6 +92,12 @@ If you want to save them locally:
 ```bash
 PYTHONPATH=src python -m digital_barn_finds.cli test-scrape --limit 3 --commit
 PYTHONPATH=src python -m digital_barn_finds.cli score
+```
+
+To backfill existing hotlinked media rows into managed storage:
+
+```bash
+PYTHONPATH=src python -m digital_barn_finds.cli cache-media --limit 100
 ```
 
 After that, refresh the app and you should see seeded source data plus any cars you committed.
@@ -173,6 +183,10 @@ Barchetta live discovery now starts from the comma-separated
 `DBF_BARCHETTA_DISCOVERY_PATHS` list in `apps/api/.env`. The scaffold seeds a
 curated first-pass Ferrari list, and you can extend it with additional
 model-summary pages as you confirm working paths.
+
+Media persistence settings are also available in `apps/api/.env.example`. Local
+development defaults to `DBF_MEDIA_STORAGE_MODE=filesystem`, while Azure deploys
+set the API to `azure_blob` using the provisioned storage account.
 
 ## Azure deployment notes
 

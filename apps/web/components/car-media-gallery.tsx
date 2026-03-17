@@ -182,7 +182,7 @@ function mediaScore(item: CarRow["media"][number]) {
     score -= 40;
   }
 
-  if (url.includes("/media/local?path=") || url.startsWith("file://")) {
+  if (url.includes("/media/local?path=") || url.includes("/media/blob?key=") || url.startsWith("file://")) {
     score += 20;
   }
 

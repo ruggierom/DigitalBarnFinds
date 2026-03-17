@@ -1,4 +1,5 @@
 alembic==1.14.0
+azure-storage-blob==12.26.0
 beautifulsoup4==4.12.3
 fastapi==0.115.6
 gunicorn==23.0.0

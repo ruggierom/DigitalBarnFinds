@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
+from digital_barn_finds.services.scrapers.aguttes import AguttesScraper
 from digital_barn_finds.services.scrapers.artcurial import ArtcurialScraper
 from digital_barn_finds.services.scrapers.barchetta import BarchettaScraper
 from digital_barn_finds.services.scrapers.base import BaseScraper
@@ -11,6 +12,7 @@ ScraperFactory = Callable[..., BaseScraper]
 
 
 SCRAPER_REGISTRY: dict[str, ScraperFactory] = {
+    "aguttes": AguttesScraper,
     "artcurial": ArtcurialScraper,
     "barchetta": BarchettaScraper,
 }

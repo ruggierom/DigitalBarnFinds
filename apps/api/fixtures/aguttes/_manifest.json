@@ -1,0 +1,18 @@
+{
+  "source_key": "aguttes",
+  "display_name": "Aguttes Automobiles",
+  "fixtures": [
+    {
+      "file": "catalog_134922_sample.json",
+      "description": "Aguttes catalog 134922 discovery sample"
+    },
+    {
+      "file": "lot_24510161.json",
+      "description": "Aguttes lot 24510161 Alfa Romeo Brera Spider"
+    },
+    {
+      "file": "lot_21969237.json",
+      "description": "Aguttes lot 21969237 Jaguar XK 120 Cabriolet"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "fixture_type": "search_results",
+  "source_key": "aguttes",
+  "source_url": "https://www.aguttes.com/catalogue/134922",
+  "description": "Aguttes catalog 134922 discovery sample",
+  "raw_html": "<!doctype html><html lang=\"fr\"><body><a href=\"/lot/134922/21965278-2020-harrington-daytona-junior-vehicule-thermique-pour\">Lot 1</a><a href=\"/lot/134922/21966490-1990-mini-1000-special-carte-grise-francaise-chassis-ndeg\">Lot 2</a><a href=\"/lot/134922/21969237-1953-jaguar-xk-120-cabriolet-carte-grise-francaise-chassis\">Lot 23</a></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {
+    "sale_id": "134922",
+    "sale_title": "AUTOMOBILES DE COLLECTION • LA VENTE D'ÉTÉ",
+    "sale_date": "dimanche 25 juin 2023 16:00",
+    "sale_location": "Espace Champerret"
+  },
+  "expected": {
+    "discovery_url_count": 3,
+    "discovery_urls": [
+      "https://www.aguttes.com/lot/134922/21965278-2020-harrington-daytona-junior-vehicule-thermique-pour",
+      "https://www.aguttes.com/lot/134922/21966490-1990-mini-1000-special-carte-grise-francaise-chassis-ndeg",
+      "https://www.aguttes.com/lot/134922/21969237-1953-jaguar-xk-120-cabriolet-carte-grise-francaise-chassis"
+    ]
+  }
+}

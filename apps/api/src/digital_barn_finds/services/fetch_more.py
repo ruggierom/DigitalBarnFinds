@@ -176,6 +176,8 @@ def _import_from_fixtures(
 
 
 def _get_fallback_urls(scraper_key: str) -> list[str]:
+    if scraper_key == "aguttes":
+        return get_settings().aguttes_fallback_urls
     if scraper_key == "artcurial":
         return get_settings().artcurial_fallback_urls
     if scraper_key == "barchetta":

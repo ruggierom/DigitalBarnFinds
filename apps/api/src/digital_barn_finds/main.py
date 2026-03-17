@@ -51,11 +51,14 @@ from digital_barn_finds.schemas import (
 )
 from digital_barn_finds.services.darkness import compute_scores
 from digital_barn_finds.services.fetch_more import fetch_random_cars
+from digital_barn_finds.services.media_backfill import cache_existing_media
+from digital_barn_finds.services.media_storage import read_blob_media
 from digital_barn_finds.seed import seed_sources
 
 settings = get_settings()
 app = FastAPI(title="DigitalBarnFinds API", version="0.1.1")
 FIXTURE_ROOT = Path(__file__).resolve().parents[2] / "fixtures"
+LOCAL_MEDIA_ROOT = settings.media_local_root_path
 RENDERABLE_EXTENSIONS = ("jpg", "jpeg", "png", "webp", "gif", "avif", "bmp", "jfif")
 EXPORT_COLUMNS = [
     ("serial_number", "Serial Number"),
@@ -112,9 +115,21 @@ async def debug_echo(request: Request) -> dict[str, object]:
 @app.get("/media/local")
 def get_local_media(path: str = Query(...)) -> FileResponse:
     candidate = Path(unquote(path)).resolve()
-    if not str(candidate).startswith(str(FIXTURE_ROOT.resolve())) or not candidate.exists():
+    if not candidate.exists() or not _is_allowed_local_media_path(candidate):
         raise HTTPException(status_code=404, detail="Media not found.")
     return FileResponse(candidate)
+
+
+@app.get("/media/blob")
+def get_blob_media(key: str = Query(...)) -> StreamingResponse:
+    try:
+        payload, content_type = read_blob_media(unquote(key))
+    except Exception as exc:  # noqa: BLE001
+        raise HTTPException(status_code=404, detail=f"Blob media not found: {exc}") from exc
+    return StreamingResponse(
+        BytesIO(payload),
+        media_type=content_type or "application/octet-stream",
+    )
 
 
 @app.get("/dashboard", response_model=DashboardSnapshot, dependencies=[Depends(require_admin_token)])
@@ -790,6 +805,24 @@ def run_scoring(db: Session = Depends(get_db)) -> dict[str, int]:
     return {"processed": processed}
 
 
+@app.post("/admin/jobs/cache-media", dependencies=[Depends(require_admin_token)])
+def run_cache_media(
+    limit: int = Query(default=100, ge=1, le=1000),
+    scraper_key: str | None = Query(default=None),
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    result = cache_existing_media(db, limit=limit, scraper_key=scraper_key)
+    return {
+        "requested": result.requested,
+        "updated": result.updated,
+        "deduped": result.deduped,
+        "skipped": result.skipped,
+        "remaining_remote": result.remaining_remote,
+        "scraper_key": result.scraper_key,
+        "errors": result.errors or [],
+    }
+
+
 @app.post("/admin/jobs/upsert", dependencies=[Depends(require_admin_token)])
 def run_upsert(db: Session = Depends(get_db)) -> dict[str, str]:
     source_count = db.query(func.count(Source.id)).filter(Source.enabled.is_(True)).scalar() or 0
@@ -964,15 +997,39 @@ def _format_date_label(event_date, precision: str, event_year: int | None) -> st
 def _resolve_media_url(url: str, request: Request | None = None) -> str:
     if url.startswith("file://"):
         path = unquote(url.removeprefix("file://"))
-        if settings.public_base_url:
-            return f"{settings.public_base_url.rstrip('/')}/media/local?path={quote(path)}"
-        if request is not None:
-            resolved = str(request.url_for("get_local_media"))
-            if settings.app_env == "production" and resolved.startswith("http://"):
-                resolved = resolved.replace("http://", "https://", 1)
-            return resolved + f"?path={quote(path)}"
-        return f"http://localhost:8000/media/local?path={quote(path)}"
+        return _build_media_route_url("get_local_media", {"path": path}, request=request)
+    if url.startswith("dbfblob://"):
+        key = unquote(url.removeprefix("dbfblob://"))
+        return _build_media_route_url("get_blob_media", {"key": key}, request=request)
     return url
+
+
+def _build_media_route_url(
+    route_name: str,
+    query: dict[str, str],
+    *,
+    request: Request | None = None,
+) -> str:
+    encoded_query = "&".join(f"{name}={quote(value)}" for name, value in query.items())
+    if settings.public_base_url:
+        return f"{settings.public_base_url.rstrip('/')}{app.url_path_for(route_name)}?{encoded_query}"
+    if request is not None:
+        resolved = str(request.url_for(route_name))
+        if settings.app_env == "production" and resolved.startswith("http://"):
+            resolved = resolved.replace("http://", "https://", 1)
+        return f"{resolved}?{encoded_query}"
+    return f"http://localhost:8000{app.url_path_for(route_name)}?{encoded_query}"
+
+
+def _is_allowed_local_media_path(candidate: Path) -> bool:
+    allowed_roots = [FIXTURE_ROOT.resolve(), LOCAL_MEDIA_ROOT.resolve()]
+    for root in allowed_roots:
+        try:
+            candidate.relative_to(root)
+            return True
+        except ValueError:
+            continue
+    return False
 
 
 def _normalize_barchetta_path(path: str) -> str:
