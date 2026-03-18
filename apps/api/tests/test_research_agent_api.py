@@ -244,6 +244,7 @@ def test_research_and_provenance_endpoints(monkeypatch) -> None:
             headers = {"x-admin-token": os.environ["DBF_ADMIN_TOKEN"]}
 
             runs_response = client.get("/admin/agent-runs", headers=headers)
+            run_provenance_response = client.get(f"/admin/agent-runs/{run.id}/provenance", headers=headers)
             provenance_response = client.get(f"/cars/{car.id}/provenance", headers=headers)
             lookup_response = client.post(
                 "/admin/dealer-lookups",
@@ -258,6 +259,8 @@ def test_research_and_provenance_endpoints(monkeypatch) -> None:
 
             assert runs_response.status_code == 200
             assert len(runs_response.json()) == 1
+            assert run_provenance_response.status_code == 200
+            assert run_provenance_response.json()["summary"] == "Seeded provenance report."
             assert provenance_response.status_code == 200
             assert provenance_response.json()["summary"] == "Seeded provenance report."
             assert lookup_response.status_code == 200
@@ -270,6 +273,76 @@ def test_research_and_provenance_endpoints(monkeypatch) -> None:
             )
             assert update_response.status_code == 200
             assert update_response.json()["outcome"] == "reached"
+    finally:
+        app.dependency_overrides.clear()
+        db.close()
+
+
+def test_agent_run_provenance_endpoint_supports_seed_only_reports(monkeypatch) -> None:
+    Session = _make_session_factory()
+    monkeypatch.setattr("digital_barn_finds.main.seed_sources", lambda: None)
+
+    def override_get_db():
+        db = Session()
+        try:
+            yield db
+        finally:
+            db.close()
+
+    app.dependency_overrides[get_db] = override_get_db
+
+    db = Session()
+    try:
+        vehicle_model = VehicleModel(make="Lamborghini", model="Miura", variant="P400 SV", tier="A", in_scope=True)
+        db.add(vehicle_model)
+        db.flush()
+
+        seed = ChassisSeed(
+            vehicle_model_id=vehicle_model.id,
+            chassis_number="4884",
+            confidence="confirmed",
+            status="active",
+            last_known_location="Germany",
+        )
+        db.add(seed)
+        db.flush()
+
+        run = AgentRun(
+            chassis_seed_id=seed.id,
+            car_id=None,
+            triggered_by="manual",
+            status="complete",
+            phases_completed=3,
+            started_at=datetime.now(UTC),
+            completed_at=datetime.now(UTC),
+        )
+        db.add(run)
+        db.flush()
+
+        report = ProvenanceReport(
+            agent_run_id=run.id,
+            car_id=None,
+            chassis_seed_id=seed.id,
+            summary="Seed-only provenance report.",
+            geo_region="EU",
+            last_known_location="Germany",
+            estimated_value_usd=3_200_000,
+            darkness_score=85,
+            custody_chain=[{"period": "1971", "custodian": "Private owner"}],
+            recommended_actions=["Confirm the latest German sighting."],
+            status="complete",
+        )
+        db.add(report)
+        db.commit()
+
+        with TestClient(app) as client:
+            headers = {"x-admin-token": os.environ["DBF_ADMIN_TOKEN"]}
+            response = client.get(f"/admin/agent-runs/{run.id}/provenance", headers=headers)
+
+            assert response.status_code == 200
+            assert response.json()["summary"] == "Seed-only provenance report."
+            assert response.json()["car_id"] is None
+            assert response.json()["chassis_seed_id"] == str(seed.id)
     finally:
         app.dependency_overrides.clear()
         db.close()

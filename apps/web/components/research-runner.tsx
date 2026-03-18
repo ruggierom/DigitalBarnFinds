@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { Route } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -28,6 +29,11 @@ export function ResearchRunner({ knownSeeds, initialChassis = "" }: ResearchRunn
     [knownSeeds]
   );
 
+  const provenanceHref =
+    run == null
+      ? null
+      : ((run.car_id ? `/cars/${run.car_id}/provenance` : `/research/runs/${run.id}`) as Route);
+
   useEffect(() => {
     if (!runId || !run || run.status === "failed" || run.status === "complete") {
       return;
@@ -48,11 +54,6 @@ export function ResearchRunner({ knownSeeds, initialChassis = "" }: ResearchRunn
         return;
       }
       setRun(nextRun);
-
-      if (nextRun.status === "complete" && nextRun.car_id && !redirectedRef.current) {
-        redirectedRef.current = true;
-        router.push(`/cars/${nextRun.car_id}/provenance` as Route);
-      }
     }, 3000);
 
     return () => {
@@ -60,6 +61,15 @@ export function ResearchRunner({ knownSeeds, initialChassis = "" }: ResearchRunn
       window.clearInterval(intervalId);
     };
   }, [router, run, runId]);
+
+  useEffect(() => {
+    if (run?.status !== "complete" || !provenanceHref || redirectedRef.current) {
+      return;
+    }
+
+    redirectedRef.current = true;
+    router.push(provenanceHref);
+  }, [provenanceHref, router, run]);
 
   async function startResearchRun() {
     if (!chassisNumber.trim()) {
@@ -185,6 +195,13 @@ export function ResearchRunner({ knownSeeds, initialChassis = "" }: ResearchRunn
               <span className="badge">Phase {phasesCompleted}/3</span>
             </div>
           </div>
+          {run.status === "complete" && provenanceHref ? (
+            <div className="badge-row">
+              <Link className="button button--secondary" href={provenanceHref}>
+                Open provenance
+              </Link>
+            </div>
+          ) : null}
           <div className="research-progress__bar" role="progressbar" aria-valuemax={3} aria-valuemin={0} aria-valuenow={phasesCompleted}>
             <span style={{ width: `${progressPercent}%` }} />
           </div>

@@ -164,11 +164,12 @@ export function ScopeEditor({ rows }: ScopeEditorProps) {
       const result = (await response.json()) as {
         requested: number;
         imported: number;
+        updated_existing: number;
         skipped_duplicates: number;
       };
 
       setMessage(
-        `Seed import processed ${result.requested} rows. Imported ${result.imported}, skipped ${result.skipped_duplicates}.`
+        `Seed import processed ${result.requested} rows. Imported ${result.imported}, updated ${result.updated_existing}, skipped ${result.skipped_duplicates}.`
       );
       setSeedFile(null);
     } catch (caughtError) {

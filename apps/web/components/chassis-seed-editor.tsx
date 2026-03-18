@@ -9,6 +9,7 @@ import type { ChassisSeedRow, VehicleModelRow } from "@/lib/api";
 
 const editableFields = ["last_known_location", "last_known_owner", "status", "dark_pct_est"] as const;
 const statusOptions = ["active", "located", "sold", "destroyed"] as const;
+const UNASSIGNED_FILTER_VALUE = "__unassigned__";
 
 type EditableField = (typeof editableFields)[number];
 
@@ -16,6 +17,7 @@ type ChassisSeedEditorProps = {
   vehicleModels: VehicleModelRow[];
   rows: ChassisSeedRow[];
   selectedModelId: string | null;
+  unassignedCount: number;
 };
 
 type NewSeedDraft = {
@@ -29,7 +31,8 @@ type NewSeedDraft = {
 export function ChassisSeedEditor({
   vehicleModels,
   rows: initialRows,
-  selectedModelId
+  selectedModelId,
+  unassignedCount,
 }: ChassisSeedEditorProps) {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
@@ -69,6 +72,7 @@ export function ChassisSeedEditor({
   }, []);
 
   const selectedModel = vehicleModels.find((row) => row.id === selectedModelId) ?? null;
+  const isUnassignedView = selectedModelId === UNASSIGNED_FILTER_VALUE;
   const totalCount = rows.length;
   const darkCount = rows.filter((row) => (row.dark_pct_est ?? -1) >= 50).length;
   const accountedCount = rows.filter((row) => row.car_id !== null).length;
@@ -226,11 +230,12 @@ export function ChassisSeedEditor({
       const result = (await response.json()) as {
         requested: number;
         imported: number;
+        updated_existing: number;
         skipped_duplicates: number;
       };
 
       setMessage(
-        `CSV import processed ${result.requested} rows. Imported ${result.imported}, skipped ${result.skipped_duplicates}.`
+        `CSV import processed ${result.requested} rows. Imported ${result.imported}, updated ${result.updated_existing}, skipped ${result.skipped_duplicates}.`
       );
       setImportFile(null);
       startTransition(() => {
@@ -288,18 +293,24 @@ export function ChassisSeedEditor({
         <div className="seed-toolbar__selectors">
           <select
             className="field"
-            disabled={vehicleModels.length === 0}
+            disabled={vehicleModels.length === 0 && unassignedCount === 0}
             onChange={(event) => handleModelChange(event.target.value)}
             value={selectedModelId ?? ""}
           >
-            {vehicleModels.length === 0 ? <option value="">No models in scope yet</option> : null}
+            {vehicleModels.length === 0 && unassignedCount === 0 ? <option value="">No models in scope yet</option> : null}
+            {unassignedCount > 0 ? <option value={UNASSIGNED_FILTER_VALUE}>Unassigned rows ({unassignedCount})</option> : null}
             {vehicleModels.map((row) => (
               <option key={row.id} value={row.id}>
                 {[row.make, row.model, row.variant].filter(Boolean).join(" ")}
               </option>
             ))}
           </select>
-          <button className="button button--secondary" onClick={() => setIsAddingRow(true)} type="button">
+          <button
+            className="button button--secondary"
+            disabled={!selectedModelId || isUnassignedView}
+            onClick={() => setIsAddingRow(true)}
+            type="button"
+          >
             Add row
           </button>
         </div>
@@ -319,7 +330,13 @@ export function ChassisSeedEditor({
       <div className="seed-stats">
         <div className="stat-chip">
           <span className="stat-chip__label">Model</span>
-          <strong>{selectedModel ? [selectedModel.make, selectedModel.model, selectedModel.variant].filter(Boolean).join(" ") : "—"}</strong>
+          <strong>
+            {selectedModel
+              ? [selectedModel.make, selectedModel.model, selectedModel.variant].filter(Boolean).join(" ")
+              : isUnassignedView
+                ? "Unassigned"
+                : "—"}
+          </strong>
         </div>
         <div className="stat-chip">
           <span className="stat-chip__label">Total chassis</span>
@@ -342,8 +359,14 @@ export function ChassisSeedEditor({
       {isNavigating ? <p className="status-note">Loading selected model…</p> : null}
       {error ? <p className="status-note status-note--error">{error}</p> : null}
       {message ? <p className="status-note">{message}</p> : null}
+      {isUnassignedView ? (
+        <p className="status-note">
+          These rows were imported without a matched vehicle model. They stay editable here, and future CSV imports
+          will auto-create missing models when `make` and `model` are present.
+        </p>
+      ) : null}
 
-      {vehicleModels.length === 0 ? (
+      {vehicleModels.length === 0 && rows.length === 0 ? (
         <p className="empty">
           No vehicle models are defined yet. Start in <Link href="/admin/scope">Scope</Link>.
         </p>

@@ -89,6 +89,7 @@ from digital_barn_finds.services.research_agent import (
     ResearchJobRequest as ResearchAgentJobRequest,
     create_dealer_lookup,
     enqueue_research_job,
+    get_latest_provenance_report_for_run,
     get_latest_provenance_report_for_car,
     list_agent_runs,
     run_research_job,
@@ -1340,6 +1341,7 @@ def update_vehicle_model(
 )
 def list_chassis_seed(
     vehicle_model_id: str | None = Query(default=None),
+    unassigned_only: bool = Query(default=False),
     make: str | None = Query(default=None),
     model: str | None = Query(default=None),
     status: str | None = Query(default=None),
@@ -1352,6 +1354,8 @@ def list_chassis_seed(
     )
     if vehicle_model_id:
         query = query.filter(ChassisSeed.vehicle_model_id == _parse_uuid(vehicle_model_id))
+    if unassigned_only:
+        query = query.filter(ChassisSeed.vehicle_model_id.is_(None))
     if make:
         query = query.filter(VehicleModel.make.ilike(f"%{make.strip()}%"))
     if model:
@@ -1409,6 +1413,7 @@ def import_chassis_seed(
     return ChassisSeedImportResultItem(
         requested=result.requested,
         imported=result.imported,
+        updated_existing=result.updated_existing,
         skipped_duplicates=result.skipped_duplicates,
         errors=result.errors,
     )
@@ -1516,6 +1521,28 @@ def get_agent_run(
     if agent_run is None:
         raise HTTPException(status_code=404, detail="Agent run not found.")
     return _agent_run_item(agent_run)
+
+
+@app.get(
+    "/admin/agent-runs/{run_id}/provenance",
+    response_model=ProvenanceReportItem,
+    dependencies=[Depends(require_admin_token)],
+)
+def get_agent_run_provenance(
+    run_id: str,
+    db: Session = Depends(get_db),
+) -> ProvenanceReportItem:
+    report = get_latest_provenance_report_for_run(db, run_id)
+    if report is None:
+        raise HTTPException(status_code=404, detail="No provenance report found for this run.")
+
+    contacts = (
+        db.query(ProvenanceContact)
+        .filter(ProvenanceContact.agent_run_id == report.agent_run_id)
+        .order_by(ProvenanceContact.priority.asc(), ProvenanceContact.created_at.asc())
+        .all()
+    )
+    return _provenance_report_item(report, contacts)
 
 
 @app.get(

@@ -309,6 +309,7 @@ export async function getVehicleModels(params?: {
 
 export async function getChassisSeed(params?: {
   vehicle_model_id?: string;
+  unassigned_only?: boolean;
   make?: string;
   model?: string;
   status?: string;
@@ -317,6 +318,9 @@ export async function getChassisSeed(params?: {
 
   if (params?.vehicle_model_id) {
     search.set("vehicle_model_id", params.vehicle_model_id);
+  }
+  if (params?.unassigned_only) {
+    search.set("unassigned_only", "true");
   }
   if (params?.make) {
     search.set("make", params.make);
@@ -351,6 +355,10 @@ export async function getAgentRuns(params?: {
 
 export async function getProvenanceReport(carId: string) {
   return request<ProvenanceReportRow>(`/cars/${carId}/provenance`);
+}
+
+export async function getRunProvenanceReport(runId: string) {
+  return request<ProvenanceReportRow>(`/admin/agent-runs/${runId}/provenance`);
 }
 
 export async function getBarchettaRequestDiagnostics(params?: {

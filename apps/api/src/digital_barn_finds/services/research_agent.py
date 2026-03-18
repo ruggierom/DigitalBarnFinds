@@ -152,6 +152,15 @@ def get_latest_provenance_report_for_car(db: Session, car_id: str) -> Provenance
     )
 
 
+def get_latest_provenance_report_for_run(db: Session, run_id: str) -> ProvenanceReport | None:
+    return (
+        db.query(ProvenanceReport)
+        .filter(ProvenanceReport.agent_run_id == _parse_uuid(run_id))
+        .order_by(ProvenanceReport.updated_at.desc(), ProvenanceReport.created_at.desc())
+        .first()
+    )
+
+
 def create_dealer_lookup(
     db: Session,
     *,

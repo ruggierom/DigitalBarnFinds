@@ -311,6 +311,7 @@ class ChassisSeedItem(ChassisSeedWrite):
 class ChassisSeedImportResultItem(BaseModel):
     requested: int
     imported: int
+    updated_existing: int
     skipped_duplicates: int
     errors: list[str]
 
