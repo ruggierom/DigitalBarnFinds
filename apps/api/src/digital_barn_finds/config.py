@@ -27,6 +27,9 @@ class Settings(BaseSettings):
     media_download_max_bytes: int = 15_000_000
     max_media_per_car: int = 10
     search_request_timeout_seconds: float = 20.0
+    google_search_api_key: str | None = None
+    google_search_cx: str | None = None
+    research_request_timeout_seconds: float = 20.0
     enrichment_candidate_limit_per_query: int = 5
     aguttes_base_url: str = "https://www.aguttes.com"
     aguttes_discovery_paths: str = "/catalogue/134922"
@@ -80,6 +83,14 @@ class Settings(BaseSettings):
     )
     iconic_request_timeout_seconds: float = 20.0
     iconic_max_attempts: int = 2
+    lp112_base_url: str = "https://www.lp112.com"
+    lp112_discovery_paths: str = "/Lamborghini/Search.asp"
+    lp112_fallback_detail_urls: str = (
+        "https://www.lp112.com/Lamborghini/Detail.asp?Model=Countach&Version=LP400&ChassisNumber=1120106,"
+        "https://www.lp112.com/Lamborghini/Detail.asp?Model=Countach&Version=LPI800-4&ChassisNumber=ZHWEA9ZD7NLA10702"
+    )
+    lp112_request_timeout_seconds: float = 20.0
+    lp112_max_attempts: int = 2
     mecum_base_url: str = "https://www.mecum.com"
     mecum_discovery_paths: str = "/auctions/orlando-2021/lots/?auction%5B0%5D=Orlando+Summer+Special+2021%7C1627430400%7C1627689600&configure%5Bfilters%5D=&configure%5BruleContexts%5D%5B0%5D=pin_items&page=3"
     mecum_fallback_detail_urls: str = (
@@ -252,6 +263,14 @@ class Settings(BaseSettings):
     @property
     def iconic_fallback_urls(self) -> list[str]:
         return [url.strip() for url in self.iconic_fallback_detail_urls.split(",") if url.strip()]
+
+    @property
+    def lp112_seed_paths(self) -> list[str]:
+        return [path.strip() for path in self.lp112_discovery_paths.split(",") if path.strip()]
+
+    @property
+    def lp112_fallback_urls(self) -> list[str]:
+        return [url.strip() for url in self.lp112_fallback_detail_urls.split(",") if url.strip()]
 
     @property
     def mecum_seed_paths(self) -> list[str]:

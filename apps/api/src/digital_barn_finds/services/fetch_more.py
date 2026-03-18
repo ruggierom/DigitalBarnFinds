@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from digital_barn_finds.models import CarSource, Source
 from digital_barn_finds.config import get_settings
 from digital_barn_finds.services.ingest import upsert_scraped_car
+from digital_barn_finds.services.scope import evaluate_scope, log_scope_rejection
 from digital_barn_finds.services.scrapers.base import BaseScraper
 from digital_barn_finds.services.scrapers.fixtures import load_source_fixture_definitions
 from digital_barn_finds.services.scrapers.registry import get_scraper
@@ -21,6 +22,7 @@ class FetchMoreResult:
     discovered: int
     imported: int
     skipped_existing: int
+    skipped_out_of_scope: int
     skipped_without_images: int
     source_name: str
     mode_used: str
@@ -84,6 +86,7 @@ def _import_from_live(
     unseen_urls = [url for url in discovered_urls if url not in existing_urls]
     selected_urls = random.sample(unseen_urls, k=min(limit, len(unseen_urls))) if unseen_urls else []
     imported = 0
+    skipped_out_of_scope = 0
     skipped_without_images = 0
     errors: list[str] = []
 
@@ -96,6 +99,21 @@ def _import_from_live(
         print(f"FetchMore live import [{index}/{len(selected_urls)}]: {url}")
         try:
             record = scraper.parse_detail_page(url)
+            scope_decision = evaluate_scope(db, record.car)
+            if not scope_decision.is_in_scope:
+                skipped_out_of_scope += 1
+                log_scope_rejection(
+                    db,
+                    source_url=record.source_url,
+                    car=record.car,
+                    reason=scope_decision.reason,
+                )
+                db.commit()
+                print(
+                    "FetchMore live import skipped out of scope: "
+                    f"{record.car.make} {record.car.model} ({record.source_url})"
+                )
+                continue
             if ignore_without_images and not _has_renderable_media(record.media):
                 skipped_without_images += 1
                 print(f"FetchMore live import skipped without images: {record.source_url}")
@@ -116,6 +134,7 @@ def _import_from_live(
         discovered=len(discovered_urls),
         imported=imported,
         skipped_existing=max(0, len(discovered_urls) - len(unseen_urls)),
+        skipped_out_of_scope=skipped_out_of_scope,
         skipped_without_images=skipped_without_images,
         source_name=source.name,
         mode_used=mode_used,
@@ -148,12 +167,24 @@ def _import_from_fixtures(
     )
 
     imported = 0
+    skipped_out_of_scope = 0
     skipped_without_images = 0
     errors = [initial_error] if initial_error else []
 
     for definition in selected_records:
         try:
             record = scraper.parse_record_fixture(definition.fixture)
+            scope_decision = evaluate_scope(db, record.car)
+            if not scope_decision.is_in_scope:
+                skipped_out_of_scope += 1
+                log_scope_rejection(
+                    db,
+                    source_url=record.source_url,
+                    car=record.car,
+                    reason=scope_decision.reason,
+                )
+                db.commit()
+                continue
             if ignore_without_images and not _has_renderable_media(record.media):
                 skipped_without_images += 1
                 continue
@@ -168,6 +199,7 @@ def _import_from_fixtures(
         discovered=len(fixture_definitions),
         imported=imported,
         skipped_existing=max(0, len(fixture_definitions) - len(unseen_fixtures)),
+        skipped_out_of_scope=skipped_out_of_scope,
         skipped_without_images=skipped_without_images,
         source_name=source.name,
         mode_used="fixtures",
@@ -190,6 +222,8 @@ def _get_fallback_urls(scraper_key: str) -> list[str]:
         return get_settings().historics_fallback_urls
     if scraper_key == "iconic":
         return get_settings().iconic_fallback_urls
+    if scraper_key == "lp112":
+        return get_settings().lp112_fallback_urls
     if scraper_key == "mecum":
         return get_settings().mecum_fallback_urls
     if scraper_key == "osenat":
