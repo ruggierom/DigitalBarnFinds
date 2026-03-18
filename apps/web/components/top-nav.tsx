@@ -1,13 +1,23 @@
 "use client";
 
+import type { Route } from "next";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 
 const authDisabled = process.env.NEXT_PUBLIC_AUTH_DISABLED === "true";
 
-const navItems = [
+type NavItem = {
+  href: Route;
+  label: string;
+  match?: string;
+};
+
+const navItems: NavItem[] = [
   { href: "/cars?search=true", label: "Search", match: "/cars" },
   { href: "/cars?sort=recently_imported_desc", label: "Cars", match: "/cars" },
+  { href: "/research", label: "Research", match: "/research" },
+  { href: "/admin/chassis-seed", label: "Seed", match: "/admin/chassis-seed" },
+  { href: "/admin/scope", label: "Scope", match: "/admin/scope" },
   { href: "/watchlist", label: "Watchlist" },
   { href: "/sources", label: "Sources" },
   { href: "/request-lab", label: "Lab" },
@@ -36,7 +46,11 @@ export function TopNav() {
               ? isCarsRoute && hasSearchState
               : item.label === "Cars"
                 ? isCarsRoute && !hasSearchState
-                : pathname === item.href;
+                : item.label === "Research"
+                  ? pathname === "/research" || pathname.includes("/provenance")
+                  : item.match
+                    ? pathname.startsWith(item.match)
+                    : pathname === item.href;
           return (
             <Link
               key={`${item.href}-${item.label}`}

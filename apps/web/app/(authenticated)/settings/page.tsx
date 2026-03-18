@@ -3,7 +3,7 @@ import { ImportUrlPanel } from "@/components/import-url-panel";
 import { PageHeader } from "@/components/page-header";
 import { RequestDiagnosticsPanel } from "@/components/request-diagnostics-panel";
 import { SettingsEditor } from "@/components/settings-editor";
-import { getBarchettaRequestDiagnostics, getSettings } from "@/lib/api";
+import { getBarchettaRequestDiagnostics, getSettings, getSources } from "@/lib/api";
 
 function isFeatureEnabled(value: Record<string, unknown> | undefined) {
   const enabled = value?.enabled;
@@ -17,6 +17,7 @@ export default async function SettingsPage({
 }) {
   const queryValue = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
   const rows = await getSettings();
+  const sources = await getSources();
   const diagnosticsPath = queryValue(searchParams?.diag_path) ?? "/english/all.ferraris/summary/";
   const diagnosticsUserAgent = queryValue(searchParams?.diag_user_agent) ?? "";
   const diagnosticsRun = queryValue(searchParams?.diag_run) === "1";
@@ -32,6 +33,7 @@ export default async function SettingsPage({
         discovered: Number(searchParams.fetch_discovered ?? 0),
         imported: Number(searchParams.fetch_imported ?? 0),
         skipped: Number(searchParams.fetch_skipped ?? 0),
+        scraperKey: String(searchParams.fetch_scraper_key ?? ""),
         mode: String(searchParams.fetch_mode ?? "unknown"),
         source: String(searchParams.fetch_source ?? "source"),
         errors: searchParams.fetch_errors ? String(searchParams.fetch_errors) : undefined
@@ -61,7 +63,13 @@ export default async function SettingsPage({
         title="Scoring and admin tools"
         description="Thresholds, imports, and diagnostics."
       />
-      {showFetchMorePanel ? <FetchMorePanel result={fetchResult} /> : null}
+      {showFetchMorePanel ? (
+        <FetchMorePanel
+          defaultScraperKey={queryValue(searchParams?.fetch_scraper_key) ?? undefined}
+          result={fetchResult}
+          sources={sources}
+        />
+      ) : null}
       <ImportUrlPanel defaultUrl={importUrl} error={importError} result={importResult} />
       <RequestDiagnosticsPanel
         currentPath={diagnosticsPath}

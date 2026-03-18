@@ -1,7 +1,10 @@
 import { fetchMoreCarsAction } from "@/app/actions";
 import { PendingSubmitButton } from "@/components/pending-submit-button";
+import type { SourceRow } from "@/lib/api";
 
 type FetchMorePanelProps = {
+  sources: SourceRow[];
+  defaultScraperKey?: string;
   result?: {
     requested: number;
     discovered: number;
@@ -9,11 +12,15 @@ type FetchMorePanelProps = {
     skipped: number;
     mode: string;
     source: string;
+    scraperKey?: string;
     errors?: string;
   };
 };
 
-export function FetchMorePanel({ result }: FetchMorePanelProps) {
+export function FetchMorePanel({ sources, defaultScraperKey, result }: FetchMorePanelProps) {
+  const enabledSources = sources.filter((row) => row.enabled);
+  const selectedScraperKey = defaultScraperKey ?? enabledSources[0]?.scraper_key ?? "";
+
   return (
     <section className="card">
       <h2 className="section-title">Fetch More Cars</h2>
@@ -23,6 +30,13 @@ export function FetchMorePanel({ result }: FetchMorePanelProps) {
         discovery.
       </p>
       <form action={fetchMoreCarsAction} className="fetch-form">
+        <select aria-label="Source" className="field" defaultValue={selectedScraperKey} name="scraper_key">
+          {enabledSources.map((source) => (
+            <option key={source.id} value={source.scraper_key}>
+              {source.name}
+            </option>
+          ))}
+        </select>
         <PendingSubmitButton idleLabel="Import 5 cars" pendingLabel="Importing..." />
       </form>
       {result ? (
@@ -31,7 +45,8 @@ export function FetchMorePanel({ result }: FetchMorePanelProps) {
             Imported {result.imported} of {result.requested} requested from {result.source}.
           </strong>
           <div className="empty">
-            Mode: {result.mode}. Discovered: {result.discovered}. Skipped existing: {result.skipped}.
+            Source key: {result.scraperKey ?? "unknown"}. Mode: {result.mode}. Discovered: {result.discovered}.
+            Skipped existing: {result.skipped}.
           </div>
           {result.errors ? <div className="fetch-result__error">{result.errors}</div> : null}
         </div>

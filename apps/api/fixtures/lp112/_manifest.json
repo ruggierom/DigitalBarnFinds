@@ -1,0 +1,18 @@
+{
+  "source_key": "lp112",
+  "display_name": "LP112.com",
+  "fixtures": [
+    {
+      "file": "countach_lp400_discovery.json",
+      "description": "LP112 Countach LP400 search results page"
+    },
+    {
+      "file": "countach_lp400_1120106.json",
+      "description": "LP112 Countach LP400 chassis 1120106 detail page"
+    },
+    {
+      "file": "countach_lpi8004_nla10702.json",
+      "description": "LP112 Countach LPI800-4 press car detail page"
+    }
+  ]
+}

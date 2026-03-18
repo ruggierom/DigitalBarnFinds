@@ -88,6 +88,126 @@ export type CarRow = {
   }>;
 };
 
+export type VehicleModelRow = {
+  id: string;
+  make: string;
+  model: string;
+  variant: string | null;
+  sort_order: number | null;
+  tier: string | null;
+  units_built: number | null;
+  est_value_low: number | null;
+  est_value_high: number | null;
+  us_delivery: boolean;
+  darkness_pct: number | null;
+  seed_source: string | null;
+  in_scope: boolean;
+  designated_by: string | null;
+  designated_at: string;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ChassisSeedRow = {
+  id: string;
+  vehicle_model_id: string | null;
+  chassis_number: string;
+  engine_number: string | null;
+  production_number: string | null;
+  color_ext: string | null;
+  color_int: string | null;
+  delivery_date: string | null;
+  dealer: string | null;
+  destination_country: string | null;
+  destination_region: string | null;
+  us_spec: boolean;
+  split_sump: boolean;
+  ac_factory: boolean;
+  last_known_location: string | null;
+  last_known_owner: string | null;
+  dark_pct_est: number | null;
+  notes: string | null;
+  seed_source: string | null;
+  seed_date: string | null;
+  confidence: string;
+  status: string;
+  car_id: string | null;
+  vehicle_make: string | null;
+  vehicle_model: string | null;
+  vehicle_variant: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AgentRunRow = {
+  id: string;
+  chassis_seed_id: string | null;
+  car_id: string | null;
+  chassis_number: string | null;
+  serial_number: string | null;
+  status: string;
+  phases_completed: number;
+  triggered_by: string | null;
+  triggered_by_user: string | null;
+  started_at: string;
+  completed_at: string | null;
+  error: string | null;
+};
+
+export type ProvenanceContactRow = {
+  id: string;
+  priority: number;
+  name: string | null;
+  org: string | null;
+  city: string | null;
+  phone: string | null;
+  email: string | null;
+  rationale: string | null;
+  target_chassis: string | null;
+  contact_status: string;
+  notes: string | null;
+  created_at: string;
+};
+
+export type DealerLookupRow = {
+  id: string;
+  provenance_report_id: string | null;
+  contact_id: string | null;
+  attempted_at: string;
+  outcome: string | null;
+  notes: string | null;
+};
+
+export type ProvenanceReportRow = {
+  id: string;
+  agent_run_id: string | null;
+  car_id: string | null;
+  chassis_seed_id: string | null;
+  summary: string | null;
+  geo_region: string | null;
+  last_known_location: string | null;
+  estimated_value_usd: number | null;
+  darkness_score: number | null;
+  custody_chain: Array<Record<string, unknown>>;
+  recommended_actions: string[];
+  status: string;
+  created_at: string;
+  updated_at: string;
+  contacts: ProvenanceContactRow[];
+  dealer_lookups: DealerLookupRow[];
+};
+
+export type SourceRow = {
+  id: string;
+  name: string;
+  base_url: string;
+  scraper_key: string;
+  enabled: boolean;
+  last_scraped_at: string | null;
+  last_status: string | null;
+};
+
 const apiBaseUrl = process.env.API_BASE_URL;
 const adminToken = process.env.API_ADMIN_TOKEN;
 
@@ -152,7 +272,7 @@ export async function getWatchlist() {
 }
 
 export async function getSources() {
-  return request<Array<Record<string, unknown>>>("/sources");
+  return request<SourceRow[]>("/sources");
 }
 
 export async function getSettings() {
@@ -164,6 +284,73 @@ export async function getSettings() {
       updated_at: string;
     }>
   >("/settings");
+}
+
+export async function getVehicleModels(params?: {
+  make?: string;
+  model?: string;
+  in_scope?: boolean;
+}) {
+  const search = new URLSearchParams();
+
+  if (params?.make) {
+    search.set("make", params.make);
+  }
+  if (params?.model) {
+    search.set("model", params.model);
+  }
+  if (params?.in_scope !== undefined) {
+    search.set("in_scope", String(params.in_scope));
+  }
+
+  const suffix = search.size > 0 ? `?${search.toString()}` : "";
+  return request<VehicleModelRow[]>(`/admin/vehicle-models${suffix}`);
+}
+
+export async function getChassisSeed(params?: {
+  vehicle_model_id?: string;
+  make?: string;
+  model?: string;
+  status?: string;
+}) {
+  const search = new URLSearchParams();
+
+  if (params?.vehicle_model_id) {
+    search.set("vehicle_model_id", params.vehicle_model_id);
+  }
+  if (params?.make) {
+    search.set("make", params.make);
+  }
+  if (params?.model) {
+    search.set("model", params.model);
+  }
+  if (params?.status) {
+    search.set("status", params.status);
+  }
+
+  const suffix = search.size > 0 ? `?${search.toString()}` : "";
+  return request<ChassisSeedRow[]>(`/admin/chassis-seed${suffix}`);
+}
+
+export async function getChassisSeedById(seedId: string) {
+  return request<ChassisSeedRow>(`/admin/chassis-seed/${seedId}`);
+}
+
+export async function getAgentRuns(params?: {
+  chassis_seed_id?: string;
+}) {
+  const search = new URLSearchParams();
+
+  if (params?.chassis_seed_id) {
+    search.set("chassis_seed_id", params.chassis_seed_id);
+  }
+
+  const suffix = search.size > 0 ? `?${search.toString()}` : "";
+  return request<AgentRunRow[]>(`/admin/agent-runs${suffix}`);
+}
+
+export async function getProvenanceReport(carId: string) {
+  return request<ProvenanceReportRow>(`/cars/${carId}/provenance`);
 }
 
 export async function getBarchettaRequestDiagnostics(params?: {

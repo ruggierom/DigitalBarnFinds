@@ -5,7 +5,7 @@ from datetime import date
 from decimal import Decimal
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class DashboardSnapshot(BaseModel):
@@ -149,7 +149,7 @@ class ResponsePreview(BaseModel):
     attempted: bool
     status_code: int | None = None
     final_url: str | None = None
-    headers: list[RequestHeaderItem] = []
+    headers: list[RequestHeaderItem] = Field(default_factory=list)
     elapsed_ms: float | None = None
     content_type: str | None = None
     body_preview: str | None = None
@@ -166,7 +166,7 @@ class BarchettaRequestDiagnostics(BaseModel):
 class RequestLabInput(BaseModel):
     url: str
     method: str = "GET"
-    headers: dict[str, str] = {}
+    headers: dict[str, str] = Field(default_factory=dict)
     body: str | None = None
 
 
@@ -223,3 +223,175 @@ class EnrichmentRunResultItem(BaseModel):
     skipped_serial_mismatch: int
     cars: list[CarEnrichmentResultItem]
     errors: list[str]
+
+
+class VehicleModelWrite(BaseModel):
+    make: str
+    model: str
+    variant: str | None = None
+    sort_order: int | None = None
+    tier: str | None = None
+    units_built: int | None = None
+    est_value_low: int | None = None
+    est_value_high: int | None = None
+    us_delivery: bool = True
+    darkness_pct: int | None = None
+    seed_source: str | None = None
+    in_scope: bool = True
+    designated_by: str | None = None
+    notes: str | None = None
+
+
+class VehicleModelItem(VehicleModelWrite):
+    id: UUID
+    designated_at: datetime
+    created_at: datetime
+    updated_at: datetime
+
+
+class ChassisSeedWrite(BaseModel):
+    vehicle_model_id: UUID | None = None
+    chassis_number: str
+    engine_number: str | None = None
+    production_number: str | None = None
+    color_ext: str | None = None
+    color_int: str | None = None
+    delivery_date: date | None = None
+    dealer: str | None = None
+    destination_country: str | None = None
+    destination_region: str | None = None
+    us_spec: bool = False
+    split_sump: bool = False
+    ac_factory: bool = False
+    last_known_location: str | None = None
+    last_known_owner: str | None = None
+    dark_pct_est: int | None = None
+    notes: str | None = None
+    seed_source: str | None = None
+    seed_date: date | None = None
+    confidence: str = "probable"
+    status: str = "active"
+    car_id: UUID | None = None
+
+
+class ChassisSeedUpdate(BaseModel):
+    vehicle_model_id: UUID | None = None
+    chassis_number: str | None = None
+    engine_number: str | None = None
+    production_number: str | None = None
+    color_ext: str | None = None
+    color_int: str | None = None
+    delivery_date: date | None = None
+    dealer: str | None = None
+    destination_country: str | None = None
+    destination_region: str | None = None
+    us_spec: bool | None = None
+    split_sump: bool | None = None
+    ac_factory: bool | None = None
+    last_known_location: str | None = None
+    last_known_owner: str | None = None
+    dark_pct_est: int | None = None
+    notes: str | None = None
+    seed_source: str | None = None
+    seed_date: date | None = None
+    confidence: str | None = None
+    status: str | None = None
+    car_id: UUID | None = None
+
+
+class ChassisSeedItem(ChassisSeedWrite):
+    id: UUID
+    vehicle_make: str | None = None
+    vehicle_model: str | None = None
+    vehicle_variant: str | None = None
+    created_at: datetime
+    updated_at: datetime
+
+
+class ChassisSeedImportResultItem(BaseModel):
+    requested: int
+    imported: int
+    skipped_duplicates: int
+    errors: list[str]
+
+
+class ResearchJobRequest(BaseModel):
+    chassis_number: str | None = None
+    car_id: UUID | None = None
+    triggered_by: str = "manual"
+    triggered_by_user: str | None = None
+
+
+class AgentRunItem(BaseModel):
+    id: UUID
+    chassis_seed_id: UUID | None = None
+    car_id: UUID | None = None
+    chassis_number: str | None = None
+    serial_number: str | None = None
+    status: str
+    phases_completed: int
+    triggered_by: str | None = None
+    triggered_by_user: str | None = None
+    started_at: datetime
+    completed_at: datetime | None = None
+    error: str | None = None
+
+
+class ResearchJobAccepted(BaseModel):
+    run_id: UUID
+    status: str
+
+
+class ProvenanceContactItem(BaseModel):
+    id: UUID
+    priority: int
+    name: str | None = None
+    org: str | None = None
+    city: str | None = None
+    phone: str | None = None
+    email: str | None = None
+    rationale: str | None = None
+    target_chassis: str | None = None
+    contact_status: str
+    notes: str | None = None
+    created_at: datetime
+
+
+class DealerLookupWrite(BaseModel):
+    provenance_report_id: UUID
+    contact_id: UUID | None = None
+    outcome: str | None = None
+    notes: str | None = None
+
+
+class DealerLookupUpdate(BaseModel):
+    outcome: str | None = None
+    notes: str | None = None
+
+
+class DealerLookupItem(BaseModel):
+    id: UUID
+    provenance_report_id: UUID | None = None
+    contact_id: UUID | None = None
+    attempted_at: datetime
+    outcome: str | None = None
+    notes: str | None = None
+
+
+class ProvenanceReportItem(BaseModel):
+    id: UUID
+    agent_run_id: UUID | None = None
+    car_id: UUID | None = None
+    chassis_seed_id: UUID | None = None
+    summary: str | None = None
+    geo_region: str | None = None
+    last_known_location: str | None = None
+    estimated_value_usd: int | None = None
+    darkness_score: int | None = None
+    custody_chain: list[dict] = Field(default_factory=list)
+    recommended_actions: list[str] = Field(default_factory=list)
+    status: str
+    created_at: datetime
+    updated_at: datetime
+    contacts: list[ProvenanceContactItem] = Field(default_factory=list)
+    dealer_lookups: list[DealerLookupItem] = Field(default_factory=list)

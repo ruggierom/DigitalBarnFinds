@@ -1,0 +1,27 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "lp112",
+  "source_url": "https://www.lp112.com/Lamborghini/Detail.asp?Model=Countach&Version=LPI800-4&ChassisNumber=ZHWEA9ZD7NLA10702",
+  "description": "LP112 Countach LPI800-4 press car detail page",
+  "raw_html": "<html><head><title>Detail on 2021 Lamborghini Countach LPI800-4 ZHWEA9ZD7NLA10702</title><meta property=\"og:description\" content=\"LHD Bianco Sideris with Nero Ade &amp; Rosso Alala Leather interior\" /></head><body><p><font size=\"+3\">2021 LHD Countach LPI800-4</font></p><p>Chassis Number NLA10702 is this Bianco Sideris car with Nero Ade &amp; Rosso Alala Leather interior, .</p><p>Other Information: Press car shown at Monterey Car Week 2021.</p><p>Information on this car was sourced from Whit Lupoli.</p><p>The data on this specific vehicle was last updated 16-Aug-2021.</p><img src=\"https://www.lamborghinicarregister.com/images/cars/Countach/ZHWEA9ZD7NLA10702.jpg\" /><img src=\"https://www.lamborghinicarregister.com/images/cars/Countach/ZHWEA9ZD7NLA10702-1.jpg\" /><img src=\"https://www.lamborghinicarregister.com/images/cars/Countach/ZHWEA9ZD7NLA10702-2.jpg\" /></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "car": {
+      "serial_number": "ZHWEA9ZD7NLA10702",
+      "make": "Lamborghini",
+      "model": "Countach"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 3,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "day"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "fixture_type": "search_results",
+  "source_key": "lp112",
+  "source_url": "https://www.lp112.com/Lamborghini/Results.asp?Model=Countach&Version=LP400",
+  "description": "LP112 Countach LP400 search results page",
+  "raw_html": "<html><body><a href=\"/Lamborghini/Detail.asp?Model=Countach&Version=LP400&ChassisNumber=1120001\">#1120001</a><a href=\"/Lamborghini/Detail.asp?Model=Countach&Version=LP400&ChassisNumber=1120001\">#1120001</a><a href=\"/Lamborghini/Detail.asp?Model=Countach&Version=LP400&ChassisNumber=1120002\">#1120002</a><a href=\"/Lamborghini/Detail.asp?Model=Countach&Version=LP400&ChassisNumber=1120106\">#1120106</a></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "discovery_url_count": 3,
+    "discovery_urls": [
+      "https://www.lp112.com/Lamborghini/Detail.asp?Model=Countach&Version=LP400&ChassisNumber=1120001",
+      "https://www.lp112.com/Lamborghini/Detail.asp?Model=Countach&Version=LP400&ChassisNumber=1120002",
+      "https://www.lp112.com/Lamborghini/Detail.asp?Model=Countach&Version=LP400&ChassisNumber=1120106"
+    ]
+  }
+}

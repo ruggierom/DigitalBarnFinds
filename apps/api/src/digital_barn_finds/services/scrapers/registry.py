@@ -11,6 +11,7 @@ from digital_barn_finds.services.scrapers.base import BaseScraper
 from digital_barn_finds.services.scrapers.gooding import GoodingScraper
 from digital_barn_finds.services.scrapers.historics import HistoricsScraper
 from digital_barn_finds.services.scrapers.iconic import IconicScraper
+from digital_barn_finds.services.scrapers.lp112 import LP112Scraper
 from digital_barn_finds.services.scrapers.mecum import MecumScraper
 from digital_barn_finds.services.scrapers.osenat import OsenatScraper
 from digital_barn_finds.services.scrapers.rm_sothebys import RMSothebysScraper
@@ -27,6 +28,7 @@ SCRAPER_REGISTRY: dict[str, ScraperFactory] = {
     "gooding": GoodingScraper,
     "historics": HistoricsScraper,
     "iconic": IconicScraper,
+    "lp112": LP112Scraper,
     "mecum": MecumScraper,
     "osenat": OsenatScraper,
     "rm_sothebys": RMSothebysScraper,

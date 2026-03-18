@@ -225,6 +225,7 @@ def run_fetch_random(limit: int, scraper_key: str, ignore_without_images: bool) 
         print(
             f"Random fetch requested {result.requested}, discovered {result.discovered}, "
             f"imported {result.imported}, skipped {result.skipped_existing} existing, "
+            f"skipped {result.skipped_out_of_scope} out of scope, "
             f"skipped {result.skipped_without_images} without images."
         )
         print(f"Mode used: {result.mode_used}. Source: {result.source_name}.")

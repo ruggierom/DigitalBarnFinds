@@ -8,9 +8,10 @@ from datetime import date, datetime
 from io import BytesIO, StringIO
 from pathlib import Path
 from urllib.parse import quote, unquote, urljoin, urlparse
+import uuid
 
 import httpx
-from fastapi import Depends, FastAPI, HTTPException, Query, Request
+from fastapi import BackgroundTasks, Depends, FastAPI, File, HTTPException, Query, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from openpyxl import Workbook
@@ -22,14 +23,20 @@ from digital_barn_finds.database import get_db
 from digital_barn_finds.deps import require_admin_token
 from digital_barn_finds.models import (
     AppSetting,
+    AgentRun,
     Car,
     CarEvent,
     CarMedia,
     CarSource,
+    ChassisSeed,
     CustodyEvent,
+    DealerLookup,
     DarknessScore,
+    ProvenanceContact,
+    ProvenanceReport,
     ScrapeLog,
     Source,
+    VehicleModel,
     WatchlistEntry,
 )
 from digital_barn_finds.schemas import (
@@ -43,9 +50,21 @@ from digital_barn_finds.schemas import (
     ImportUrlResultItem,
     ResearchLinkItem,
     SearchCandidateItem,
+    AgentRunItem,
+    ChassisSeedImportResultItem,
+    ChassisSeedItem,
+    ChassisSeedUpdate,
+    ChassisSeedWrite,
     DashboardSnapshot,
+    DealerLookupItem,
+    DealerLookupUpdate,
+    DealerLookupWrite,
     BarchettaRequestDiagnostics,
     RegistryStats,
+    ProvenanceContactItem,
+    ProvenanceReportItem,
+    ResearchJobAccepted,
+    ResearchJobRequest,
     RequestLabInput,
     RequestLabResult,
     RequestHeaderItem,
@@ -54,15 +73,27 @@ from digital_barn_finds.schemas import (
     SettingItem,
     SettingUpdate,
     SourceSummary,
+    VehicleModelItem,
+    VehicleModelWrite,
     WatchlistItem,
     WatchlistUpdate,
 )
+from digital_barn_finds.services.chassis_seed_import import import_chassis_seed_rows, parse_csv_rows
 from digital_barn_finds.services.darkness import compute_scores
 from digital_barn_finds.services.enrichment import enrich_cars
 from digital_barn_finds.services.fetch_more import fetch_random_cars
 from digital_barn_finds.services.import_by_url import import_car_from_url
 from digital_barn_finds.services.media_backfill import cache_existing_media
 from digital_barn_finds.services.media_storage import read_blob_media
+from digital_barn_finds.services.research_agent import (
+    ResearchJobRequest as ResearchAgentJobRequest,
+    create_dealer_lookup,
+    enqueue_research_job,
+    get_latest_provenance_report_for_car,
+    list_agent_runs,
+    run_research_job,
+    update_dealer_lookup,
+)
 from digital_barn_finds.services.research import build_research_links
 from digital_barn_finds.services.reset_content import reset_content
 from digital_barn_finds.seed import seed_sources
@@ -818,6 +849,147 @@ def _clean_text(value: str | None) -> str | None:
     return cleaned or None
 
 
+def _vehicle_model_item(vehicle_model: VehicleModel) -> VehicleModelItem:
+    return VehicleModelItem(
+        id=vehicle_model.id,
+        make=vehicle_model.make,
+        model=vehicle_model.model,
+        variant=vehicle_model.variant,
+        sort_order=vehicle_model.sort_order,
+        tier=vehicle_model.tier,
+        units_built=vehicle_model.units_built,
+        est_value_low=vehicle_model.est_value_low,
+        est_value_high=vehicle_model.est_value_high,
+        us_delivery=vehicle_model.us_delivery,
+        darkness_pct=vehicle_model.darkness_pct,
+        seed_source=vehicle_model.seed_source,
+        in_scope=vehicle_model.in_scope,
+        designated_by=vehicle_model.designated_by,
+        designated_at=vehicle_model.designated_at,
+        notes=vehicle_model.notes,
+        created_at=vehicle_model.created_at,
+        updated_at=vehicle_model.updated_at,
+    )
+
+
+def _chassis_seed_item(seed: ChassisSeed) -> ChassisSeedItem:
+    vehicle_model = seed.vehicle_model
+    return ChassisSeedItem(
+        id=seed.id,
+        vehicle_model_id=seed.vehicle_model_id,
+        chassis_number=seed.chassis_number,
+        engine_number=seed.engine_number,
+        production_number=seed.production_number,
+        color_ext=seed.color_ext,
+        color_int=seed.color_int,
+        delivery_date=seed.delivery_date,
+        dealer=seed.dealer,
+        destination_country=seed.destination_country,
+        destination_region=seed.destination_region,
+        us_spec=seed.us_spec,
+        split_sump=seed.split_sump,
+        ac_factory=seed.ac_factory,
+        last_known_location=seed.last_known_location,
+        last_known_owner=seed.last_known_owner,
+        dark_pct_est=seed.dark_pct_est,
+        notes=seed.notes,
+        seed_source=seed.seed_source,
+        seed_date=seed.seed_date,
+        confidence=seed.confidence,
+        status=seed.status,
+        car_id=seed.car_id,
+        vehicle_make=vehicle_model.make if vehicle_model else None,
+        vehicle_model=vehicle_model.model if vehicle_model else None,
+        vehicle_variant=vehicle_model.variant if vehicle_model else None,
+        created_at=seed.created_at,
+        updated_at=seed.updated_at,
+    )
+
+
+def _decode_uploaded_text(raw_bytes: bytes) -> str:
+    for encoding in ("utf-8-sig", "utf-8", "latin-1"):
+        try:
+            return raw_bytes.decode(encoding)
+        except UnicodeDecodeError:
+            continue
+    raise HTTPException(status_code=400, detail="Unable to decode uploaded file as text.")
+
+
+def _parse_uuid(value: str) -> uuid.UUID:
+    try:
+        return uuid.UUID(str(value))
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Invalid identifier.") from exc
+
+
+def _agent_run_item(agent_run: AgentRun) -> AgentRunItem:
+    chassis_number = agent_run.chassis_seed.chassis_number if agent_run.chassis_seed else None
+    serial_number = agent_run.car.display_serial_number if agent_run.car else None
+    return AgentRunItem(
+        id=agent_run.id,
+        chassis_seed_id=agent_run.chassis_seed_id,
+        car_id=agent_run.car_id,
+        chassis_number=chassis_number,
+        serial_number=serial_number,
+        status=agent_run.status,
+        phases_completed=agent_run.phases_completed,
+        triggered_by=agent_run.triggered_by,
+        triggered_by_user=agent_run.triggered_by_user,
+        started_at=agent_run.started_at,
+        completed_at=agent_run.completed_at,
+        error=agent_run.error,
+    )
+
+
+def _provenance_contact_item(contact: ProvenanceContact) -> ProvenanceContactItem:
+    return ProvenanceContactItem(
+        id=contact.id,
+        priority=contact.priority,
+        name=contact.name,
+        org=contact.org,
+        city=contact.city,
+        phone=contact.phone,
+        email=contact.email,
+        rationale=contact.rationale,
+        target_chassis=contact.target_chassis,
+        contact_status=contact.contact_status,
+        notes=contact.notes,
+        created_at=contact.created_at,
+    )
+
+
+def _dealer_lookup_item(lookup: DealerLookup) -> DealerLookupItem:
+    return DealerLookupItem(
+        id=lookup.id,
+        provenance_report_id=lookup.provenance_report_id,
+        contact_id=lookup.contact_id,
+        attempted_at=lookup.attempted_at,
+        outcome=lookup.outcome,
+        notes=lookup.notes,
+    )
+
+
+def _provenance_report_item(report: ProvenanceReport, contacts: list[ProvenanceContact]) -> ProvenanceReportItem:
+    return ProvenanceReportItem(
+        id=report.id,
+        agent_run_id=report.agent_run_id,
+        car_id=report.car_id,
+        chassis_seed_id=report.chassis_seed_id,
+        summary=report.summary,
+        geo_region=report.geo_region,
+        last_known_location=report.last_known_location,
+        estimated_value_usd=report.estimated_value_usd,
+        darkness_score=report.darkness_score,
+        custody_chain=list(report.custody_chain or []),
+        recommended_actions=list(report.recommended_actions or []),
+        status=report.status,
+        created_at=report.created_at,
+        updated_at=report.updated_at,
+        contacts=[_provenance_contact_item(contact) for contact in contacts],
+        dealer_lookups=[_dealer_lookup_item(lookup) for lookup in report.dealer_lookups],
+    )
+
+
 def _resolve_last_seen_place(car: Car) -> tuple[str | None, str | None, str | None]:
     candidates: list[tuple[int, str, str | None, str | None, str | None]] = []
     fallback_country_code, fallback_country_name = _infer_country_from_sources(car)
@@ -1087,6 +1259,333 @@ def update_setting(
     )
 
 
+@app.get(
+    "/admin/vehicle-models",
+    response_model=list[VehicleModelItem],
+    dependencies=[Depends(require_admin_token)],
+)
+def list_vehicle_models(
+    make: str | None = Query(default=None),
+    model: str | None = Query(default=None),
+    in_scope: bool | None = Query(default=None),
+    db: Session = Depends(get_db),
+) -> list[VehicleModelItem]:
+    query = db.query(VehicleModel).order_by(
+        VehicleModel.sort_order.is_(None),
+        VehicleModel.sort_order.asc(),
+        VehicleModel.make.asc(),
+        VehicleModel.model.asc(),
+        VehicleModel.variant.asc(),
+    )
+    if make:
+        query = query.filter(VehicleModel.make.ilike(f"%{make.strip()}%"))
+    if model:
+        query = query.filter(
+            or_(
+                VehicleModel.model.ilike(f"%{model.strip()}%"),
+                VehicleModel.variant.ilike(f"%{model.strip()}%"),
+            )
+        )
+    if in_scope is not None:
+        query = query.filter(VehicleModel.in_scope.is_(in_scope))
+    return [_vehicle_model_item(vehicle_model) for vehicle_model in query.all()]
+
+
+@app.post(
+    "/admin/vehicle-models",
+    response_model=VehicleModelItem,
+    dependencies=[Depends(require_admin_token)],
+)
+def create_vehicle_model(
+    payload: VehicleModelWrite,
+    db: Session = Depends(get_db),
+) -> VehicleModelItem:
+    model_data = payload.model_dump()
+    if model_data.get("sort_order") is None:
+        highest_order = db.query(func.max(VehicleModel.sort_order)).scalar()
+        model_data["sort_order"] = 0 if highest_order is None else int(highest_order) + 1
+
+    vehicle_model = VehicleModel(**model_data)
+    db.add(vehicle_model)
+    db.commit()
+    db.refresh(vehicle_model)
+    return _vehicle_model_item(vehicle_model)
+
+
+@app.put(
+    "/admin/vehicle-models/{vehicle_model_id}",
+    response_model=VehicleModelItem,
+    dependencies=[Depends(require_admin_token)],
+)
+def update_vehicle_model(
+    vehicle_model_id: str,
+    payload: VehicleModelWrite,
+    db: Session = Depends(get_db),
+) -> VehicleModelItem:
+    vehicle_model = db.query(VehicleModel).filter(VehicleModel.id == _parse_uuid(vehicle_model_id)).one_or_none()
+    if vehicle_model is None:
+        raise HTTPException(status_code=404, detail="Vehicle model not found.")
+
+    for key, value in payload.model_dump().items():
+        setattr(vehicle_model, key, value)
+    db.commit()
+    db.refresh(vehicle_model)
+    return _vehicle_model_item(vehicle_model)
+
+
+@app.get(
+    "/admin/chassis-seed",
+    response_model=list[ChassisSeedItem],
+    dependencies=[Depends(require_admin_token)],
+)
+def list_chassis_seed(
+    vehicle_model_id: str | None = Query(default=None),
+    make: str | None = Query(default=None),
+    model: str | None = Query(default=None),
+    status: str | None = Query(default=None),
+    db: Session = Depends(get_db),
+) -> list[ChassisSeedItem]:
+    query = (
+        db.query(ChassisSeed)
+        .outerjoin(VehicleModel, VehicleModel.id == ChassisSeed.vehicle_model_id)
+        .order_by(ChassisSeed.chassis_number.asc())
+    )
+    if vehicle_model_id:
+        query = query.filter(ChassisSeed.vehicle_model_id == _parse_uuid(vehicle_model_id))
+    if make:
+        query = query.filter(VehicleModel.make.ilike(f"%{make.strip()}%"))
+    if model:
+        query = query.filter(
+            or_(
+                VehicleModel.model.ilike(f"%{model.strip()}%"),
+                VehicleModel.variant.ilike(f"%{model.strip()}%"),
+                ChassisSeed.chassis_number.ilike(f"%{model.strip()}%"),
+            )
+        )
+    if status:
+        query = query.filter(ChassisSeed.status.ilike(status.strip()))
+    return [_chassis_seed_item(seed) for seed in query.all()]
+
+
+@app.post(
+    "/admin/chassis-seed",
+    response_model=ChassisSeedItem,
+    dependencies=[Depends(require_admin_token)],
+)
+def create_chassis_seed(
+    payload: ChassisSeedWrite,
+    db: Session = Depends(get_db),
+) -> ChassisSeedItem:
+    existing = (
+        db.query(ChassisSeed)
+        .filter(ChassisSeed.chassis_number == payload.chassis_number)
+        .one_or_none()
+    )
+    if existing is not None:
+        raise HTTPException(status_code=409, detail="Chassis seed already exists.")
+
+    seed = ChassisSeed(**payload.model_dump())
+    db.add(seed)
+    db.commit()
+    db.refresh(seed)
+    return _chassis_seed_item(seed)
+
+
+@app.post(
+    "/admin/chassis-seed/import",
+    response_model=ChassisSeedImportResultItem,
+    dependencies=[Depends(require_admin_token)],
+)
+def import_chassis_seed(
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+) -> ChassisSeedImportResultItem:
+    raw_bytes = file.file.read()
+    if not raw_bytes:
+        raise HTTPException(status_code=400, detail="Upload a non-empty CSV file.")
+
+    rows = parse_csv_rows(_decode_uploaded_text(raw_bytes))
+    result = import_chassis_seed_rows(db, rows)
+    return ChassisSeedImportResultItem(
+        requested=result.requested,
+        imported=result.imported,
+        skipped_duplicates=result.skipped_duplicates,
+        errors=result.errors,
+    )
+
+
+@app.get(
+    "/admin/chassis-seed/{seed_id}",
+    response_model=ChassisSeedItem,
+    dependencies=[Depends(require_admin_token)],
+)
+def get_chassis_seed(
+    seed_id: str,
+    db: Session = Depends(get_db),
+) -> ChassisSeedItem:
+    seed = db.query(ChassisSeed).filter(ChassisSeed.id == _parse_uuid(seed_id)).one_or_none()
+    if seed is None:
+        raise HTTPException(status_code=404, detail="Chassis seed not found.")
+    return _chassis_seed_item(seed)
+
+
+@app.put(
+    "/admin/chassis-seed/{seed_id}",
+    response_model=ChassisSeedItem,
+    dependencies=[Depends(require_admin_token)],
+)
+def update_chassis_seed(
+    seed_id: str,
+    payload: ChassisSeedUpdate,
+    db: Session = Depends(get_db),
+) -> ChassisSeedItem:
+    seed = db.query(ChassisSeed).filter(ChassisSeed.id == _parse_uuid(seed_id)).one_or_none()
+    if seed is None:
+        raise HTTPException(status_code=404, detail="Chassis seed not found.")
+
+    updates = payload.model_dump(exclude_unset=True)
+    if "chassis_number" in updates and updates["chassis_number"]:
+        duplicate = (
+            db.query(ChassisSeed)
+            .filter(
+                ChassisSeed.chassis_number == updates["chassis_number"],
+                ChassisSeed.id != seed.id,
+            )
+            .one_or_none()
+        )
+        if duplicate is not None:
+            raise HTTPException(status_code=409, detail="Chassis number already exists.")
+
+    for key, value in updates.items():
+        setattr(seed, key, value)
+    db.commit()
+    db.refresh(seed)
+    return _chassis_seed_item(seed)
+
+
+@app.post(
+    "/admin/jobs/research",
+    response_model=ResearchJobAccepted,
+    dependencies=[Depends(require_admin_token)],
+)
+def start_research_job(
+    payload: ResearchJobRequest,
+    background_tasks: BackgroundTasks,
+) -> ResearchJobAccepted:
+    if payload.chassis_number is None and payload.car_id is None:
+        raise HTTPException(status_code=400, detail="Provide chassis_number or car_id.")
+
+    try:
+        agent_run = enqueue_research_job(
+            request=ResearchAgentJobRequest(
+                chassis_number=payload.chassis_number,
+                car_id=str(payload.car_id) if payload.car_id else None,
+                triggered_by=payload.triggered_by,
+                triggered_by_user=payload.triggered_by_user,
+            ),
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    background_tasks.add_task(run_research_job, str(agent_run.id))
+    return ResearchJobAccepted(run_id=agent_run.id, status=agent_run.status)
+
+
+@app.get(
+    "/admin/agent-runs",
+    response_model=list[AgentRunItem],
+    dependencies=[Depends(require_admin_token)],
+)
+def get_agent_runs(
+    chassis_seed_id: str | None = Query(default=None),
+    db: Session = Depends(get_db),
+) -> list[AgentRunItem]:
+    return [_agent_run_item(agent_run) for agent_run in list_agent_runs(db, chassis_seed_id=chassis_seed_id)]
+
+
+@app.get(
+    "/admin/agent-runs/{run_id}",
+    response_model=AgentRunItem,
+    dependencies=[Depends(require_admin_token)],
+)
+def get_agent_run(
+    run_id: str,
+    db: Session = Depends(get_db),
+) -> AgentRunItem:
+    agent_run = db.query(AgentRun).filter(AgentRun.id == _parse_uuid(run_id)).one_or_none()
+    if agent_run is None:
+        raise HTTPException(status_code=404, detail="Agent run not found.")
+    return _agent_run_item(agent_run)
+
+
+@app.get(
+    "/cars/{car_id}/provenance",
+    response_model=ProvenanceReportItem,
+    dependencies=[Depends(require_admin_token)],
+)
+def get_car_provenance(
+    car_id: str,
+    db: Session = Depends(get_db),
+) -> ProvenanceReportItem:
+    report = get_latest_provenance_report_for_car(db, car_id)
+    if report is None:
+        raise HTTPException(status_code=404, detail="No provenance report found for this car.")
+
+    contacts = (
+        db.query(ProvenanceContact)
+        .filter(ProvenanceContact.agent_run_id == report.agent_run_id)
+        .order_by(ProvenanceContact.priority.asc(), ProvenanceContact.created_at.asc())
+        .all()
+    )
+    return _provenance_report_item(report, contacts)
+
+
+@app.post(
+    "/admin/dealer-lookups",
+    response_model=DealerLookupItem,
+    dependencies=[Depends(require_admin_token)],
+)
+def create_dealer_lookup_entry(
+    payload: DealerLookupWrite,
+    db: Session = Depends(get_db),
+) -> DealerLookupItem:
+    report = db.query(ProvenanceReport).filter(ProvenanceReport.id == payload.provenance_report_id).one_or_none()
+    if report is None:
+        raise HTTPException(status_code=404, detail="Provenance report not found.")
+
+    lookup = create_dealer_lookup(
+        db,
+        provenance_report_id=str(payload.provenance_report_id),
+        contact_id=str(payload.contact_id) if payload.contact_id else None,
+        outcome=payload.outcome,
+        notes=payload.notes,
+    )
+    return _dealer_lookup_item(lookup)
+
+
+@app.put(
+    "/admin/dealer-lookups/{lookup_id}",
+    response_model=DealerLookupItem,
+    dependencies=[Depends(require_admin_token)],
+)
+def update_dealer_lookup_entry(
+    lookup_id: str,
+    payload: DealerLookupUpdate,
+    db: Session = Depends(get_db),
+) -> DealerLookupItem:
+    lookup = db.query(DealerLookup).filter(DealerLookup.id == _parse_uuid(lookup_id)).one_or_none()
+    if lookup is None:
+        raise HTTPException(status_code=404, detail="Dealer lookup not found.")
+
+    updated = update_dealer_lookup(
+        db,
+        lookup_id=lookup_id,
+        outcome=payload.outcome,
+        notes=payload.notes,
+    )
+    return _dealer_lookup_item(updated)
+
+
 @app.post("/admin/jobs/score", dependencies=[Depends(require_admin_token)])
 def run_scoring(db: Session = Depends(get_db)) -> dict[str, int]:
     processed = compute_scores(db)
@@ -1241,6 +1740,7 @@ def run_fetch_more(
         "discovered": result.discovered,
         "imported": result.imported,
         "skipped_existing": result.skipped_existing,
+        "skipped_out_of_scope": result.skipped_out_of_scope,
         "skipped_without_images": result.skipped_without_images,
         "source_name": result.source_name,
         "scraper_key": scraper_key,

@@ -1,0 +1,27 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "lp112",
+  "source_url": "https://www.lp112.com/Lamborghini/Detail.asp?Model=Countach&Version=LP400&ChassisNumber=1120106",
+  "description": "LP112 Countach LP400 chassis 1120106 detail page",
+  "raw_html": "<html><head><title>Detail on 1975 Lamborghini Countach LP400 1120106</title><meta property=\"og:description\" content=\"RHD Arancio with Beige Leather interior\" /></head><body><p><font size=\"+3\">1975 RHD Countach LP400</font></p><p>Chassis Number 1120106 is this Arancio car with Beige Leather interior, currently believed to be residing in Hertfordshire, UK.</p><p>It is fitted with engine number 1120106.</p><p>The vehicle appears in the following publications: Moreland Book, Dron Book.</p><p>It has the following modifications from the standard european model on offer at the time of manufacture: Restored at Portmans.</p><p>Other Information: Supplied new in the UK and retained in right-hand-drive form.</p><p>Information on this car was sourced from UK Countach Anniv. Launch / GrahamTurner.org.</p><p>The data on this specific vehicle was last updated 11-Jul-2022.</p><img src=\"https://www.lamborghinicarregister.com/images/cars/Countach/1120106a.jpg\" /><img src=\"https://www.lamborghinicarregister.com/images/cars/Countach/1120106b.jpg\" /></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "car": {
+      "serial_number": "1120106",
+      "make": "Lamborghini",
+      "model": "Countach"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 2,
+    "event_kinds": [
+      "event"
+    ],
+    "date_precisions": [
+      "day"
+    ]
+  }
+}
