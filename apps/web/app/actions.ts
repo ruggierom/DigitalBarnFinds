@@ -80,14 +80,25 @@ export async function updateSettingAction(formData: FormData) {
 
 export async function fetchMoreCarsAction(formData: FormData) {
   const limit = 5;
+  const scraperKey = String(formData.get("scraper_key") ?? "").trim();
 
-  const result = (await apiFetch(`/admin/jobs/fetch?limit=${encodeURIComponent(String(limit))}`, {
-    method: "POST"
-  })) as {
+  if (!scraperKey) {
+    redirect("/settings?fetch_errors=Choose%20a%20source%20before%20importing.");
+  }
+
+  const result = (await apiFetch(
+    `/admin/jobs/fetch?limit=${encodeURIComponent(String(limit))}&scraper_key=${encodeURIComponent(scraperKey)}`,
+    {
+      method: "POST"
+    }
+  )) as {
     requested: number;
     discovered: number;
     imported: number;
     skipped_existing: number;
+    skipped_out_of_scope: number;
+    skipped_without_images: number;
+    scraper_key: string;
     source_name: string;
     mode_used: string;
     errors: string[];
@@ -103,6 +114,7 @@ export async function fetchMoreCarsAction(formData: FormData) {
     fetch_discovered: String(result.discovered),
     fetch_imported: String(result.imported),
     fetch_skipped: String(result.skipped_existing),
+    fetch_scraper_key: result.scraper_key,
     fetch_mode: result.mode_used,
     fetch_source: result.source_name
   });

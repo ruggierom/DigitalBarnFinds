@@ -198,6 +198,16 @@ export type ProvenanceReportRow = {
   dealer_lookups: DealerLookupRow[];
 };
 
+export type SourceRow = {
+  id: string;
+  name: string;
+  base_url: string;
+  scraper_key: string;
+  enabled: boolean;
+  last_scraped_at: string | null;
+  last_status: string | null;
+};
+
 const apiBaseUrl = process.env.API_BASE_URL;
 const adminToken = process.env.API_ADMIN_TOKEN;
 
@@ -262,7 +272,7 @@ export async function getWatchlist() {
 }
 
 export async function getSources() {
-  return request<Array<Record<string, unknown>>>("/sources");
+  return request<SourceRow[]>("/sources");
 }
 
 export async function getSettings() {
