@@ -1,0 +1,14 @@
+{
+  "source_key": "classic",
+  "display_name": "Classic.com",
+  "fixtures": [
+    {
+      "file": "ferrari_dino_discovery.json",
+      "description": "Classic.com Ferrari Dino search results"
+    },
+    {
+      "file": "ferrari_dino_4250.json",
+      "description": "Classic.com 1972 Ferrari Dino 246 GTS VIN 4250 detail page"
+    }
+  ]
+}

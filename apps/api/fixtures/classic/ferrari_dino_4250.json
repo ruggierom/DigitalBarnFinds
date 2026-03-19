@@ -1,0 +1,24 @@
+{
+  "fixture_type": "detail_page",
+  "source_key": "classic",
+  "source_url": "https://www.classic.com/veh/1972-ferrari-dino-246-gts-4250-4VA2vDp",
+  "description": "Classic.com 1972 Ferrari Dino 246 GTS VIN 4250 detail page",
+  "raw_html": "<html><head><title>1972 Ferrari Dino 246 GTS VIN: 4250 - CLASSIC.COM</title><meta property=\"og:image\" content=\"https://images.classic.com/vehicles/hero.jpeg?w=1200&amp;h=676&amp;fit=crop\" /></head><body><div class=\"flex flex-col w-full\"><div class=\"flex flex-col md:flex-row justify-between\"><div class=\"flex flex-col justify-start items-start gap-x-8 gap-y-1 w-auto\"><h1 class=\"text-2xl md:text-3xl font-bold\">1972 Ferrari Dino 246 GTS</h1><div>VIN: 4250</div><div>visibility</div><div>167</div><div>View count is the number of times the vehicle detail page has been opened in the past thirty days.</div><div>bookmark_border</div><div>Save</div></div><div><div>For Sale</div><div class=\"text-xl font-medium text-black\">$488,991</div><div>by</div><a href=\"/dealer/spady-auto-group\">Spady Auto Group</a><div>verified</div><div>Verified Seller</div><div>Mar 19, 2026</div><div>Contact Seller</div></div></div><div class=\"flex flex-col md:flex-row gap-3 md:gap-4 bg-white border shadow md:bg-black md:border-0 md:shadow-none p-3 md:px-6 rounded md:items-center\"><div>Scottsdale, Arizona, USA</div><div>24,668 mi</div><div>Manual</div><div>LHD</div><div>Original &amp; Highly Original</div><div>30 Comps</div></div></div><div class=\"flex flex-col gap-8 my-8\"><div><div class=\"mb-4\"><h2 class=\"font-medium text-xl\">Specs</h2><p>Details about this vehicle - curated by our market specialists.</p></div><div><div>Year</div><div>1972</div><div>Make</div><div>Ferrari</div><div>Model Family</div><div>Dino 246</div><div>Model Generation</div><div>E-Series</div><div>Model Variant</div><div>GTS</div><div>Model Trim</div><div>-</div><div>Engine</div><div>2.4L V6 (Tipo 135CS)</div><div>Transmission</div><div>Manual</div><div>Drive Type</div><div>Rear Wheel Drive (RWD)</div><div>Originality</div><div>Original &amp; Highly Original</div><div>Mileage</div><div>24,668 mi</div><div>VIN</div><div>4250</div><div>Vehicle Type</div><div>Automobile</div><div>Body Style</div><div>Coupe</div><div>Doors</div><div>2 Doors</div><div>Driver Side</div><div>Left Hand Drive</div><div>Ext. Color Group</div><div>Red</div><div>Int. Color Group</div><div>Beige/Tan</div><div>SEE SPECS</div><div>See an error? Report it here</div></div></div></div><img src=\"https://images.classic.com/vehicles/hero.jpeg?w=1200&amp;h=676&amp;fit=crop\" /><img src=\"https://images.classic.com/vehicles/thumb-1.jpeg?ar=3:2&amp;w=300&amp;fit=crop\" /><img src=\"https://images.classic.com/vehicles/thumb-2.jpeg?ar=3:2&amp;w=300&amp;fit=crop\" /><img src=\"https://images.classic.com/uploads/dealer/Spady_Auto_Group.png\" alt=\"Spady Auto Group\" /></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "car": {
+      "serial_number": "4250",
+      "make": "Ferrari",
+      "model": "Dino 246"
+    },
+    "custody_event_count": 0,
+    "car_event_count": 1,
+    "media_count_min": 3,
+    "event_kinds": [
+      "event"
+    ]
+  }
+}

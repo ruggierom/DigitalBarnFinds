@@ -1,0 +1,14 @@
+{
+  "fixture_type": "search_results",
+  "source_key": "classic",
+  "source_url": "https://www.classic.com/search?q=ferrari+dino",
+  "description": "Classic.com Ferrari Dino search results",
+  "raw_html": "<html><body><a href=\"/veh/1972-ferrari-dino-246-gts-4250-4VA2vDp\">1972 Ferrari Dino 246 GTS</a><a href=\"/veh/1973-ferrari-dino-246-gts-06210-4RDaNVn/\">1973 Ferrari Dino 246 GTS</a></body></html>",
+  "raw_json": null,
+  "raw_xml": null,
+  "auxiliary_payloads": [],
+  "metadata": {},
+  "expected": {
+    "discovery_url_count": 2
+  }
+}

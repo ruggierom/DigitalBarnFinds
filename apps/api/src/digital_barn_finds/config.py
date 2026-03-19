@@ -195,6 +195,25 @@ class Settings(BaseSettings):
     barchetta_request_timeout_seconds: float = 20.0
     barchetta_max_attempts: int = 2
     barchetta_max_media_per_car: int = 60
+    classic_base_url: str = "https://www.classic.com"
+    classic_discovery_paths: str = (
+        "/m/ferrari/dino/246-gts/,"
+        "/m/ferrari/275/gtb4/,"
+        "/m/ferrari/daytona/365-gtb4/,"
+        "/m/lamborghini/miura/p400/,"
+        "/m/lamborghini/miura/p400s/,"
+        "/m/lamborghini/miura/p400sv/,"
+        "/m/lamborghini/countach/lp400/"
+    )
+    classic_fallback_detail_urls: str = (
+        "https://www.classic.com/veh/1972-ferrari-dino-246-gts-4250-4VA2vDp,"
+        "https://www.classic.com/veh/1973-ferrari-dino-246-gts-06210-4RDaNVn,"
+        "https://www.classic.com/veh/1972-ferrari-dino-246-gts-03980-Z4X6D8n,"
+        "https://www.classic.com/veh/1971-ferrari-dino-246-gt-02234-4l01Xyn,"
+        "https://www.classic.com/veh/1972-ferrari-dino-246-gts-03476-RpM2gA4"
+    )
+    classic_request_timeout_seconds: float = 30.0
+    classic_max_attempts: int = 2
     request_lab_allowed_hosts: str = "localhost,127.0.0.1"
 
     @property
@@ -215,6 +234,10 @@ class Settings(BaseSettings):
     @property
     def barchetta_seed_paths(self) -> list[str]:
         return [path.strip() for path in self.barchetta_discovery_paths.split(",") if path.strip()]
+
+    @property
+    def classic_seed_paths(self) -> list[str]:
+        return [path.strip() for path in self.classic_discovery_paths.split(",") if path.strip()]
 
     @property
     def aguttes_seed_paths(self) -> list[str]:
@@ -299,6 +322,10 @@ class Settings(BaseSettings):
     @property
     def barchetta_fallback_urls(self) -> list[str]:
         return [url.strip() for url in self.barchetta_fallback_detail_urls.split(",") if url.strip()]
+
+    @property
+    def classic_fallback_urls(self) -> list[str]:
+        return [url.strip() for url in self.classic_fallback_detail_urls.split(",") if url.strip()]
 
     @property
     def allowed_request_lab_hosts(self) -> list[str]:
