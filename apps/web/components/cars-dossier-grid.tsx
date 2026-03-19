@@ -8,6 +8,8 @@ type CarsDossierGridProps = {
 };
 
 const statusOptions = ["candidate", "researching", "contacted", "acquired", "dropped"];
+const SOURCE_PREVIEW_COUNT = 3;
+const TIMELINE_PREVIEW_COUNT = 5;
 
 export function CarsDossierGrid({ rows }: CarsDossierGridProps) {
   return (
@@ -15,6 +17,10 @@ export function CarsDossierGrid({ rows }: CarsDossierGridProps) {
       {rows.map((row) => {
         const lastSeenFlag = countryFlagEmoji(row.last_seen_country_code);
         const lastSeenPlace = formatLastSeenPlace(row);
+        const previewSources = row.sources.slice(0, SOURCE_PREVIEW_COUNT);
+        const hiddenSourcesCount = Math.max(0, row.sources.length - previewSources.length);
+        const previewTimeline = row.timeline.slice(0, TIMELINE_PREVIEW_COUNT);
+        const hiddenTimelineCount = Math.max(0, row.timeline.length - previewTimeline.length);
 
         return (
           <article className="dossier-card" key={row.id}>
@@ -100,7 +106,7 @@ export function CarsDossierGrid({ rows }: CarsDossierGridProps) {
               <section className="dossier-panel">
                 <h3 className="dossier-panel__title">Source pages</h3>
                 <div className="source-stack">
-                  {row.sources.map((source) => (
+                  {previewSources.map((source) => (
                     <a
                       className="source-link"
                       href={source.source_url}
@@ -116,6 +122,9 @@ export function CarsDossierGrid({ rows }: CarsDossierGridProps) {
                     </a>
                   ))}
                 </div>
+                {hiddenSourcesCount > 0 ? (
+                  <p className="panel-copy">Showing the latest {previewSources.length} of {row.sources.length} sources.</p>
+                ) : null}
               </section>
             </div>
 
@@ -164,8 +173,11 @@ export function CarsDossierGrid({ rows }: CarsDossierGridProps) {
                 <h3 className="dossier-panel__title">Timeline</h3>
                 <span className="panel-count">{row.timeline.length} entries</span>
               </div>
+              {hiddenTimelineCount > 0 ? (
+                <p className="panel-copy">Showing the most recent {previewTimeline.length} entries first.</p>
+              ) : null}
               <div className="timeline-list">
-                {row.timeline.map((item, index) => (
+                {previewTimeline.map((item, index) => (
                   <div className="timeline-item" key={`${row.id}-${item.kind}-${index}`}>
                     <div className="timeline-item__date">{item.event_date_label}</div>
                     <div className="timeline-item__body">

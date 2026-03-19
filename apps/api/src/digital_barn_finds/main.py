@@ -16,7 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from openpyxl import Workbook
 from sqlalchemy import Float, String, case, cast, func, literal, or_
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload, selectinload
 
 from digital_barn_finds.config import get_settings
 from digital_barn_finds.database import get_db
@@ -530,7 +530,18 @@ def _run_car_query(
 ) -> list[Car]:
     dialect_name = db.bind.dialect.name if db.bind is not None else ""
     search_text = _normalize_search_text(q or query)
-    car_query = db.query(Car).outerjoin(DarknessScore)
+    car_query = (
+        db.query(Car)
+        .outerjoin(DarknessScore)
+        .options(
+            joinedload(Car.darkness_score),
+            joinedload(Car.watchlist_entry),
+            selectinload(Car.sources).joinedload(CarSource.source),
+            selectinload(Car.media_items),
+            selectinload(Car.custody_events),
+            selectinload(Car.car_events),
+        )
+    )
 
     if make:
         car_query = car_query.filter(func.lower(Car.make).like(f"%{make.strip().lower()}%"))
@@ -1138,7 +1149,13 @@ def _normalize_country_text(value: str | None) -> str:
 
 @app.get("/watchlist", response_model=list[WatchlistItem], dependencies=[Depends(require_admin_token)])
 def get_watchlist(db: Session = Depends(get_db)) -> list[WatchlistItem]:
-    entries = db.query(WatchlistEntry).join(Car).order_by(WatchlistEntry.priority.asc()).all()
+    entries = (
+        db.query(WatchlistEntry)
+        .options(joinedload(WatchlistEntry.car).joinedload(Car.darkness_score))
+        .join(Car)
+        .order_by(WatchlistEntry.priority.asc())
+        .all()
+    )
     return [
         WatchlistItem(
             car_id=entry.car_id,

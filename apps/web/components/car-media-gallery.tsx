@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import type { CarRow } from "@/lib/api";
 
@@ -27,29 +27,9 @@ const sizeBoostTokens = ["large", "full", "original", "hires", "hero", "xl", "xl
 
 export function CarMediaGallery({ serialNumber, sources, media }: CarMediaGalleryProps) {
   const [failedUrls, setFailedUrls] = useState<string[]>([]);
-  const [leadIndex, setLeadIndex] = useState(0);
   const rankedMedia = rankMedia(media).filter((item) => !failedUrls.includes(item.url));
-  const normalizedLeadIndex = rankedMedia.length > 0 ? leadIndex % rankedMedia.length : 0;
-  const leadMedia = rankedMedia[normalizedLeadIndex];
-  const galleryMedia = rankedMedia.filter((_, index) => index !== normalizedLeadIndex);
-
-  useEffect(() => {
-    if (rankedMedia.length <= 1) {
-      return;
-    }
-
-    const timer = window.setInterval(() => {
-      setLeadIndex((current) => (current + 1) % rankedMedia.length);
-    }, 4200);
-
-    return () => window.clearInterval(timer);
-  }, [rankedMedia.length]);
-
-  useEffect(() => {
-    if (normalizedLeadIndex >= rankedMedia.length) {
-      setLeadIndex(0);
-    }
-  }, [normalizedLeadIndex, rankedMedia.length]);
+  const leadMedia = rankedMedia[0];
+  const galleryMedia = rankedMedia.slice(1, 4);
 
   if (!leadMedia) {
     return (

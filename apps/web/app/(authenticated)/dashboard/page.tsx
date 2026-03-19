@@ -1,4 +1,3 @@
-import { RouteAutoRefresh } from "@/components/cars-auto-refresh";
 import { DashboardMetrics } from "@/components/dashboard-metrics";
 import { DataTable } from "@/components/data-table";
 import { PageHeader } from "@/components/page-header";
@@ -14,7 +13,6 @@ export default async function DashboardPage() {
 
   return (
     <>
-      <RouteAutoRefresh />
       <PageHeader
         eyebrow="Dashboard"
         title="Research dashboard"

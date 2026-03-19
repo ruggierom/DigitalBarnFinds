@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { CarsAutoRefresh } from "@/components/cars-auto-refresh";
 import { CarsDataTable } from "@/components/cars-data-table";
 import { CarsDossierGrid } from "@/components/cars-dossier-grid";
 import { CarsViewSwitcher } from "@/components/cars-view-switcher";
@@ -227,7 +226,6 @@ export default async function CarsPage({
 
   return (
     <>
-      <CarsAutoRefresh />
       {isSearchMode ? (
         <section className="car-search car-search--spotlight">
           <PageHeader
