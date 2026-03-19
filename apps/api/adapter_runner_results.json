@@ -1,0 +1,3359 @@
+{
+  "run_at": "2026-03-17T13:42:47Z",
+  "pass": true,
+  "adapters": [
+    {
+      "source_key": "aguttes",
+      "display_name": "Aguttes Automobiles",
+      "pass": true,
+      "layers": {
+        "contract": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key present"
+            },
+            {
+              "pass": true,
+              "message": "manifest is AdapterManifest"
+            },
+            {
+              "pass": true,
+              "message": "crawl() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_discovery_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_detail_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_record_fixture() callable"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "manifest": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key = 'aguttes'"
+            },
+            {
+              "pass": true,
+              "message": "display_name = 'Aguttes Automobiles'"
+            },
+            {
+              "pass": true,
+              "message": "base_url = 'https://www.aguttes.com'"
+            },
+            {
+              "pass": true,
+              "message": "supported_detail_fixture_types = ['detail_page']"
+            },
+            {
+              "pass": true,
+              "message": "supported_discovery_fixture_types = ['search_results']"
+            },
+            {
+              "pass": true,
+              "message": "language = 'fr'"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "fixtures": {
+          "pass": true,
+          "fixtures": [
+            {
+              "file": "catalog_134922_sample.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/aguttes/catalog_134922_sample.json",
+              "description": "Aguttes catalog 134922 discovery sample",
+              "pass": true,
+              "assertions": 4,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "discovery returned 3 URLs"
+                },
+                {
+                  "pass": true,
+                  "message": "all discovery URLs are absolute"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_url_count match (got 3, expected 3)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_urls match (got ['https://www.aguttes.com/lot/134922/21965278-2020-harrington-daytona-junior-vehicule-thermique-pour', 'https://www.aguttes.com/lot/134922/21966490-1990-mini-1000-special-carte-grise-francaise-chassis-ndeg', 'https://www.aguttes.com/lot/134922/21969237-1953-jaguar-xk-120-cabriolet-carte-grise-francaise-chassis'], expected ['https://www.aguttes.com/lot/134922/21965278-2020-harrington-daytona-junior-vehicule-thermique-pour', 'https://www.aguttes.com/lot/134922/21966490-1990-mini-1000-special-carte-grise-francaise-chassis-ndeg', 'https://www.aguttes.com/lot/134922/21969237-1953-jaguar-xk-120-cabriolet-carte-grise-francaise-chassis'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "discovery_urls": 3
+              }
+            },
+            {
+              "file": "lot_24510161.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/aguttes/lot_24510161.json",
+              "description": "Aguttes lot 24510161 Alfa Romeo Brera Spider",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = '939EXB1138'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Alfa Romeo'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = 'Brera Spider'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://www.aguttes.com/lot/147038/24510161'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (5 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got '939EXB1138', expected '939EXB1138')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Alfa Romeo', expected 'Alfa Romeo')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got 'Brera Spider', expected 'Brera Spider')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 5, expected >= 5)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day'], expected ['day'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "939EXB1138",
+                "make": "Alfa Romeo",
+                "model": "Brera Spider",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 5
+              }
+            },
+            {
+              "file": "lot_21969237.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/aguttes/lot_21969237.json",
+              "description": "Aguttes lot 21969237 Jaguar XK 120 Cabriolet",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = '678004'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Jaguar'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = 'XK 120 Cabriolet'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://www.aguttes.com/lot/134922/21969237-1953-jaguar-xk-120-cabriolet-carte-grise-francaise-chassis'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (8 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got '678004', expected '678004')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Jaguar', expected 'Jaguar')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got 'XK 120 Cabriolet', expected 'XK 120 Cabriolet')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 8, expected >= 8)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day'], expected ['day'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "678004",
+                "make": "Jaguar",
+                "model": "XK 120 Cabriolet",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 8
+              }
+            }
+          ],
+          "assertions": 42,
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "live": {
+          "skipped": true,
+          "warnings": [],
+          "infos": [],
+          "note": "use --live to enable; results are warnings only"
+        }
+      }
+    },
+    {
+      "source_key": "artcurial",
+      "display_name": "Artcurial Motorcars",
+      "pass": true,
+      "layers": {
+        "contract": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key present"
+            },
+            {
+              "pass": true,
+              "message": "manifest is AdapterManifest"
+            },
+            {
+              "pass": true,
+              "message": "crawl() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_discovery_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_detail_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_record_fixture() callable"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "manifest": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key = 'artcurial'"
+            },
+            {
+              "pass": true,
+              "message": "display_name = 'Artcurial Motorcars'"
+            },
+            {
+              "pass": true,
+              "message": "base_url = 'https://www.artcurial.com'"
+            },
+            {
+              "pass": true,
+              "message": "supported_detail_fixture_types = ['detail_page']"
+            },
+            {
+              "pass": true,
+              "message": "supported_discovery_fixture_types = ['search_results']"
+            },
+            {
+              "pass": true,
+              "message": "language = 'en'"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "fixtures": {
+          "pass": true,
+          "fixtures": [
+            {
+              "file": "sale_6144_discovery.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/artcurial/sale_6144_discovery.json",
+              "description": "Artcurial sale 6144 discovery page",
+              "pass": true,
+              "assertions": 4,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "discovery returned 20 URLs"
+                },
+                {
+                  "pass": true,
+                  "message": "all discovery URLs are absolute"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_url_count match (got 20, expected 20)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_urls match (got ['https://www.artcurial.com/en/sales/6144/lots/1-a', 'https://www.artcurial.com/en/sales/6144/lots/11-a', 'https://www.artcurial.com/en/sales/6144/lots/12-a', 'https://www.artcurial.com/en/sales/6144/lots/13-a', 'https://www.artcurial.com/en/sales/6144/lots/14-a', 'https://www.artcurial.com/en/sales/6144/lots/16-a', 'https://www.artcurial.com/en/sales/6144/lots/17-a', 'https://www.artcurial.com/en/sales/6144/lots/18-a', 'https://www.artcurial.com/en/sales/6144/lots/19-a', 'https://www.artcurial.com/en/sales/6144/lots/2-a', 'https://www.artcurial.com/en/sales/6144/lots/20-a', 'https://www.artcurial.com/en/sales/6144/lots/21-a', 'https://www.artcurial.com/en/sales/6144/lots/22-a', 'https://www.artcurial.com/en/sales/6144/lots/3-a', 'https://www.artcurial.com/en/sales/6144/lots/4-a', 'https://www.artcurial.com/en/sales/6144/lots/5-a', 'https://www.artcurial.com/en/sales/6144/lots/6-a', 'https://www.artcurial.com/en/sales/6144/lots/7-a', 'https://www.artcurial.com/en/sales/6144/lots/8-a', 'https://www.artcurial.com/en/sales/6144/lots/9-a'], expected ['https://www.artcurial.com/en/sales/6144/lots/1-a', 'https://www.artcurial.com/en/sales/6144/lots/11-a', 'https://www.artcurial.com/en/sales/6144/lots/12-a', 'https://www.artcurial.com/en/sales/6144/lots/13-a', 'https://www.artcurial.com/en/sales/6144/lots/14-a', 'https://www.artcurial.com/en/sales/6144/lots/16-a', 'https://www.artcurial.com/en/sales/6144/lots/17-a', 'https://www.artcurial.com/en/sales/6144/lots/18-a', 'https://www.artcurial.com/en/sales/6144/lots/19-a', 'https://www.artcurial.com/en/sales/6144/lots/2-a', 'https://www.artcurial.com/en/sales/6144/lots/20-a', 'https://www.artcurial.com/en/sales/6144/lots/21-a', 'https://www.artcurial.com/en/sales/6144/lots/22-a', 'https://www.artcurial.com/en/sales/6144/lots/3-a', 'https://www.artcurial.com/en/sales/6144/lots/4-a', 'https://www.artcurial.com/en/sales/6144/lots/5-a', 'https://www.artcurial.com/en/sales/6144/lots/6-a', 'https://www.artcurial.com/en/sales/6144/lots/7-a', 'https://www.artcurial.com/en/sales/6144/lots/8-a', 'https://www.artcurial.com/en/sales/6144/lots/9-a'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "discovery_urls": 20
+              }
+            },
+            {
+              "file": "lot_1a.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/artcurial/lot_1a.json",
+              "description": "Artcurial lot 1-a Velam Isetta",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = '102386'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Velam'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = 'Isetta'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://www.artcurial.com/en/sales/6144/lots/1-a'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (39 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got '102386', expected '102386')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Velam', expected 'Velam')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got 'Isetta', expected 'Isetta')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 39, expected >= 39)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['year'], expected ['year'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "102386",
+                "make": "Velam",
+                "model": "Isetta",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 39
+              }
+            },
+            {
+              "file": "lot_310a.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/artcurial/lot_310a.json",
+              "description": "Artcurial lot 310-a Bugatti Type 51",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = '51154'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Bugatti'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = 'Type 51 Grand Prix Usine'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://www.artcurial.com/en/sales/6144/lots/310-a'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (68 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got '51154', expected '51154')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Bugatti', expected 'Bugatti')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got 'Type 51 Grand Prix Usine', expected 'Type 51 Grand Prix Usine')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 68, expected >= 68)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['year'], expected ['year'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "51154",
+                "make": "Bugatti",
+                "model": "Type 51 Grand Prix Usine",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 68
+              }
+            }
+          ],
+          "assertions": 42,
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "live": {
+          "skipped": true,
+          "warnings": [],
+          "infos": [],
+          "note": "use --live to enable; results are warnings only"
+        }
+      }
+    },
+    {
+      "source_key": "barchetta",
+      "display_name": "Barchetta.cc",
+      "pass": true,
+      "layers": {
+        "contract": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key present"
+            },
+            {
+              "pass": true,
+              "message": "manifest is AdapterManifest"
+            },
+            {
+              "pass": true,
+              "message": "crawl() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_discovery_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_detail_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_record_fixture() callable"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "manifest": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key = 'barchetta'"
+            },
+            {
+              "pass": true,
+              "message": "display_name = 'Barchetta.cc'"
+            },
+            {
+              "pass": true,
+              "message": "base_url = 'http://www.barchetta.cc'"
+            },
+            {
+              "pass": true,
+              "message": "supported_detail_fixture_types = ['detail_page']"
+            },
+            {
+              "pass": true,
+              "message": "supported_discovery_fixture_types = ['search_results']"
+            },
+            {
+              "pass": true,
+              "message": "language = 'en'"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "fixtures": {
+          "pass": true,
+          "fixtures": [
+            {
+              "file": "0465GT.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/barchetta/0465GT.json",
+              "description": "Ferrari 250 GT PF Coupe Speciale 0465GT",
+              "pass": true,
+              "assertions": 20,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = '0465GT'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Ferrari'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = '250 GT PF Coup\u00e9 Speciale, LHD with 410 Superamerica bodywork'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'http://www.barchetta.cc/english/All.Ferraris/Detail/0465GT.250GT.PF.Coupe.htm'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (60 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (0 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got '0465GT', expected '0465GT')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Ferrari', expected 'Ferrari')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got '250 GT PF Coup\u00e9 Speciale, LHD with 410 Superamerica bodywork', expected '250 GT PF Coup\u00e9 Speciale, LHD with 410 Superamerica bodywork')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 17, expected 17)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 43, expected 43)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 0, expected >= 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.first_custody_owner match (got 'Ing. Emanuele Nasi, Fiat director, Torino, I', expected 'Ing. Emanuele Nasi, Fiat director, Torino, I')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['custody', 'event'], expected ['custody', 'event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day', 'decade', 'month', 'unknown', 'year'], expected ['day', 'decade', 'month', 'unknown', 'year'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [
+                "media count is 0"
+              ],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "0465GT",
+                "make": "Ferrari",
+                "model": "250 GT PF Coup\u00e9 Speciale, LHD with 410 Superamerica bodywork",
+                "custody_events": 17,
+                "car_events": 43,
+                "media": 0
+              }
+            },
+            {
+              "file": "3909GT.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/barchetta/3909GT.json",
+              "description": "Ferrari 250 GTO 3909GT",
+              "pass": true,
+              "assertions": 23,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = '3909GT'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Ferrari'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = '250 GTO'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'http://www.barchetta.cc/english/all.ferraris/Detail/3909GT.250GTO.htm'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (52 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (1 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got '3909GT', expected '3909GT')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Ferrari', expected 'Ferrari')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got '250 GTO', expected '250 GTO')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.year_built match (got 1962, expected 1962)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.build_date match (got '1962-09-10', expected '1962-09-10')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.drive_side match (got 'LHD', expected 'LHD')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 51, expected 51)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 1, expected >= 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.first_custody_owner match (got 'David Morrison, UK Trade in 300 LMB at \u00a31,300,000 + cash, total \u00a32,500,000', expected 'David Morrison, UK Trade in 300 LMB at \u00a31,300,000 + cash, total \u00a32,500,000')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['custody', 'event'], expected ['custody', 'event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day', 'month', 'year'], expected ['day', 'month', 'year'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "3909GT",
+                "make": "Ferrari",
+                "model": "250 GTO",
+                "custody_events": 1,
+                "car_events": 51,
+                "media": 1
+              }
+            },
+            {
+              "file": "0513GT.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/barchetta/0513GT.json",
+              "description": "Ferrari 250 GT TdF 0513GT",
+              "pass": true,
+              "assertions": 20,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = '0513GT'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Ferrari'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = '250 GT LWB Berlinetta Scaglietti TdF, all alloy'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'http://www.barchetta.cc/english/All.Ferraris/Detail/0513GT.250GT.TdF.htm'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (23 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (0 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got '0513GT', expected '0513GT')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Ferrari', expected 'Ferrari')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got '250 GT LWB Berlinetta Scaglietti TdF, all alloy', expected '250 GT LWB Berlinetta Scaglietti TdF, all alloy')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 9, expected 9)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 14, expected 14)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 0, expected >= 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.first_custody_owner match (got 'renumbered from 0439GT', expected 'renumbered from 0439GT')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['custody', 'event'], expected ['custody', 'event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day', 'decade', 'unknown', 'year'], expected ['day', 'decade', 'unknown', 'year'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [
+                "media count is 0"
+              ],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "0513GT",
+                "make": "Ferrari",
+                "model": "250 GT LWB Berlinetta Scaglietti TdF, all alloy",
+                "custody_events": 9,
+                "car_events": 14,
+                "media": 0
+              }
+            },
+            {
+              "file": "discovery_sample.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/barchetta/discovery_sample.json",
+              "description": "Barchetta discovery sample with mixed link formats",
+              "pass": true,
+              "assertions": 4,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "discovery returned 3 URLs"
+                },
+                {
+                  "pass": true,
+                  "message": "all discovery URLs are absolute"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_url_count match (got 3, expected 3)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_urls match (got ['http://www.barchetta.cc/english/All.Ferraris/Detail/0465GT.250GT.PF.Coupe.htm', 'http://www.barchetta.cc/english/all.ferraris/Detail/3909GT.250GTO.htm', 'http://www.barchetta.cc/english/All.Ferraris/Detail/0513GT.250GT.TdF.htm'], expected ['http://www.barchetta.cc/english/All.Ferraris/Detail/0465GT.250GT.PF.Coupe.htm', 'http://www.barchetta.cc/english/all.ferraris/Detail/3909GT.250GTO.htm', 'http://www.barchetta.cc/english/All.Ferraris/Detail/0513GT.250GT.TdF.htm'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "discovery_urls": 3
+              }
+            },
+            {
+              "file": "9999GT_aux_media.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/barchetta/9999GT_aux_media.json",
+              "description": "Minimal Barchetta detail fixture with auxiliary media payloads",
+              "pass": true,
+              "assertions": 24,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = '9999GT'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Ferrari'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = '250 GT Interim'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'http://www.barchetta.cc/english/All.Ferraris/Detail/9999GT.250GT.Test.htm'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (3 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (3 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got '9999GT', expected '9999GT')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Ferrari', expected 'Ferrari')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got '250 GT Interim', expected '250 GT Interim')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.year_built match (got 1961, expected 1961)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.build_date match (got '1961-08-15', expected '1961-08-15')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.drive_side match (got 'RHD', expected 'RHD')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.original_color match (got 'Rosso Cina', expected 'Rosso Cina')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 2, expected 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 3, expected >= 3)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.first_custody_owner match (got 'Example Owner, London, UK', expected 'Example Owner, London, UK')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['custody', 'event'], expected ['custody', 'event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day', 'year'], expected ['day', 'year'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "9999GT",
+                "make": "Ferrari",
+                "model": "250 GT Interim",
+                "custody_events": 1,
+                "car_events": 2,
+                "media": 3
+              }
+            }
+          ],
+          "assertions": 91,
+          "failures": [],
+          "warnings": [
+            "media count is 0",
+            "media count is 0"
+          ],
+          "infos": []
+        },
+        "live": {
+          "skipped": true,
+          "warnings": [],
+          "infos": [],
+          "note": "use --live to enable; results are warnings only"
+        }
+      }
+    },
+    {
+      "source_key": "bat",
+      "display_name": "Bring a Trailer",
+      "pass": true,
+      "layers": {
+        "contract": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key present"
+            },
+            {
+              "pass": true,
+              "message": "manifest is AdapterManifest"
+            },
+            {
+              "pass": true,
+              "message": "crawl() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_discovery_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_detail_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_record_fixture() callable"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "manifest": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key = 'bat'"
+            },
+            {
+              "pass": true,
+              "message": "display_name = 'Bring a Trailer'"
+            },
+            {
+              "pass": true,
+              "message": "base_url = 'https://bringatrailer.com'"
+            },
+            {
+              "pass": true,
+              "message": "supported_detail_fixture_types = ['detail_page']"
+            },
+            {
+              "pass": true,
+              "message": "supported_discovery_fixture_types = ['search_results']"
+            },
+            {
+              "pass": true,
+              "message": "language = 'en'"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "fixtures": {
+          "pass": true,
+          "fixtures": [
+            {
+              "file": "results_ferrari_348.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/bat/results_ferrari_348.json",
+              "description": "BaT results discovery sample",
+              "pass": true,
+              "assertions": 4,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "discovery returned 3 URLs"
+                },
+                {
+                  "pass": true,
+                  "message": "all discovery URLs are absolute"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_url_count match (got 3, expected 3)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_urls match (got ['https://bringatrailer.com/listing/1991-ferrari-348-27/', 'https://bringatrailer.com/listing/1994-ferrari-348-38/', 'https://bringatrailer.com/listing/2006-ferrari-f430-spider-24/'], expected ['https://bringatrailer.com/listing/1991-ferrari-348-27/', 'https://bringatrailer.com/listing/1994-ferrari-348-38/', 'https://bringatrailer.com/listing/2006-ferrari-f430-spider-24/'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "discovery_urls": 3
+              }
+            },
+            {
+              "file": "lot_1991_348_ts.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/bat/lot_1991_348_ts.json",
+              "description": "BaT Ferrari 348 TS lot",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = 'ZFFRG36A5M0090094'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Ferrari'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = '348 TS'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://bringatrailer.com/listing/1991-ferrari-348-27/'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (3 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got 'ZFFRG36A5M0090094', expected 'ZFFRG36A5M0090094')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Ferrari', expected 'Ferrari')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got '348 TS', expected '348 TS')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 3, expected >= 3)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day'], expected ['day'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "ZFFRG36A5M0090094",
+                "make": "Ferrari",
+                "model": "348 TS",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 3
+              }
+            },
+            {
+              "file": "lot_1994_348_spider.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/bat/lot_1994_348_spider.json",
+              "description": "BaT Ferrari 348 Spider lot",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = 'ZFFRG43AXR0097821'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Ferrari'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = '348 Spider'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://bringatrailer.com/listing/1994-ferrari-348-38/'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (3 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got 'ZFFRG43AXR0097821', expected 'ZFFRG43AXR0097821')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Ferrari', expected 'Ferrari')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got '348 Spider', expected '348 Spider')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 3, expected >= 3)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day'], expected ['day'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "ZFFRG43AXR0097821",
+                "make": "Ferrari",
+                "model": "348 Spider",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 3
+              }
+            }
+          ],
+          "assertions": 42,
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "live": {
+          "skipped": true,
+          "warnings": [],
+          "infos": [],
+          "note": "use --live to enable; results are warnings only"
+        }
+      }
+    },
+    {
+      "source_key": "gooding",
+      "display_name": "Gooding Christie's",
+      "pass": true,
+      "layers": {
+        "contract": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key present"
+            },
+            {
+              "pass": true,
+              "message": "manifest is AdapterManifest"
+            },
+            {
+              "pass": true,
+              "message": "crawl() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_discovery_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_detail_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_record_fixture() callable"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "manifest": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key = 'gooding'"
+            },
+            {
+              "pass": true,
+              "message": "display_name = \"Gooding Christie's\""
+            },
+            {
+              "pass": true,
+              "message": "base_url = 'https://www.goodingco.com'"
+            },
+            {
+              "pass": true,
+              "message": "supported_detail_fixture_types = ['detail_page']"
+            },
+            {
+              "pass": true,
+              "message": "supported_discovery_fixture_types = ['search_results']"
+            },
+            {
+              "pass": true,
+              "message": "language = 'en'"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "fixtures": {
+          "pass": true,
+          "fixtures": [
+            {
+              "file": "auction_collection_discovery.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/gooding/auction_collection_discovery.json",
+              "description": "Gooding European Sporting & Historic Collection discovery page",
+              "pass": true,
+              "assertions": 4,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "discovery returned 6 URLs"
+                },
+                {
+                  "pass": true,
+                  "message": "all discovery URLs are absolute"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_url_count match (got 6, expected 6)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_urls match (got ['https://www.goodingco.com/lot/1963-aston-martin-db5-convertible/', 'https://www.goodingco.com/lot/1934-rolls-royce-phantom-ii-continental-drophead-coupe/', 'https://www.goodingco.com/lot/1967-ferrari-275-gtb-4/', 'https://www.goodingco.com/lot/1961-aston-martin-db4-gt/', 'https://www.goodingco.com/lot/1930-bentley-4-1-2-litre-sports-tourer/', 'https://www.goodingco.com/lot/1963-mercedes-benz-300-sl-roadster/'], expected ['https://www.goodingco.com/lot/1963-aston-martin-db5-convertible/', 'https://www.goodingco.com/lot/1934-rolls-royce-phantom-ii-continental-drophead-coupe/', 'https://www.goodingco.com/lot/1967-ferrari-275-gtb-4/', 'https://www.goodingco.com/lot/1961-aston-martin-db4-gt/', 'https://www.goodingco.com/lot/1930-bentley-4-1-2-litre-sports-tourer/', 'https://www.goodingco.com/lot/1963-mercedes-benz-300-sl-roadster/'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "discovery_urls": 6
+              }
+            },
+            {
+              "file": "lot_packard_1934.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/gooding/lot_packard_1934.json",
+              "description": "Gooding 1934 Packard Eight 1101 Convertible Sedan lot",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = '375707'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Packard'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = 'Eight 1101 Convertible Sedan'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://www.goodingco.com/lot/1934-packard-eight-1101-convertible-sedan'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (2 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got '375707', expected '375707')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Packard', expected 'Packard')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got 'Eight 1101 Convertible Sedan', expected 'Eight 1101 Convertible Sedan')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 2, expected >= 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['year'], expected ['year'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "375707",
+                "make": "Packard",
+                "model": "Eight 1101 Convertible Sedan",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 2
+              }
+            },
+            {
+              "file": "lot_ferrari_275_gtb4.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/gooding/lot_ferrari_275_gtb4.json",
+              "description": "Gooding 1967 Ferrari 275 GTB/4 lot",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = '09389'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Ferrari'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = '275 GTB/4'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://www.goodingco.com/lot/1967-ferrari-275-gtb-4/'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (2 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got '09389', expected '09389')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Ferrari', expected 'Ferrari')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got '275 GTB/4', expected '275 GTB/4')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 2, expected >= 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['year'], expected ['year'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "09389",
+                "make": "Ferrari",
+                "model": "275 GTB/4",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 2
+              }
+            }
+          ],
+          "assertions": 42,
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "live": {
+          "skipped": true,
+          "warnings": [],
+          "infos": [],
+          "note": "use --live to enable; results are warnings only"
+        }
+      }
+    },
+    {
+      "source_key": "historics",
+      "display_name": "Historics Auctioneers",
+      "pass": true,
+      "layers": {
+        "contract": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key present"
+            },
+            {
+              "pass": true,
+              "message": "manifest is AdapterManifest"
+            },
+            {
+              "pass": true,
+              "message": "crawl() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_discovery_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_detail_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_record_fixture() callable"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "manifest": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key = 'historics'"
+            },
+            {
+              "pass": true,
+              "message": "display_name = 'Historics Auctioneers'"
+            },
+            {
+              "pass": true,
+              "message": "base_url = 'https://www.historics.co.uk'"
+            },
+            {
+              "pass": true,
+              "message": "supported_detail_fixture_types = ['detail_page']"
+            },
+            {
+              "pass": true,
+              "message": "supported_discovery_fixture_types = ['search_results']"
+            },
+            {
+              "pass": true,
+              "message": "language = 'en'"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "fixtures": {
+          "pass": true,
+          "fixtures": [
+            {
+              "file": "auction_55_discovery.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/historics/auction_55_discovery.json",
+              "description": "Historics Ascot sale discovery sample",
+              "pass": true,
+              "assertions": 4,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "discovery returned 2 URLs"
+                },
+                {
+                  "pass": true,
+                  "message": "all discovery URLs are absolute"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_url_count match (got 2, expected 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_urls match (got ['https://www.historics.co.uk/auction/lot/lot-197---1967-volkswagen--samba-split-screen-t1-21-window-camper/?lot=6522&sd=1', 'https://www.historics.co.uk/auction/lot/lot-57---1964-oldsmobile-ninety-eight-custom-sports-coupe/?lot=14833&sd=1'], expected ['https://www.historics.co.uk/auction/lot/lot-197---1967-volkswagen--samba-split-screen-t1-21-window-camper/?lot=6522&sd=1', 'https://www.historics.co.uk/auction/lot/lot-57---1964-oldsmobile-ninety-eight-custom-sports-coupe/?lot=14833&sd=1'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "discovery_urls": 2
+              }
+            },
+            {
+              "file": "lot_6522.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/historics/lot_6522.json",
+              "description": "Historics Volkswagen Samba lot",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = '247092312'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Volkswagen'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = 'Samba Split-Screen T1 21-Window Camper'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://www.historics.co.uk/auction/lot/lot-197---1967-volkswagen--samba-split-screen-t1-21-window-camper/?lot=6522&sd=1'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (2 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got '247092312', expected '247092312')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Volkswagen', expected 'Volkswagen')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got 'Samba Split-Screen T1 21-Window Camper', expected 'Samba Split-Screen T1 21-Window Camper')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 2, expected >= 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day'], expected ['day'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "247092312",
+                "make": "Volkswagen",
+                "model": "Samba Split-Screen T1 21-Window Camper",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 2
+              }
+            },
+            {
+              "file": "lot_14833.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/historics/lot_14833.json",
+              "description": "Historics Oldsmobile Ninety-Eight lot",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = '884M12345'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Oldsmobile'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = 'Ninety-Eight Custom Sports Coupe'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://www.historics.co.uk/auction/lot/lot-57---1964-oldsmobile-ninety-eight-custom-sports-coupe/?lot=14833&sd=1'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (2 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got '884M12345', expected '884M12345')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Oldsmobile', expected 'Oldsmobile')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got 'Ninety-Eight Custom Sports Coupe', expected 'Ninety-Eight Custom Sports Coupe')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 2, expected >= 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day'], expected ['day'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "884M12345",
+                "make": "Oldsmobile",
+                "model": "Ninety-Eight Custom Sports Coupe",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 2
+              }
+            }
+          ],
+          "assertions": 42,
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "live": {
+          "skipped": true,
+          "warnings": [],
+          "infos": [],
+          "note": "use --live to enable; results are warnings only"
+        }
+      }
+    },
+    {
+      "source_key": "iconic",
+      "display_name": "Iconic Auctioneers",
+      "pass": true,
+      "layers": {
+        "contract": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key present"
+            },
+            {
+              "pass": true,
+              "message": "manifest is AdapterManifest"
+            },
+            {
+              "pass": true,
+              "message": "crawl() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_discovery_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_detail_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_record_fixture() callable"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "manifest": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key = 'iconic'"
+            },
+            {
+              "pass": true,
+              "message": "display_name = 'Iconic Auctioneers'"
+            },
+            {
+              "pass": true,
+              "message": "base_url = 'https://www.iconicauctioneers.com'"
+            },
+            {
+              "pass": true,
+              "message": "supported_detail_fixture_types = ['detail_page']"
+            },
+            {
+              "pass": true,
+              "message": "supported_discovery_fixture_types = ['search_results']"
+            },
+            {
+              "pass": true,
+              "message": "language = 'en'"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "fixtures": {
+          "pass": true,
+          "fixtures": [
+            {
+              "file": "sale_wdl_2025_discovery.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/iconic/sale_wdl_2025_discovery.json",
+              "description": "Iconic sale discovery sample",
+              "pass": true,
+              "assertions": 4,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "discovery returned 2 URLs"
+                },
+                {
+                  "pass": true,
+                  "message": "all discovery URLs are absolute"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_url_count match (got 2, expected 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_urls match (got ['https://www.iconicauctioneers.com/1980-datsun-280-zx-rec15176-1-bicester-0625', 'https://www.iconicauctioneers.com/1971-bond-bug-700es-rec14985-1-nec-1124'], expected ['https://www.iconicauctioneers.com/1980-datsun-280-zx-rec15176-1-bicester-0625', 'https://www.iconicauctioneers.com/1971-bond-bug-700es-rec14985-1-nec-1124'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "discovery_urls": 2
+              }
+            },
+            {
+              "file": "lot_280zx.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/iconic/lot_280zx.json",
+              "description": "Iconic Datsun 280 ZX lot",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = 'HGS13020280'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Datsun'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = '280 ZX'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://www.iconicauctioneers.com/1980-datsun-280-zx-rec15176-1-bicester-0625'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (2 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got 'HGS13020280', expected 'HGS13020280')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Datsun', expected 'Datsun')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got '280 ZX', expected '280 ZX')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 2, expected >= 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day'], expected ['day'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "HGS13020280",
+                "make": "Datsun",
+                "model": "280 ZX",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 2
+              }
+            },
+            {
+              "file": "lot_bond_bug.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/iconic/lot_bond_bug.json",
+              "description": "Iconic Bond Bug 700ES lot",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = 'BB700ES12345'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Bond'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = 'Bug 700ES'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://www.iconicauctioneers.com/1971-bond-bug-700es-rec14985-1-nec-1124'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (2 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got 'BB700ES12345', expected 'BB700ES12345')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Bond', expected 'Bond')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got 'Bug 700ES', expected 'Bug 700ES')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 2, expected >= 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day'], expected ['day'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "BB700ES12345",
+                "make": "Bond",
+                "model": "Bug 700ES",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 2
+              }
+            }
+          ],
+          "assertions": 42,
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "live": {
+          "skipped": true,
+          "warnings": [],
+          "infos": [],
+          "note": "use --live to enable; results are warnings only"
+        }
+      }
+    },
+    {
+      "source_key": "mecum",
+      "display_name": "Mecum Auctions",
+      "pass": true,
+      "layers": {
+        "contract": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key present"
+            },
+            {
+              "pass": true,
+              "message": "manifest is AdapterManifest"
+            },
+            {
+              "pass": true,
+              "message": "crawl() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_discovery_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_detail_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_record_fixture() callable"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "manifest": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key = 'mecum'"
+            },
+            {
+              "pass": true,
+              "message": "display_name = 'Mecum Auctions'"
+            },
+            {
+              "pass": true,
+              "message": "base_url = 'https://www.mecum.com'"
+            },
+            {
+              "pass": true,
+              "message": "supported_detail_fixture_types = ['detail_page']"
+            },
+            {
+              "pass": true,
+              "message": "supported_discovery_fixture_types = ['search_results']"
+            },
+            {
+              "pass": true,
+              "message": "language = 'en'"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "fixtures": {
+          "pass": true,
+          "fixtures": [
+            {
+              "file": "auction_orlando_2021_discovery.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/mecum/auction_orlando_2021_discovery.json",
+              "description": "Mecum Orlando Summer Special 2021 discovery sample",
+              "pass": true,
+              "assertions": 4,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "discovery returned 2 URLs"
+                },
+                {
+                  "pass": true,
+                  "message": "all discovery URLs are absolute"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_url_count match (got 2, expected 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_urls match (got ['https://www.mecum.com/lots/480219/2002-ferrari-360-spider/', 'https://www.mecum.com/lots/628453/2021-lamborghini-urus/'], expected ['https://www.mecum.com/lots/480219/2002-ferrari-360-spider/', 'https://www.mecum.com/lots/628453/2021-lamborghini-urus/'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "discovery_urls": 2
+              }
+            },
+            {
+              "file": "lot_480219.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/mecum/lot_480219.json",
+              "description": "Mecum lot 480219 Ferrari 360 Spider",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = 'ZFFYT53A620127086'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Ferrari'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = '360 Spider'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://www.mecum.com/lots/480219/2002-ferrari-360-spider/'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (2 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got 'ZFFYT53A620127086', expected 'ZFFYT53A620127086')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Ferrari', expected 'Ferrari')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got '360 Spider', expected '360 Spider')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 2, expected >= 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day'], expected ['day'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "ZFFYT53A620127086",
+                "make": "Ferrari",
+                "model": "360 Spider",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 2
+              }
+            },
+            {
+              "file": "lot_628453.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/mecum/lot_628453.json",
+              "description": "Mecum lot 628453 Lamborghini Urus",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = 'ZPBUA1ZL7MLA12345'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Lamborghini'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = 'Urus'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://www.mecum.com/lots/628453/2021-lamborghini-urus/'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (2 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got 'ZPBUA1ZL7MLA12345', expected 'ZPBUA1ZL7MLA12345')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Lamborghini', expected 'Lamborghini')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got 'Urus', expected 'Urus')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 2, expected >= 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day'], expected ['day'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "ZPBUA1ZL7MLA12345",
+                "make": "Lamborghini",
+                "model": "Urus",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 2
+              }
+            }
+          ],
+          "assertions": 42,
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "live": {
+          "skipped": true,
+          "warnings": [],
+          "infos": [],
+          "note": "use --live to enable; results are warnings only"
+        }
+      }
+    },
+    {
+      "source_key": "osenat",
+      "display_name": "Osenat Automobiles",
+      "pass": true,
+      "layers": {
+        "contract": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key present"
+            },
+            {
+              "pass": true,
+              "message": "manifest is AdapterManifest"
+            },
+            {
+              "pass": true,
+              "message": "crawl() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_discovery_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_detail_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_record_fixture() callable"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "manifest": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key = 'osenat'"
+            },
+            {
+              "pass": true,
+              "message": "display_name = 'Osenat Automobiles'"
+            },
+            {
+              "pass": true,
+              "message": "base_url = 'https://www.osenat.com'"
+            },
+            {
+              "pass": true,
+              "message": "supported_detail_fixture_types = ['detail_page']"
+            },
+            {
+              "pass": true,
+              "message": "supported_discovery_fixture_types = ['search_results']"
+            },
+            {
+              "pass": true,
+              "message": "language = 'fr'"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "fixtures": {
+          "pass": true,
+          "fixtures": [
+            {
+              "file": "catalogue_155250_discovery.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/osenat/catalogue_155250_discovery.json",
+              "description": "Osenat catalogue 155250 discovery sample",
+              "pass": true,
+              "assertions": 4,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "discovery returned 2 URLs"
+                },
+                {
+                  "pass": true,
+                  "message": "all discovery URLs are absolute"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_url_count match (got 2, expected 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_urls match (got ['https://www.osenat.com/lot/155250/26974415-1956-jaguar-type-c-replica-numero-de-serie-5940780-numero', 'https://www.osenat.com/lot/168038/30187861-ferrari-testarossa-coupE-1992'], expected ['https://www.osenat.com/lot/155250/26974415-1956-jaguar-type-c-replica-numero-de-serie-5940780-numero', 'https://www.osenat.com/lot/168038/30187861-ferrari-testarossa-coupE-1992'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "discovery_urls": 2
+              }
+            },
+            {
+              "file": "lot_26974415.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/osenat/lot_26974415.json",
+              "description": "Osenat Jaguar Type C Replica lot",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = '5940780'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Jaguar'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = 'Type C Replica'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://www.osenat.com/lot/155250/26974415-1956-jaguar-type-c-replica-numero-de-serie-5940780-numero'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (2 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got '5940780', expected '5940780')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Jaguar', expected 'Jaguar')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got 'Type C Replica', expected 'Type C Replica')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 2, expected >= 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day'], expected ['day'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "5940780",
+                "make": "Jaguar",
+                "model": "Type C Replica",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 2
+              }
+            },
+            {
+              "file": "lot_30187861.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/osenat/lot_30187861.json",
+              "description": "Osenat Ferrari Testarossa lot",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = 'ZFFSG17B000091234'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Ferrari'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = 'Testarossa'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://www.osenat.com/lot/168038/30187861-ferrari-testarossa-coupE-1992'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (2 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got 'ZFFSG17B000091234', expected 'ZFFSG17B000091234')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Ferrari', expected 'Ferrari')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got 'Testarossa', expected 'Testarossa')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 2, expected >= 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['day'], expected ['day'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "ZFFSG17B000091234",
+                "make": "Ferrari",
+                "model": "Testarossa",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 2
+              }
+            }
+          ],
+          "assertions": 42,
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "live": {
+          "skipped": true,
+          "warnings": [],
+          "infos": [],
+          "note": "use --live to enable; results are warnings only"
+        }
+      }
+    },
+    {
+      "source_key": "rm_sothebys",
+      "display_name": "RM Sotheby's",
+      "pass": true,
+      "layers": {
+        "contract": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key present"
+            },
+            {
+              "pass": true,
+              "message": "manifest is AdapterManifest"
+            },
+            {
+              "pass": true,
+              "message": "crawl() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_discovery_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_detail_page() callable"
+            },
+            {
+              "pass": true,
+              "message": "parse_record_fixture() callable"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "manifest": {
+          "pass": true,
+          "assertions": 6,
+          "checks": [
+            {
+              "pass": true,
+              "message": "source_key = 'rm_sothebys'"
+            },
+            {
+              "pass": true,
+              "message": "display_name = \"RM Sotheby's\""
+            },
+            {
+              "pass": true,
+              "message": "base_url = 'https://rmsothebys.com'"
+            },
+            {
+              "pass": true,
+              "message": "supported_detail_fixture_types = ['detail_page']"
+            },
+            {
+              "pass": true,
+              "message": "supported_discovery_fixture_types = ['search_results']"
+            },
+            {
+              "pass": true,
+              "message": "language = 'en'"
+            }
+          ],
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "fixtures": {
+          "pass": true,
+          "fixtures": [
+            {
+              "file": "paris_2025_discovery.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/rm_sothebys/paris_2025_discovery.json",
+              "description": "RM Sotheby's Paris 2025 discovery page",
+              "pass": true,
+              "assertions": 4,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "discovery returned 2 URLs"
+                },
+                {
+                  "pass": true,
+                  "message": "all discovery URLs are absolute"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_url_count match (got 2, expected 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.discovery_urls match (got ['https://rmsothebys.com/auctions/pa25/lots/r0010-2015-ferrari-laferrari/', 'https://rmsothebys.com/auctions/pa25/lots/r0016-1972-ferrari-dino-246-gt-by-scaglietti/'], expected ['https://rmsothebys.com/auctions/pa25/lots/r0010-2015-ferrari-laferrari/', 'https://rmsothebys.com/auctions/pa25/lots/r0016-1972-ferrari-dino-246-gt-by-scaglietti/'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "discovery_urls": 2
+              }
+            },
+            {
+              "file": "lot_laferrari_2015.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/rm_sothebys/lot_laferrari_2015.json",
+              "description": "RM Sotheby's 2015 Ferrari LaFerrari lot",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = 'ZFF76ZHB000208219'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Ferrari'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = 'LaFerrari'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://rmsothebys.com/auctions/pa25/lots/r0010-2015-ferrari-laferrari/'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (2 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got 'ZFF76ZHB000208219', expected 'ZFF76ZHB000208219')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Ferrari', expected 'Ferrari')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got 'LaFerrari', expected 'LaFerrari')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 2, expected >= 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['year'], expected ['year'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "ZFF76ZHB000208219",
+                "make": "Ferrari",
+                "model": "LaFerrari",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 2
+              }
+            },
+            {
+              "file": "lot_dino_246gt_1972.json",
+              "path": "/Users/michaelruggiero/Development/DigitalBarnFinds/apps/api/fixtures/rm_sothebys/lot_dino_246gt_1972.json",
+              "description": "RM Sotheby's 1972 Ferrari Dino 246 GT by Scaglietti lot",
+              "pass": true,
+              "assertions": 19,
+              "checks": [
+                {
+                  "pass": true,
+                  "message": "serial_number = '03266'"
+                },
+                {
+                  "pass": true,
+                  "message": "make = 'Ferrari'"
+                },
+                {
+                  "pass": true,
+                  "message": "model = 'Dino 246 GT by Scaglietti'"
+                },
+                {
+                  "pass": true,
+                  "message": "source_url = 'https://rmsothebys.com/auctions/pa25/lots/r0016-1972-ferrari-dino-246-gt-by-scaglietti/'"
+                },
+                {
+                  "pass": true,
+                  "message": "event_kind valid (1 events)"
+                },
+                {
+                  "pass": true,
+                  "message": "date_precision valid"
+                },
+                {
+                  "pass": true,
+                  "message": "date/year consistency valid"
+                },
+                {
+                  "pass": true,
+                  "message": "media url non-empty (2 items)"
+                },
+                {
+                  "pass": true,
+                  "message": "media type valid"
+                },
+                {
+                  "pass": true,
+                  "message": "no duplicate media urls"
+                },
+                {
+                  "pass": true,
+                  "message": "attributes are strings"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.serial_number match (got '03266', expected '03266')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.make match (got 'Ferrari', expected 'Ferrari')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car.model match (got 'Dino 246 GT by Scaglietti', expected 'Dino 246 GT by Scaglietti')"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.custody_event_count match (got 0, expected 0)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.car_event_count match (got 1, expected 1)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.media_count_min match (got 2, expected >= 2)"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.event_kinds match (got ['event'], expected ['event'])"
+                },
+                {
+                  "pass": true,
+                  "message": "expected.date_precisions match (got ['year'], expected ['year'])"
+                }
+              ],
+              "failures": [],
+              "warnings": [],
+              "infos": [],
+              "record_summary": {
+                "serial_number": "03266",
+                "make": "Ferrari",
+                "model": "Dino 246 GT by Scaglietti",
+                "custody_events": 0,
+                "car_events": 1,
+                "media": 2
+              }
+            }
+          ],
+          "assertions": 42,
+          "failures": [],
+          "warnings": [],
+          "infos": []
+        },
+        "live": {
+          "skipped": true,
+          "warnings": [],
+          "infos": [],
+          "note": "use --live to enable; results are warnings only"
+        }
+      }
+    }
+  ]
+}
